@@ -9,7 +9,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 naughty.config.defaults.border_width = 4
 naughty.config.spacing = 6
-naughty.config.defaults.icon_size = icon_size or 96
 naughty.config.defaults.timeout = 5
 
 local hotkeys_popup = require("awful.hotkeys_popup").widget

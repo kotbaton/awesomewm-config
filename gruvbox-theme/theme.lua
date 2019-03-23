@@ -137,14 +137,14 @@ theme.notification_font                         = "Ubuntu Bold 12"
 theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green
--- theme.notification_border_width                 = 0
+theme.notification_border_width                 = 4
 theme.notification_shape                        = gears.shape.rect
 theme.notification_opacity                      = 1
 theme.notification_margin                       = 16
 -- theme.notification_width                        = nil
 -- theme.notification_height                       = nil
--- theme.notification_icon_size                    = nil
-theme.notification_max_width                    = 455
+theme.notification_icon_size                    = icon_size or 96
+theme.notification_max_width                    = 400
 -- theme.notification_max_height                   = nil
 
 -- calendar

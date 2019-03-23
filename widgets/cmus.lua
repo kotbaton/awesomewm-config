@@ -44,7 +44,7 @@ function cmus_update(status, artist, song_name, cover_path)
 		title	= artist,
 		text	= song_name,
 		icon	= cover_path,
-		width	= 300,
+		width	= 400,
 	})
 end
 
