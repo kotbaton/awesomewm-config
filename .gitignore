@@ -1,3 +1,5 @@
+rc.lua.save
+
 # Compiled Lua sources
 luac.out
 
