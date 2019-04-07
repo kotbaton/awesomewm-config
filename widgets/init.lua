@@ -1,7 +1,5 @@
 local widgets = {
 	battery			= require("widgets.battery"),
-	cmus			= require("widgets.cmus"),
-	--spotify			= require("widgets.spotify"),
 	volume			= require("widgets.volume"),
 	tasklist		= require("widgets.tasklist"),
 	tray			= require("widgets.tray"),
