@@ -1,9 +1,9 @@
-local awful = require("awful")
+local awful		= require("awful")
 local beautiful = require("beautiful")
-local naughty = require("naughty")
-local wibox = require("wibox")
-local gears = require("gears")
-local watch = require("awful.widget.watch")
+local naughty	= require("naughty")
+local wibox		= require("wibox")
+local gears		= require("gears")
+local watch		= require("awful.widget.watch")
 
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
@@ -41,7 +41,7 @@ watch("acpi", 10,
 			widget.bg = beautiful.colors.green
         else
 			if charge <= 10 then
-				widget.bg = beautiful.colors.darkgrey
+				widget.bg = beautiful.colors.darkGrey
 				widget.bg = beautiful.colors.red
 				if status ~= 'Charging' then
 					show_battery_warning()
@@ -50,7 +50,7 @@ watch("acpi", 10,
 				widget.fg = beautiful.colors.black
 				widget.bg = beautiful.colors.yellow
 			else
-				widget.bg = beautiful.colors.darkgrey
+				widget.bg = beautiful.colors.darkGrey
 				widget.fg = beautiful.colors.white
 			end
         end
@@ -59,30 +59,24 @@ watch("acpi", 10,
 
 -- Popup with battery info
 -- One way of creating a pop-up notification - naughty.notify
-local notification function show_battery_status()
+function show_battery_status()
     awful.spawn.easy_async([[bash -c 'acpi']],
         function(stdout, _, _, _)
-            notification = naughty.notify {
-                text = stdout,
-                title = "Battery status",
-                timeout = 5,
-                hover_timeout = 0.5,
-                width = 200,
-			}
+			if notification then 
+				naughty.destroy(notification)
+			end
+			notification = naughty.notify({
+				text = stdout,
+				title = "Battery status",
+				timeout = 5,
+				hover_timeout = 0.5,
+				width = 200,
+			})
         end)
 end
 
---battery:connect_signal("mouse::enter", function() show_battery_status() end)
 battery:connect_signal("mouse::leave", function() naughty.destroy(notification) end)
 battery:buttons(gears.table.join(awful.button({ }, 1, function () show_battery_status() end)))
--- Alternative to naughty.notify - tooltip. You can compare both and choose the preferred one
-
---battery_popup = awful.tooltip({objects = {battery_widget}})
-
--- To use colors from beautiful theme put
--- following lines in rc.lua before require("battery"):
--- beautiful.tooltip_fg = beautiful.fg_focus
--- beautiful.tooltip_bg = beautiful.bg_normal
 
 --[[ Show warning notification ]]
 function show_battery_warning()
@@ -95,7 +89,6 @@ function show_battery_warning()
 		border_width = 3,
         bg = beautiful.colors.red,
         fg = beautiful.colors.black,
-        --width = 300,
 		icon = "/home/sheh/.config/awesome/default/battery.png",
     }
 end

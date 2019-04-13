@@ -129,6 +129,13 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.separator = wibox.widget.textbox(" ")
 
+    local player_container = wibox.widget {
+        player.widget,
+        bg = beautiful.colors.green,
+        fg = beautiful.colors.black,
+        widget = wibox.widget.background,
+    }
+
     s.wibar = awful.wibar({
             position = "top",
             screen = s,
@@ -154,7 +161,7 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            player.widget,
+            player_container,
             s.separator,
             widgets.battery,
             widgets.volume.text_widget,
@@ -336,7 +343,7 @@ local globalkeys = gears.table.join(
     ----------------------{ TAGS }--------------------------------------------
     awful.key({ modkey,}, "p", function() awful.tag.togglemfpol(t) end, {description = "toggle master fill police", group = "tag"}),
 
-    awful.key({ modkey,}, "Escape",     awful.tag.history.restore, {description = "go back", group = "tag"}),
+    awful.key({ modkey,}, "`",     awful.tag.history.restore, {description = "go back", group = "tag"}),
 
     awful.key({ modkey,}, "-", function() awful.tag.setgap(awful.tag.getgap(t) - 5) end, {description = "decrese gaps", group = "tag"}),
 
@@ -350,9 +357,9 @@ local globalkeys = gears.table.join(
                 prompt       = "Rename tag: ",
                 textbox      = awful.screen.focused().mypromptbox.widget,
                 exe_callback = function(new_name)
-                    local t = awful.screen.focused().selected_tag -- получаем текущий тег
-                    if t then -- если такой существует, то проверяем получили ли мы текст
-                        if not new_name or #new_name == 0 -- если длина текста 0 или его нет то ставим дефолтное имя
+                    local t = awful.screen.focused().selected_tag -- Get current tag
+                    if t then -- If success, check does we got text or no
+                        if not new_name or #new_name == 0 -- If length of input text 0 set default tag name
                             then
                             t.name = t.index
                         else
@@ -601,8 +608,8 @@ local clientkeys = gears.table.join(
 
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
-    -- All clients will match this rule.
     {
+        -- All clients will match this rule.
         rule = { },
         properties = {
             border_width = beautiful.border_width,
@@ -728,12 +735,12 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- Show tag info popup when tag properties changes
-tag.connect_signal("property::layout", function(t) widgets.tag_info_popup.show(t) end)
+tag.connect_signal("property::layout",              function(t) widgets.tag_info_popup.show(t) end)
 tag.connect_signal("property::master_width_factor", function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::useless_gap", function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::master_fill_policy", function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::column_count", function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::master_count", function(t) widgets.tag_info_popup.show(t) end)
+tag.connect_signal("property::useless_gap",         function(t) widgets.tag_info_popup.show(t) end)
+tag.connect_signal("property::master_fill_policy",  function(t) widgets.tag_info_popup.show(t) end)
+tag.connect_signal("property::column_count",        function(t) widgets.tag_info_popup.show(t) end)
+tag.connect_signal("property::master_count",        function(t) widgets.tag_info_popup.show(t) end)
 
 gears.timer.start_new(1, function()
     collectgarbage("step", 20000)

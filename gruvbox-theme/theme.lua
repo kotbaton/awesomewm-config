@@ -7,30 +7,30 @@ local theme_path = gears.filesystem.get_configuration_dir() ..  "gruvbox-theme/"
 
 local theme = {}
 
-theme.font          = "Ubuntu Mono Bold 12"
+theme.font          = "Ubuntu Mono 13"
 
 ------ COLORS --------------
 theme.colors = {
-    white       = "#ebddb2",
-    grey        = "#928374",
-    darkgrey    = "#3c3836",
-    black       = "#1d2021",
-    
-    red         = "#cc241d",
-    green       = "#98971a",
-    yellow      = "#d79921",
-    blue        = "#458588",
-    purple      = "#b16286",
-    aqua        = "#689d6a",
-    orange      = "#d65d0e",
+    white           = "#ebddb2",
+    grey            = "#928374",
+    darkGrey        = "#3c3836",
+    black           = "#1d2021",
 
-    l_red       = "#fb4934",
-    l_green     = "#b8bb26",
-    l_yellow    = "#fabd2f",
-    l_blue      = "#83a598",
-    l_purple    = "#d3869b",
-    l_aqua      = "#83c07c",
-    l_orange    = "#fe9019"
+    red             = "#cc241d",
+    green           = "#98971a",
+    yellow          = "#d79921",
+    blue            = "#458588",
+    purple          = "#b16286",
+    aqua            = "#689d6a",
+    orange          = "#d65d0e",
+
+    lightRed        = "#fb4934",
+    lightGreen      = "#b8bb26",
+    lightYellow     = "#fabd2f",
+    lightBlue       = "#83a598",
+    lightPurple     = "#d3869b",
+    lightAqua       = "#83c07c",
+    lightOrange     = "#fe9019"
 }
 
 theme.bg_normal     = theme.colors.black
@@ -43,34 +43,25 @@ theme.bg_systray    = theme.colors.black
 theme.fg_normal     = theme.colors.white
 theme.fg_focus      = theme.colors.grey
 theme.fg_urgent     = theme.colors.black
-theme.fg_minimize   = theme.colors.darkgrey
+theme.fg_minimize   = theme.colors.darkGrey
 
 theme.useless_gap               = dpi(0)
 theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
 theme.border_width  = dpi(4)
-theme.border_normal = theme.colors.darkgrey
-theme.border_focus  = theme.colors.green
-theme.border_marked = theme.colors.red
-
--- Generate taglist squares:
-local taglist_square_size   = dpi(0)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.colors.red
-)
-theme.taglist_squares_sel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.colors.red
-)
+theme.border_normal = theme.colors.darkGrey .. 'CC'
+theme.border_focus  = theme.colors.green .. 'CC'
+theme.border_marked = theme.colors.red .. 'CC'
 
 -- taglist
 theme.taglist_fg_focus                          = theme.colors.white
-theme.taglist_bg_focus                          = theme.colors.darkgrey    
+theme.taglist_bg_focus                          = theme.colors.darkGrey
 theme.taglist_fg_occupied                       = theme.colors.white
 theme.taglist_bg_occupied                       = theme.colors.black
 -- theme.taglist_fg_urgent                      = nil
 -- theme.taglist_bg_urgent                      = nil
--- theme.taglist_bg_empty                          = theme.colors.darkgrey
+-- theme.taglist_bg_empty                          = theme.colors.darkGrey
 -- theme.taglist_fg_empty                          = theme.colors.grey
 -- theme.taglist_bg_volatile                    = nil
 -- theme.taglist_fg_volatile                    = nil
@@ -102,10 +93,10 @@ theme.tasklist_fg_normal                        = theme.colors.black
 theme.tasklist_fg_focus                         = theme.colors.black
 theme.tasklist_fg_minimize                      = theme.colors.black
 theme.tasklist_fg_urgent                        = theme.colors.black
-theme.tasklist_bg_normal                        = theme.colors.grey    
-theme.tasklist_bg_focus                         = theme.colors.green 
-theme.tasklist_bg_minimize                      = theme.colors.darkgrey
-theme.tasklist_bg_urgent                        = theme.colors.red      
+theme.tasklist_bg_normal                        = theme.colors.grey
+theme.tasklist_bg_focus                         = theme.colors.green
+theme.tasklist_bg_minimize                      = theme.colors.darkGrey
+theme.tasklist_bg_urgent                        = theme.colors.red
 -- theme.tasklist_bg_image_normal               = nil
 -- theme.tasklist_bg_image_focus                = nil
 -- theme.tasklist_bg_image_urgent               = nil
@@ -120,17 +111,17 @@ theme.tasklist_align                            = "center"
 -- theme.tasklist_font_urgent                   = nil
 theme.tasklist_spacing                          = dpi(8)
 theme.tasklist_shape                            = gears.shape.rectangle
-theme.tasklist_shape_border_width               = dpi(0)
-theme.tasklist_shape_border_color               = "#00000000"
--- theme.tasklist_shape_focus                   = nil
--- theme.tasklist_shape_border_width_focus      = nil
-theme.tasklist_shape_border_color_focus         = "#00000000"
--- theme.tasklist_shape_minimized               = nil
--- theme.tasklist_shape_border_width_minimized  = nil
-theme.tasklist_shape_border_color_minimized     = "#00000000"
--- theme.tasklist_shape_urgent                  = nil
--- theme.tasklist_shape_border_width_urgent     = nil
-theme.tasklist_shape_border_color_urgent        = "#00000000"
+-- theme.tasklist_shape_border_width               = nil
+-- theme.tasklist_shape_border_color               = nil
+-- theme.tasklist_shape_focus                      = nil
+-- theme.tasklist_shape_border_width_focus         = nil
+-- theme.tasklist_shape_border_color_focus         = nil
+-- theme.tasklist_shape_minimized                  = nil
+-- theme.tasklist_shape_border_width_minimized     = nil
+-- theme.tasklist_shape_border_color_minimized     = nil
+-- theme.tasklist_shape_urgent                     = nil
+-- theme.tasklist_shape_border_width_urgent        = nil
+-- theme.tasklist_shape_border_color_urgent        = nil
 
 -- notification
 theme.notification_font                         = "Ubuntu Bold 12"
@@ -138,8 +129,8 @@ theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
 theme.notification_border_width                 = 5
-theme.notification_shape                        = gears.shape.rounded_rect
-theme.notification_opacity                      = 0.9
+theme.notification_shape                        = gears.shape.rect
+theme.notification_opacity                      = 0.90
 theme.notification_margin                       = 16
 theme.notification_width                        = 400
 -- theme.notification_height                       = nil
@@ -156,28 +147,28 @@ theme.notification_max_width                    = 400
 -- theme.calendar_long_weekdays = nil
 
 -- snap
-theme.snap_bg           = theme.colors.l_green .. '99'
+theme.snap_bg           = theme.colors.lightGreen .. '99'
 theme.snap_border_width = dpi(10)
 theme.snap_shape        = gears.shape.rectangle
 
 -- menu
 theme.menu_submenu_icon = theme_path .."/icons/submenu.png"
-theme.menu_height = dpi(24)
-theme.menu_width  = dpi(256)
-theme.menu_font = "Ubuntu 11 Regular"
-theme.menu_border_color = theme.colors.darkgrey
-theme.menu_border_width = dpi(2)
-theme.menu_fg_focus = theme.colors.white
-theme.menu_bg_focus = theme.colors.darkgrey
-theme.menu_fg_normal = theme.colors.white
-theme.menu_bg_normal = theme.colors.black
+theme.menu_height       = dpi(24)
+theme.menu_width        = dpi(256)
+theme.menu_font         = "Ubuntu 11 Mono"
+theme.menu_border_color = theme.colors.green .. 'AA'
+theme.menu_border_width = dpi(3)
+theme.menu_fg_focus     = theme.colors.white
+theme.menu_bg_focus     = theme.colors.green .. 'AA'
+theme.menu_fg_normal    = theme.colors.white
+theme.menu_bg_normal    = theme.colors.black .. 'AA'
 -- theme.menu_submenu = nil
 
 -- hotkeys
 theme.hotkeys_bg = theme.colors.white
 theme.hotkeys_fg = theme.colors.black
 theme.hotkeys_border_width = 4
-theme.hotkeys_border_color = theme.colors.darkgrey
+theme.hotkeys_border_color = theme.colors.darkGrey
 theme.hotkeys_shape = gears.shape.rounded_rect
 theme.hotkeys_modifiers_fg = theme.colors.black
 -- theme.hotkeys_label_bg = nil
@@ -185,8 +176,6 @@ theme.hotkeys_modifiers_fg = theme.colors.black
 theme.hotkeys_font = "Ubuntu Mono Bold 12"
 theme.hotkeys_description_font = "Ubuntu 11"
 theme.hotkeys_group_margin = 5
-
-theme.tray_icon = nil--theme_path.."icons/tray.png"
 
 theme.terminal_icon = theme_path.."icons/apps/terminal.svg"
 theme.chrome_icon = theme_path.."icons/apps/chrome.svg"

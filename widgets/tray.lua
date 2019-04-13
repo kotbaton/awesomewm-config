@@ -6,7 +6,7 @@ require("awful.autofocus")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-beautiful.init(gears.filesystem.get_configuration_dir().. "theme/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
 local tray = {}
 
@@ -14,7 +14,6 @@ local tray_widget = wibox.widget {
 	widget = wibox.widget.systray(),
 	bg = beautiful.colors.black,
 	visible = false,
---	widget = wibox.container.background,
 }
 
 local function mouse_near_tray()
@@ -40,9 +39,8 @@ tray.widget = wibox.widget {
 }
 
 tray.timer = gears.timer({
-	timeout = 1.5,
+	timeout = 2,
 	callback = function()
-		-- awful.spawn('notify-send "tray timer callback"')
 		if not mouse_near_tray() then
 			tray.hide()
 		end

@@ -21,12 +21,12 @@ volume.text_widget = wibox.widget {
 
 volume.progressbar_widget = wibox.widget {
 	max_value = 1,
-	value = 0.33,
+	value = 0,
 	forced_height = 36,
 	forced_width = 256,
 	border_width = 6,
 	border_color = beautiful.colors.black,
-	background_color = beautiful.colors.darkgrey,
+	background_color = beautiful.colors.darkGrey,
 	color = beautiful.colors.green,
 	widget = wibox.widget.progressbar,
 }
@@ -43,6 +43,8 @@ volume.popup_widget = awful.popup {
 		volume.progressbar_widget,
 		layout = wibox.layout.fixed.horizontal,
 	},
+	shape = gears.shape.rect,
+	opacity = 0.90,
 	placement = awful.placement.top + awful.placement.no_offscreen,
 	screen = awful.mouse.screen,
 	ontop = true,
