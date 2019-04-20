@@ -246,7 +246,7 @@ theme.layout_cornernw = theme_path.."icons/layouts/cornernw.png"
 theme.layout_cornerne = theme_path.."icons/layouts/cornerne.png"
 theme.layout_cornersw = theme_path.."icons/layouts/cornersw.png"
 theme.layout_cornerse = theme_path.."icons/layouts/cornerse.png"
-
+theme.layout_centermaster = theme_path.."icons/layouts/centermaster.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(

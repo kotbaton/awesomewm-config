@@ -11,6 +11,7 @@ require("awful.remote")
 ---------------------{ USER REQUIRES }--------------------------
 local widgets           = require("widgets")
 local player            = require("players.spotify")
+local centermaster      = require("layout.centermaster")
 local launch_apps       = require("apps.launcher")
 
 require("apps.default_apps")
@@ -22,6 +23,7 @@ if awesome.startup_errors then
             title = "Oops, there were errors during startup!",
         text = awesome.startup_errors })
 end
+
 -- Handle runtime errors after startup
 do
     local in_error = false
@@ -53,19 +55,20 @@ awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
-    --awful.layout.suit.corner.nw,
-    --awful.layout.suit.corner.ne,
-    --awful.layout.suit.corner.sw,
-    --awful.layout.suit.corner.se,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.corner.nw,
+    -- awful.layout.suit.corner.ne,
+    -- awful.layout.suit.corner.sw,
+    -- awful.layout.suit.corner.se,
+    centermaster,
 }
 
 local function set_wallpaper(s)
@@ -173,34 +176,6 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
     }
 end)
-
--- trying make alt-tab-like behaviour, but fail
-local h_index = nil
-awful.keygrabber {
-    keybindings = {
-        {
-            {'Mod1'         }, 'Tab', function()
-                local s = awful.screen.focused()
-                local c = awful.client.focus.history.get(s, h_index)
-                if c then 
-                    c:emit_signal("request::activate", "client.focus.history.previous", {raise = false})
-                    h_index = h_index + 1
-                else
-                    h_index = 1
-                end
-            end
-        },
-    },
-    -- Note that it is using the key name and not the modifier name.
-    stop_key           = 'Mod1',
-    stop_event         = 'release',
-    start_callback     = function() 
-        awful.client.focus.history.disable_tracking()
-        h_index = 1
-    end,
-    stop_callback      = awful.client.focus.history.enable_tracking,
-    export_keybindings = true,
-}
 
 -- Set keys
 local globalkeys = gears.table.join(
