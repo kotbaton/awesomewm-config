@@ -174,6 +174,34 @@ awful.screen.connect_for_each_screen(function(s)
     }
 end)
 
+-- trying make alt-tab-like behaviour, but fail
+local h_index = nil
+awful.keygrabber {
+    keybindings = {
+        {
+            {'Mod1'         }, 'Tab', function()
+                local s = awful.screen.focused()
+                local c = awful.client.focus.history.get(s, h_index)
+                if c then 
+                    c:emit_signal("request::activate", "client.focus.history.previous", {raise = false})
+                    h_index = h_index + 1
+                else
+                    h_index = 1
+                end
+            end
+        },
+    },
+    -- Note that it is using the key name and not the modifier name.
+    stop_key           = 'Mod1',
+    stop_event         = 'release',
+    start_callback     = function() 
+        awful.client.focus.history.disable_tracking()
+        h_index = 1
+    end,
+    stop_callback      = awful.client.focus.history.enable_tracking,
+    export_keybindings = true,
+}
+
 -- Set keys
 local globalkeys = gears.table.join(
     ----------------------{ START APPS }--------------------------------------------
@@ -597,12 +625,20 @@ local clientkeys = gears.table.join(
 
     awful.key({ modkey, "Control"   }, "k",
         function (c)
-            if awful.layout.get() ~= awful.layout.suit.floating then awful.client.incwfact(-0.05, c) end
+            if awful.layout.get() ~= awful.layout.suit.floating then
+                awful.client.incwfact(-0.05, c)
+            else
+                c.height = c.height - 10
+            end
         end, {description = nil, group = "client"}),
 
     awful.key({ modkey, "Control"   }, "j",
         function (c)
-            if awful.layout.get() ~= awful.layout.suit.floating then awful.client.incwfact( 0.05, c) end
+            if awful.layout.get() ~= awful.layout.suit.floating then
+                awful.client.incwfact( 0.05, c)
+            else
+                c.height = c.height + 10
+            end
         end, {description = nil, group = "client"})
 )
 
@@ -695,7 +731,6 @@ client.connect_signal("request::titlebars", function(c)
     awful.titlebar(c, {
             size = 16,
             position = "top",
-            bg = beautiful.bg_normal
         }):setup{
         {
             -- Left

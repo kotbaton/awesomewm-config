@@ -22,7 +22,7 @@ scrot $options $image_path
 
 if [ -f $image_path ]
 then
-	notify-send -t 3000 "Screenshot saved!"
+	notify-send -t 3000 "Screenshot saved!" -i $image_path
 else
 	notify-send -t 3000 "Something goes wrong!"
 fi

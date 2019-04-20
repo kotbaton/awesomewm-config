@@ -21,18 +21,14 @@ local function update_text()
 	awful.spawn.easy_async_with_shell(GET_TRACK_CMD, function(stdout, stderr, exitreason, exitcode)
 		text:set_text(stdout)
 	end)
+	return true
 end
+
+local timer = gears.timer.start_new(15, update_text)
 
 local player = {}
 
-player.widget = awful.widget.watch(
-		'bash -c "~/.scripts/sp current-track"',
-		15,
-		function(widget, stdout, stderr)
-			widget:set_text(stdout)
-		end,
-		text
-)
+player.widget = text
 
 player.control = {}
 
@@ -54,6 +50,7 @@ end
 text:buttons(gears.table.join(
 		awful.button({ }, 1, function () player.control.next() end),
 		awful.button({ }, 3, function () player.control.prev() end),
-		awful.button({ }, 2, function () player.control.toggle() end)))
+		awful.button({ }, 2, function () player.control.toggle() end)
+))
 
 return player

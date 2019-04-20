@@ -50,9 +50,9 @@ theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
 theme.border_width  = dpi(4)
-theme.border_normal = theme.colors.darkGrey .. 'CC'
-theme.border_focus  = theme.colors.green .. 'CC'
-theme.border_marked = theme.colors.red .. 'CC'
+theme.border_normal = theme.colors.darkGrey .. '99'
+theme.border_focus  = theme.colors.green    .. '99'
+theme.border_marked = theme.colors.red      .. '99'
 
 -- taglist
 theme.taglist_fg_focus                          = theme.colors.white
@@ -188,12 +188,24 @@ theme.lock_icon = theme_path .. "icons/apps/lock.svg"
 theme.hotkeys_icon = theme_path .. "icons/apps/hotkeys.svg"
 theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 
+-- titlebar
+-- theme.titlebar_fg_normal = nil
+-- theme.titlebar_fg_focus = nil
+theme.titlebar_bg_normal = theme.colors.black
+-- theme.titlebar_bg_focus = theme.colors.green .. '99'
+-- theme.titlebar_bgimage_normal = nil
+-- theme.titlebar_fg = nil
+-- theme.titlebar_bg = nil
+-- theme.titlebar_bgimage = nil
+
 -- Define the image to load
 theme.titlebar_close_button_normal = theme_path.."icons/titlebar/close_normal.png"
 theme.titlebar_close_button_focus  = theme_path.."icons/titlebar/close_focus.png"
+theme.titlebar_close_button_focus_hover = theme_path.."icons/titlebar/close_focus_hover.png"
 
 theme.titlebar_minimize_button_normal = theme_path.."icons/titlebar/minimize_normal.png"
 theme.titlebar_minimize_button_focus  = theme_path.."icons/titlebar/minimize_focus.png"
+theme.titlebar_minimize_button_focus_hover  = theme_path.."icons/titlebar/minimize_focus_hover.png"
 
 theme.titlebar_ontop_button_normal_inactive = theme_path.."icons/titlebar/ontop_normal_inactive.png"
 theme.titlebar_ontop_button_focus_inactive  = theme_path.."icons/titlebar/ontop_focus_inactive.png"
@@ -214,6 +226,8 @@ theme.titlebar_maximized_button_normal_inactive = theme_path.."icons/titlebar/ma
 theme.titlebar_maximized_button_focus_inactive  = theme_path.."icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_active = theme_path.."icons/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = theme_path.."icons/titlebar/maximized_focus_active.png"
+theme.titlebar_maximized_button_focus_active_hover = theme_path.."icons/titlebar/maximized_focus_active_hover.png"
+theme.titlebar_maximized_button_focus_inactive_hover = theme_path.."icons/titlebar/maximized_focus_inactive_hover.png"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = theme_path.."icons/layouts/fairh.png"
