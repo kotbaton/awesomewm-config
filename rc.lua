@@ -14,6 +14,8 @@ local player            = require("players.spotify")
 local centermaster      = require("layout.centermaster")
 local launch_apps       = require("apps.launcher")
 
+local tagnames          = require("tag-names")
+
 require("apps.default_apps")
 require("apps.autostart")
 
@@ -81,7 +83,9 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
-    awful.tag({ "1:main", "2:msgs", "3", "4", "5", "6", "7", "8" }, s, awful.layout.layouts[1])
+    local tags = tagnames.read()
+
+    awful.tag(tags, s, awful.layout.layouts[1])
     -- Buttons for taglist and taglist widget
     local taglist_buttons = gears.table.join(
         awful.button({ }, 1,        function(t) t:view_only() end),
@@ -369,6 +373,8 @@ local globalkeys = gears.table.join(
                             t.name = t.index .. ":" .. new_name
                         end
                     end
+                    -- Write tagnames in cache file
+                    tagnames.write(root.tags())
                 end
             }
         end, {description = "Rename active tag", group = "tag"}),
