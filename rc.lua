@@ -136,6 +136,24 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.separator = wibox.widget.textbox(" ")
 
+    s.nextEmptyTag = wibox.widget {
+            markup = "<b>+</b>",
+            align = "center",
+            forced_width = 16,
+            widget = wibox.widget.textbox
+    }
+
+    s.nextEmptyTag:buttons(gears.table.join(awful.button({},1, function()
+        awful.tag.viewnone()
+        local tgs = awful.screen.focused().tags
+        for i = 1, #tgs do
+            if #tgs[i]:clients() == 0 then
+                awful.tag.viewtoggle(tgs[i])
+                break
+            end
+        end
+    end)))
+
     local player_container = wibox.widget {
         player.widget,
         bg = beautiful.colors.green,
@@ -157,6 +175,7 @@ awful.screen.connect_for_each_screen(function(s)
             s.mypromptbox,
             s.mylayoutbox,
             s.mytaglist,
+            s.nextEmptyTag,
         },
         {
             -- Center widgets
