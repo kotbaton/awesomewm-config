@@ -4,7 +4,7 @@ local awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
-local menu = require("widgets.client_menu")
+local menu = require("modules.menus.clientmenu")
 
 local tasklist_buttons = gears.table.join(
 	awful.button({ }, 1,
@@ -31,7 +31,7 @@ local tasklist_buttons = gears.table.join(
 		end),
 	awful.button({ }, 3,
 		function(c)
-			menu.menu(c):show() 
+			menu(c):show() 
 		end),
 	awful.button({ }, 4,
 		function ()

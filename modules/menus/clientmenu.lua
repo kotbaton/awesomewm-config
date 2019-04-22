@@ -1,24 +1,7 @@
 local awful     = require("awful")
-local gears     = require("gears")
-local wibox     = require("wibox")
-local beautiful = require("beautiful")
-beautiful.init(gears.filesystem.get_configuration_dir().. "theme_without_borders/theme.lua")
+local tagnames  = require("modules.tools.tagnames")
 
-local main_menu = require("widgets.main_menu")
-
-local tagnames = require("tag-names")
-
-local client_menu = {}
-
-client_menu.button = wibox.widget{
-    text = '≡',
-    align  = 'center',
-    valign = 'center',
-    forced_width = 24,
-    widget = wibox.widget.textbox
-}
-
-client_menu.menu = function(c)
+create_client_menu = function(c)
     local tags = awful.screen.focused().tags
     local names = tagnames.read()
     local task_menu = {
@@ -58,26 +41,8 @@ client_menu.menu = function(c)
         { "▪ Toggle sticky",   function() c.sticky = not c.sticky end },
         { "  Nevermind",       function() end },
     }
+    
     return awful.menu(task_menu)
 end
 
-client_menu.button:buttons(gears.table.join(
-        awful.button({ }, 1, function ()
-            c = client.focus
-            main_menu()
-        end),
-        awful.button({ }, 2, function ()
-            main_menu()
-        end),
-        awful.button({ }, 3, function ()
-            c = client.focus
-            if c == nil then
-                main_menu()
-                return
-            end
-            client_menu.menu(c):toggle()
-        end)
-    )
-)
-
-return client_menu
+return create_client_menu

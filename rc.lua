@@ -9,15 +9,20 @@ require("awful.autofocus")
 require("awful.remote")
 
 ---------------------{ USER REQUIRES }--------------------------
-local widgets           = require("widgets")
-local player            = require("players.spotify")
-local centermaster      = require("layout.centermaster")
-local launch_apps       = require("apps.launcher")
+local widgets           = require("modules.widgets")
+local mainmenu          = require("modules.menus.mainmenu")
+local player            = require("modules.players.spotify")
+local centermaster      = require("modules.layouts.centermaster")
+local tagnames          = require("modules.tools.tagnames")
+local settings          = require("setting")
 
-local tagnames          = require("tag-names")
+-- Set default apps
+local terminal = settings.default_apps.terminal
 
-require("apps.default_apps")
-require("apps.autostart")
+-- Start autostart application
+for _, app in ipairs(settings.autostart) do
+    awful.spawn.once(app)
+end
 
 -- Error handling
 if awesome.startup_errors then
@@ -154,13 +159,6 @@ awful.screen.connect_for_each_screen(function(s)
         end
     end)))
 
-    local player_container = wibox.widget {
-        player.widget,
-        bg = beautiful.colors.green,
-        fg = beautiful.colors.black,
-        widget = wibox.widget.background,
-    }
-
     s.wibar = awful.wibar({
             position = "top",
             screen = s,
@@ -171,7 +169,7 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            widgets.client_menu.button,
+            widgets.menu_button,
             s.mypromptbox,
             s.mylayoutbox,
             s.mytaglist,
@@ -187,7 +185,7 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            player_container,
+            player.widget,
             s.separator,
             widgets.battery,
             widgets.volume.text_widget,
@@ -203,15 +201,15 @@ end)
 -- Set keys
 local globalkeys = gears.table.join(
     ----------------------{ START APPS }--------------------------------------------
-    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(launch_apps.app1) end, {description=launch_apps.app1, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(launch_apps.app2) end, {description=launch_apps.app2, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(launch_apps.app3) end, {description=launch_apps.app3, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(launch_apps.app4) end, {description=launch_apps.app4, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(launch_apps.app5) end, {description=launch_apps.app5, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(launch_apps.app6) end, {description=launch_apps.app6, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(launch_apps.app7) end, {description=launch_apps.app7, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(launch_apps.app8) end, {description=launch_apps.app8, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(launch_apps.app9) end, {description=launch_apps.app9, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(settings.launcher.app1) end, {description=settings.launcher.app1, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(settings.launcher.app2) end, {description=settings.launcher.app2, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(settings.launcher.app3) end, {description=settings.launcher.app3, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(settings.launcher.app4) end, {description=settings.launcher.app4, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(settings.launcher.app5) end, {description=settings.launcher.app5, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(settings.launcher.app6) end, {description=settings.launcher.app6, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(settings.launcher.app7) end, {description=settings.launcher.app7, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(settings.launcher.app8) end, {description=settings.launcher.app8, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(settings.launcher.app9) end, {description=settings.launcher.app9, group="Launcher"}),
 
     awful.key({ modkey }, "r",
         function ()
@@ -279,7 +277,7 @@ local globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "a",
         function ()
-            widgets.main_menu()
+            mainmenu()
         end, {description = "show main menu", group = "awesome"}),
 
     awful.key({ modkey,           }, "q",
@@ -544,7 +542,7 @@ root.keys(globalkeys)
 local rootbuttons = gears.table.join(
     awful.button({ }, 3,
         function ()
-            widgets.main_menu()
+            mainmenu()
         end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)

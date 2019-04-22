@@ -1,6 +1,9 @@
-local awful = require("awful")
-local gears = require("gears")
-local wibox = require("wibox")
+local awful     = require("awful")
+local gears     = require("gears")
+local wibox     = require("wibox")
+local beautiful = require("beautiful")
+
+beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
 
 local DBUS_PREFIX		= 'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 '
 
@@ -17,6 +20,13 @@ local text = wibox.widget{
 	widget		 = wibox.widget.textbox,
 }
 
+local container = wibox.widget {
+    text,
+    bg = beautiful.colors.green,
+    fg = beautiful.colors.black,
+    widget = wibox.widget.background,
+}
+
 local function update_text()
 	awful.spawn.easy_async_with_shell(GET_TRACK_CMD, function(stdout, stderr, exitreason, exitcode)
 		text:set_text(stdout)
@@ -28,7 +38,7 @@ local timer = gears.timer.start_new(15, update_text)
 
 local player = {}
 
-player.widget = text
+player.widget = container
 
 player.control = {}
 

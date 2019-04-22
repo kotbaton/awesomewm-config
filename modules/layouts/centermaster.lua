@@ -10,13 +10,13 @@ local function arrange(p)
 
     if #cls == 0 then return end
 
-    local mstrWidthFact   = t.master_width_factor
+    local mstrWidthFact     = t.master_width_factor
 
-    local mstrWidth       = math.floor(wa.width * mstrWidthFact)
-    local mstrHeight      = math.floor(wa.height)
+    local mstrWidth         = math.floor(wa.width * mstrWidthFact)
+    local mstrHeight        = math.floor(wa.height)
 
     local leftSlavesNumber  = math.floor(#cls / 2)
-    local rightSlavesNumber = math.floor((#cls - 1) / 2)
+    local rightSlavesNumber = #cls - leftSlavesNumber - 1
 
     local slavesWidth       = math.floor((wa.width - mstrWidth) / 2)
     local leftSlavesHeight  = math.floor(wa.height / leftSlavesNumber)
@@ -25,7 +25,7 @@ local function arrange(p)
     local c = cls[1]
     local g = {}
 
-    g.height = math.max(wa.height, 1)
+    g.height = math.max(mstrHeight, 1)
     g.width  = math.max(mstrWidthFact * wa.width, 1)
 
     g.y = wa.y
