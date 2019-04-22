@@ -554,7 +554,7 @@ root.buttons(rootbuttons)
 local clientbuttons = gears.table.join(
     awful.button({ }, 1,
         function (c)
-            client.focus = c;
+            client.focus = c
             c:raise()
         end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
@@ -625,8 +625,6 @@ local clientkeys = gears.table.join(
         function (c)
             if awful.layout.get() ~= awful.layout.suit.floating then
                 awful.client.incwfact(-0.05, c)
-            else
-                c.height = c.height - 10
             end
         end, {description = nil, group = "client"}),
 
@@ -634,8 +632,6 @@ local clientkeys = gears.table.join(
         function (c)
             if awful.layout.get() ~= awful.layout.suit.floating then
                 awful.client.incwfact( 0.05, c)
-            else
-                c.height = c.height + 10
             end
         end, {description = nil, group = "client"})
 )
