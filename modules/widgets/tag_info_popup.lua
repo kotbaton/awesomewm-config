@@ -20,7 +20,7 @@ tag_info_popup.popup = awful.popup {
 		layout = wibox.layout.fixed.vertical,
 	},
 	placement = awful.placement.centered,
-	screen = awful.mouse.screen,
+    screen = awful.screen.focused(),
 	ontop = true,
 	border_width = 3,
 	border_color = beautiful.colors.green,

@@ -11,6 +11,7 @@ require("awful.remote")
 ---------------------{ USER REQUIRES }--------------------------
 local widgets           = require("modules.widgets")
 local mainmenu          = require("modules.menus.mainmenu")
+local clientmenu        = require("modules.menus.clientmenu")
 local player            = require("modules.players.spotify")
 local centermaster      = require("modules.layouts.centermaster")
 local tagnames          = require("modules.tools.tagnames")
@@ -88,7 +89,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
-    local tags = tagnames.read()
+    local tags = tagnames.read(s.index)
 
     awful.tag(tags, s, awful.layout.layouts[1])
     -- Buttons for taglist and taglist widget
@@ -137,7 +138,50 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.keyboardlayout = awful.widget.keyboardlayout()
 
-    s.tasklist = widgets.tasklist.screen
+    local tasklist_buttons = gears.table.join(
+        awful.button({ }, 1,
+            function (c)
+                if c == client.focus then
+                    c.minimized = true
+                    awful.client.setslave(c)
+                else
+                    c.minimized = false
+                    if not c:isvisible() and c.first_tag then
+                        c.first_tag:view_only()
+                    end
+                    client.focus = c
+                    c:raise()
+                end
+            end),
+        awful.button({ }, 2,
+            function(c) 
+                -- c:kill() 
+            end),
+        awful.button({ }, 3,
+            function(c)
+                clientmenu(c):show() 
+            end),
+        awful.button({ }, 4,
+            function ()
+                awful.client.focus.byidx(1)
+            end),
+        awful.button({ }, 5,
+            function ()
+                awful.client.focus.byidx(-1)
+            end)
+    )
+
+    s.mytasklist = awful.widget.tasklist {
+        screen          = s,
+        filter          = awful.widget.tasklist.filter.currenttags, 
+        buttons         = tasklist_buttons,
+        update_function = list_update,
+        layout          = {
+            spacing = 8,
+            layout = wibox.layout.flex.horizontal,
+        },
+    }
+    s.mytasklist:set_max_widget_size(170)
 
     s.separator = wibox.widget.textbox(" ")
 
@@ -179,7 +223,7 @@ awful.screen.connect_for_each_screen(function(s)
             -- Center widgets
             layout = wibox.layout.align.horizontal,
             s.separator,
-            widgets.tasklist,
+            s.mytasklist,
             s.separator,
         },
         {
@@ -191,7 +235,8 @@ awful.screen.connect_for_each_screen(function(s)
             widgets.volume.text_widget,
             s.keyboardlayout,
             s.textclock,
-            widgets.tray.widget,
+            -- Add tray widget only on primary screen
+            s.index == 1 and widgets.tray.widget or s.separator,
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.layout.align.horizontal,
@@ -391,7 +436,8 @@ local globalkeys = gears.table.join(
                         end
                     end
                     -- Write tagnames in cache file
-                    tagnames.write(root.tags())
+                    local scr = awful.screen.focused()
+                    tagnames.write(scr.index, scr.tags)
                 end
             }
         end, {description = "Rename active tag", group = "tag"}),
@@ -462,15 +508,16 @@ local globalkeys = gears.table.join(
             awful.client.swap.byidx( -1)
         end, {description = "swap with previous client by index", group = "client"}),
 
-    awful.key({ modkey, "Control" }, "i",
+    awful.key({ modkey, }, "o",
         function ()
-            awful.screen.focus_relative( 1)
+            awful.screen.focus_relative(1)
         end, {description = "focus the next screen", group = "screen"}),
 
-    awful.key({ modkey, "Control" }, "o",
+    awful.key({ modkey, "Shift"}, "o",
         function ()
-            awful.screen.focus_relative(-1)
-        end, {description = "focus the previous screen", group = "screen"}),
+            local c = client.focus
+            if c then c:move_to_screen() end
+        end, {description = "move focused window on next screen", group = "screen"}),
 
     awful.key({ modkey,           }, "u",
         function()
@@ -689,7 +736,6 @@ client.connect_signal("manage", function (c)
     -- i.e. put it at the end of others instead of setting it master.
     if not awesome.startup then awful.client.setslave(c) end
     if not startup and not c.size_hints.user_position and not c.size_hints.program_position then
-        -- Prevent clients from being unreachable after screen count changes.
         awful.placement.under_mouse(c)
         awful.placement.no_offscreen(c)
         --awful.placement.no_overlap(c)

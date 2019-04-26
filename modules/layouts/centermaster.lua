@@ -17,6 +17,8 @@ local screen = screen
 --  center and slaves near edges
 --]]
 
+-- client.setwfact(math.min(math.max(wfact,0.01), 0.99), c)
+
 local centermaster = {}
 
 local function arrange(p)
@@ -27,12 +29,14 @@ local function arrange(p)
     if #cls == 0 then return end
 
     local mstrWidthFact     = t.master_width_factor
+    local mstrNumber        = math.min(math.max(t.master_count, 1), #cls)
+    local mstrFillPolicy    = t.master_fill_policy
 
     local mstrWidth         = math.floor(wa.width * mstrWidthFact)
-    local mstrHeight        = math.floor(wa.height)
+    local mstrHeight        = math.floor(wa.height / mstrNumber)
 
-    local leftSlavesNumber  = math.floor(#cls / 2)
-    local rightSlavesNumber = #cls - leftSlavesNumber - 1
+    local leftSlavesNumber  = math.floor((#cls - mstrNumber) / 2)
+    local rightSlavesNumber = #cls - mstrNumber - leftSlavesNumber
     -- local rightSlavesNumber = math.floor(#cls / 2)
     -- local leftSlavesNumber  = #cls - rightSlavesNumber - 1
 
@@ -40,24 +44,39 @@ local function arrange(p)
     local leftSlavesHeight  = math.floor(wa.height / leftSlavesNumber)
     local rightSlavesHeight = math.floor(wa.height / rightSlavesNumber)
 
-    -- Get master client
-    local c = cls[1]
-    local g = {}
+    for i = 1, mstrNumber do
+        local rowIndex = i - 1
 
-    g.height = math.max(mstrHeight, 1)
-    g.width  = math.max(mstrWidthFact * wa.width, 1)
+        local c = cls[i]
+        local g = {}
 
-    g.y = wa.y
-    g.x = wa.x + slavesWidth
+        g.height = math.max(mstrHeight, 1)
+        g.y = wa.y + mstrHeight * rowIndex
 
-    p.geometries[c] = g
+        if mstrFillPolicy == 'expand' and mstrNumber == #cls then
+            -- There are only master's
+            g.width  = math.max(wa.width, 1)
+            g.x = wa.x
+        elseif rightSlavesNumber >= 1 and leftSlavesNumber == 0 then
+            -- There are masters and right slaves
+            g.width  = math.max(mstrWidthFact * wa.width, 1)
+            g.x = wa.x
+        else
+            -- Other cases
+            g.width  = math.max(mstrWidthFact * wa.width, 1)
+            g.x = wa.x + slavesWidth
+        end
 
-    if #cls <= 1 then return end
+        g.width  = math.max(g.width, 1)
+        g.height = math.max(g.height, 1)
+
+        p.geometries[c] = g
+    end
 
     -- for i = 2, (1 + leftSlavesNumber) do
     --     rowIndex = i - 2
-    for i = (2 + rightSlavesNumber), #cls do
-        rowIndex = i - (2 + rightSlavesNumber)
+    for i = (1 + mstrNumber + rightSlavesNumber), #cls do
+        local rowIndex = i - (1 + mstrNumber + rightSlavesNumber)
 
         local c = cls[i]
         local g = {}
@@ -76,16 +95,22 @@ local function arrange(p)
 
     -- for i = (2 + leftSlavesNumber), #cls do
     --     rowIndex = i - (2 + leftSlavesNumber)
-    for i = 2, (1 + rightSlavesNumber) do
-        rowIndex = i - 2
+    for i = mstrNumber + 1, (mstrNumber + rightSlavesNumber) do
+        local rowIndex = i - mstrNumber - 1 
 
         local c = cls[i]
         local g = {}
 
-        g.width  = slavesWidth
         g.height = math.floor(wa.height / rightSlavesNumber)
 
-        g.x = wa.x + slavesWidth + mstrWidth
+        if leftSlavesNumber == 0 then
+            g.width = (1 - mstrWidthFact) * wa.width
+            g.x = wa.x + mstrWidth
+        else
+            g.width = slavesWidth
+            g.x = wa.x + slavesWidth + mstrWidth
+        end
+
         g.y = wa.y + rightSlavesHeight * rowIndex
 
         g.width  = math.max(g.width, 1)
