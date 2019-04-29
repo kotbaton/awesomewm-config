@@ -17,6 +17,7 @@ local text = wibox.widget{
 	forced_width = 210,
 	align		 = "center",
 	text		 = "",
+    font         = "Ubuntu Mono 12",
 	widget		 = wibox.widget.textbox,
 }
 
