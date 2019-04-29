@@ -14,9 +14,10 @@ local NEXT_TRACK_CMD	= DBUS_PREFIX .. "org.mpris.MediaPlayer2.Player.Next"
 local GET_TRACK_CMD	= [[sleep 0.1; dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata | grep -Eo '("(.*)")|(\b[0-9][a-zA-Z0-9.]*\b)' | grep -E "(title)|(artist)" -A 1 | tr -d '"' | grep -v : | tr -d '\n' | sed 's/--/ - /']]
 
 local text = wibox.widget{
-	forced_width = 210,
+	forced_width = 220,
 	align		 = "center",
 	text		 = "",
+    font         = "Ubuntu Mono 11",
 	widget		 = wibox.widget.textbox,
 }
 
@@ -30,6 +31,11 @@ local container = wibox.widget {
 local function update_text()
 	awful.spawn.easy_async_with_shell(GET_TRACK_CMD, function(stdout, stderr, exitreason, exitcode)
 		text:set_text(stdout)
+        if string.len(stdout) == 0 then
+            container.visible = false
+        else
+            container.visible = true
+        end
 	end)
 	return true
 end

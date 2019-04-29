@@ -17,6 +17,8 @@ local centermaster      = require("modules.layouts.centermaster")
 local tagnames          = require("modules.tools.tagnames")
 local settings          = require("setting")
 
+local dpi               = require("beautiful.xresources").apply_dpi 
+
 -- Set default apps
 local terminal = settings.default_apps.terminal
 
@@ -47,10 +49,10 @@ do
 end
 
 -- Notification configuration
-naughty.config.defaults.border_width = 4
-naughty.config.spacing = 8
-naughty.config.padding = 8
-naughty.config.defaults.timeout = 5
+naughty.config.defaults.border_width = dpi(4)
+naughty.config.spacing = dpi(8)
+naughty.config.padding = dpi(8)
+naughty.config.defaults.timeout = dpi(5)
 
 -- Theme init
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
@@ -177,18 +179,18 @@ awful.screen.connect_for_each_screen(function(s)
         buttons         = tasklist_buttons,
         update_function = list_update,
         layout          = {
-            spacing = 8,
+            spacing = dpi(8),
             layout = wibox.layout.flex.horizontal,
         },
     }
-    s.mytasklist:set_max_widget_size(170)
+    s.mytasklist:set_max_widget_size(dpi(170))
 
     s.separator = wibox.widget.textbox(" ")
 
     s.nextEmptyTag = wibox.widget {
             markup = "<b>+</b>",
             align = "center",
-            forced_width = 16,
+            forced_width = dpi(16),
             widget = wibox.widget.textbox
     }
 
@@ -206,7 +208,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.wibar = awful.wibar({
             position = "top",
             screen = s,
-            height = 24,
+            height = dpi(24),
             ontop = false,
             bg = beautiful.bg_normal,
         }):setup {
@@ -769,7 +771,7 @@ client.connect_signal("request::titlebars", function(c)
         --awful.button({  }, 5, function(c) end)
     )
     awful.titlebar(c, {
-            size = 16,
+            size = dpi(16),
             position = "top",
         }):setup{
         {

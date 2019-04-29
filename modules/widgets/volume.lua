@@ -63,6 +63,7 @@ function volume.control(cmd)
 			volume.update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
 			volume.update_progressbar_widget(volume.progressbar_widget, stdout, stderr, exitreason, exitcode)
 	end)
+    volume.popup_widget.screen = awful.screen.focused()
 	volume.popup_widget.visible = true
 	if volume.timer.started then 
 		volume.timer:again()

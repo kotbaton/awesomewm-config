@@ -38,6 +38,7 @@ function tag_info_popup.show(t)
 	text = text .. ' Column count: ' .. t.column_count
 	tag_info_popup.text:set_text(text)
 	tag_info_popup.popup.visible = true
+    tag_info_popup.popup.screen = awful.screen.focused()
 	if tag_info_popup.timer.started then
 		tag_info_popup.timer:again()
 	else
