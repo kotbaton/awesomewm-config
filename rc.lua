@@ -18,6 +18,8 @@ local launcher          = require('setting').launcher
 
 local dpi               = require("beautiful.xresources").apply_dpi 
 
+local dpi               = require("beautiful.xresources").apply_dpi 
+
 -- Set default apps
 local terminal = require('setting').default_apps.terminal
 
