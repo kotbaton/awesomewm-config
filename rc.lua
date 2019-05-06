@@ -8,22 +8,21 @@ local hotkeys_popup     = require("awful.hotkeys_popup").widget
 require("awful.autofocus")
 require("awful.remote")
 
----------------------{ USER REQUIRES }--------------------------
 local widgets           = require("modules.widgets")
 local mainmenu          = require("modules.menus.mainmenu")
 local clientmenu        = require("modules.menus.clientmenu")
-local player            = require("modules.players.spotify")
+local player            = require("modules.widgets.player")
 local centermaster      = require("modules.layouts.centermaster")
 local tagnames          = require("modules.tools.tagnames")
-local settings          = require("setting")
+local launcher          = require('setting').launcher
 
 local dpi               = require("beautiful.xresources").apply_dpi 
 
 -- Set default apps
-local terminal = settings.default_apps.terminal
+local terminal = require('setting').default_apps.terminal
 
 -- Start autostart application
-for _, app in ipairs(settings.autostart) do
+for _, app in ipairs(require('setting').autostart) do
     awful.spawn.once(app)
 end
 
@@ -248,15 +247,15 @@ end)
 -- Set keys
 local globalkeys = gears.table.join(
     ----------------------{ START APPS }--------------------------------------------
-    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(settings.launcher.app1) end, {description=settings.launcher.app1, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(settings.launcher.app2) end, {description=settings.launcher.app2, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(settings.launcher.app3) end, {description=settings.launcher.app3, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(settings.launcher.app4) end, {description=settings.launcher.app4, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(settings.launcher.app5) end, {description=settings.launcher.app5, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(settings.launcher.app6) end, {description=settings.launcher.app6, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(settings.launcher.app7) end, {description=settings.launcher.app7, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(settings.launcher.app8) end, {description=settings.launcher.app8, group="Launcher"}),
-    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(settings.launcher.app9) end, {description=settings.launcher.app9, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(launcher.app1) end, {description=launcher.app1, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(launcher.app2) end, {description=launcher.app2, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(launcher.app3) end, {description=launcher.app3, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(launcher.app4) end, {description=launcher.app4, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(launcher.app5) end, {description=launcher.app5, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(launcher.app6) end, {description=launcher.app6, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(launcher.app7) end, {description=launcher.app7, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(launcher.app8) end, {description=launcher.app8, group="Launcher"}),
+    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(launcher.app9) end, {description=launcher.app9, group="Launcher"}),
 
     awful.key({ modkey }, "r",
         function ()
@@ -819,7 +818,7 @@ tag.connect_signal("property::master_fill_policy",  function(t) widgets.tag_info
 tag.connect_signal("property::column_count",        function(t) widgets.tag_info_popup.show(t) end)
 tag.connect_signal("property::master_count",        function(t) widgets.tag_info_popup.show(t) end)
 
-gears.timer.start_new(1, function()
+gears.timer.start_new(10, function()
     collectgarbage("step", 20000)
     return true
 end)

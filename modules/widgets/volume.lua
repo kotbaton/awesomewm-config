@@ -7,8 +7,8 @@ local beautiful = require("beautiful")
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
 local GET_VOL_CMD = 'amixer -M get Master'
-local INC_VOL_CMD = 'amixer -M set Master 3%+'
-local DEC_VOL_CMD = 'amixer -M set Master 3%-'
+local INC_VOL_CMD = 'amixer -M set Master 2%+'
+local DEC_VOL_CMD = 'amixer -M set Master 2%-'
 local TOG_VOL_CMD = 'amixer -M set Master toggle'
 
 local volume = {}
