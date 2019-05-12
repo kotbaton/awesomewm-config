@@ -17,8 +17,6 @@ local screen = screen
 --  center and slaves near edges
 --]]
 
--- client.setwfact(math.min(math.max(wfact,0.01), 0.99), c)
-
 local centermaster = {}
 
 local function arrange(p)

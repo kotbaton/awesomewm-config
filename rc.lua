@@ -12,12 +12,9 @@ local widgets           = require("modules.widgets")
 local mainmenu          = require("modules.menus.mainmenu")
 local clientmenu        = require("modules.menus.clientmenu")
 local player            = require("modules.widgets.player")
-local centermaster      = require("modules.layouts.centermaster")
+local mylayouts         = require("modules.layouts")
 local tagnames          = require("modules.tools.tagnames")
 local launcher          = require('setting').launcher
-
-local dpi               = require("beautiful.xresources").apply_dpi 
-
 local dpi               = require("beautiful.xresources").apply_dpi 
 
 -- Set default apps
@@ -79,7 +76,9 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
-    centermaster,
+    -- mylayouts.centermaster,
+    mylayouts.stack,
+    mylayouts.stack.left,
 }
 
 local function set_wallpaper(s)
