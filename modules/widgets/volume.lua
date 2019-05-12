@@ -6,10 +6,10 @@ local watch = require("awful.widget.watch")
 local beautiful = require("beautiful")
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
-local GET_VOL_CMD = 'amixer -M get Master'
-local INC_VOL_CMD = 'amixer -M set Master 2%+'
-local DEC_VOL_CMD = 'amixer -M set Master 2%-'
-local TOG_VOL_CMD = 'amixer -M set Master toggle'
+local GET_VOL_CMD = 'amixer get Master'
+local INC_VOL_CMD = 'amixer set Master 2%+'
+local DEC_VOL_CMD = 'amixer set Master 2%-'
+local TOG_VOL_CMD = 'amixer set Master toggle'
 
 local volume = {}
 
@@ -104,29 +104,20 @@ function volume.update_progressbar_widget(widget, stdout, _, _, _)
 end
 
 watch(GET_VOL_CMD, 10, volume.update_text_widget, volume.text_widget)
---watch(GET_VOL_CMD, 10, volume.update_progressbar_widget, volume.progressbar_widget)
 
 volume.text_widget:buttons(gears.table.join(
 		awful.button({ }, 1, 
-			function () 
-				awful.spawn(TOG_VOL_CMD, false) 
-				awful.spawn.easy_async(GET_VOL_CMD, function(stdout, stderr, exitreason, exitcode)
-					volume.update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
-				end)
+			function ()
+                volume.control("toggle")
 			end),
 		awful.button({ }, 4, 
 			function () 
-				awful.spawn(INC_VOL_CMD, false)
-				awful.spawn.easy_async(GET_VOL_CMD, function(stdout, stderr, exitreason, exitcode)
-					volume.update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
-				end)
+                volume.control("increase")
 			end),
 		awful.button({ }, 5, 
 			function () 
-				awful.spawn(DEC_VOL_CMD, false)
-				awful.spawn.easy_async(GET_VOL_CMD, function(stdout, stderr, exitreason, exitcode)
-					volume.update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
-				end)
+                volume.control("decrease")
 			end))
 )
+
 return volume
