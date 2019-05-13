@@ -3,7 +3,7 @@ local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 
 local gears = require("gears")
-local theme_path = gears.filesystem.get_configuration_dir() ..  "gruvbox-theme/"
+local theme_path = gears.filesystem.get_configuration_dir() .. "gruvbox-theme/"
 
 local theme = {}
 
@@ -235,25 +235,27 @@ theme.titlebar_maximized_button_normal_inactive_hover = theme_path.."icons/title
 theme.titlebar_maximized_button_focus_inactive_hover = theme_path.."icons/titlebar/maximized_focus_inactive_hover.png"
 
 -- You can use your own layout icons like this:
-theme.layout_fairh = theme_path.."icons/layouts/fairh.png"
-theme.layout_fairv = theme_path.."icons/layouts/fairv.png"
-theme.layout_floating  = theme_path.."icons/layouts/floating.png"
-theme.layout_magnifier = theme_path.."icons/layouts/magnifier.png"
-theme.layout_max = theme_path.."icons/layouts/max.png"
-theme.layout_fullscreen = theme_path.."icons/layouts/fullscreen.png"
-theme.layout_tilebottom = theme_path.."icons/layouts/tilebottom.png"
-theme.layout_tileleft   = theme_path.."icons/layouts/tileleft.png"
-theme.layout_tile = theme_path.."icons/layouts/tile.png"
-theme.layout_tiletop = theme_path.."icons/layouts/tiletop.png"
-theme.layout_spiral  = theme_path.."icons/layouts/spiral.png"
-theme.layout_dwindle = theme_path.."icons/layouts/dwindle.png"
-theme.layout_cornernw = theme_path.."icons/layouts/cornernw.png"
-theme.layout_cornerne = theme_path.."icons/layouts/cornerne.png"
-theme.layout_cornersw = theme_path.."icons/layouts/cornersw.png"
-theme.layout_cornerse = theme_path.."icons/layouts/cornerse.png"
-theme.layout_centermaster = theme_path.."icons/layouts/centermaster.png"
-theme.layout_stack = theme_path.."icons/layouts/stack.png"
-theme.layout_stackLeft = theme_path.."icons/layouts/stackLeft.png"
+local layout_icon_color = theme.colors.grey
+
+theme.layout_fairh          = gears.color.recolor_image(theme_path.."icons/layouts/fairh.png",        layout_icon_color)
+theme.layout_fairv          = gears.color.recolor_image(theme_path.."icons/layouts/fairv.png",        layout_icon_color)
+theme.layout_floating       = gears.color.recolor_image(theme_path.."icons/layouts/floating.png",     layout_icon_color)
+theme.layout_magnifier      = gears.color.recolor_image(theme_path.."icons/layouts/magnifier.png",    layout_icon_color)
+theme.layout_max            = gears.color.recolor_image(theme_path.."icons/layouts/max.png",          layout_icon_color)
+theme.layout_fullscreen     = gears.color.recolor_image(theme_path.."icons/layouts/fullscreen.png",   layout_icon_color)
+theme.layout_tilebottom     = gears.color.recolor_image(theme_path.."icons/layouts/tilebottom.png",   layout_icon_color)
+theme.layout_tileleft       = gears.color.recolor_image(theme_path.."icons/layouts/tileleft.png",     layout_icon_color)
+theme.layout_tile           = gears.color.recolor_image(theme_path.."icons/layouts/tile.png",         layout_icon_color)
+theme.layout_tiletop        = gears.color.recolor_image(theme_path.."icons/layouts/tiletop.png",      layout_icon_color)
+theme.layout_spiral         = gears.color.recolor_image(theme_path.."icons/layouts/spiral.png",       layout_icon_color)
+theme.layout_dwindle        = gears.color.recolor_image(theme_path.."icons/layouts/dwindle.png",      layout_icon_color)
+theme.layout_cornernw       = gears.color.recolor_image(theme_path.."icons/layouts/cornernw.png",     layout_icon_color)
+theme.layout_cornerne       = gears.color.recolor_image(theme_path.."icons/layouts/cornerne.png",     layout_icon_color)
+theme.layout_cornersw       = gears.color.recolor_image(theme_path.."icons/layouts/cornersw.png",     layout_icon_color)
+theme.layout_cornerse       = gears.color.recolor_image(theme_path.."icons/layouts/cornerse.png",     layout_icon_color)
+theme.layout_centermaster   = gears.color.recolor_image(theme_path.."icons/layouts/centermaster.png", layout_icon_color)
+theme.layout_stack          = gears.color.recolor_image(theme_path.."icons/layouts/stack.png",        layout_icon_color)
+theme.layout_stackLeft      = gears.color.recolor_image(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(
