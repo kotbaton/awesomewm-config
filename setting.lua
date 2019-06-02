@@ -6,6 +6,7 @@ settings.autostart = {
     "xfce4-power-manager",
     "light-locker",
     "parcellite",
+    "killall perWindowLayout",
     "perWindowLayoutD",
 }
 
@@ -16,7 +17,7 @@ settings.default_apps = {
 }
 
 settings.launcher = {
-	app1 = 'google-chrome-stable',
+	app1 = 'firefox',
 	app2 = 'pcmanfm',
 	app3 = 'spotify',
 	app4 = 'telegram-desktop',

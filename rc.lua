@@ -98,7 +98,7 @@ awful.screen.connect_for_each_screen(function(s)
     local taglist_buttons = gears.table.join(
         awful.button({ }, 1,        function(t) t:view_only() end),
         awful.button({ modkey }, 1, function(t)
-            if client.focus
+           if client.focus
                 then
                 client.focus:move_to_tag(t)
             end
@@ -592,9 +592,9 @@ local rootbuttons = gears.table.join(
     awful.button({ }, 3,
         function ()
             mainmenu()
-        end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+        end)
+    -- awful.button({ }, 4, awful.tag.viewnext),
+    -- awful.button({ }, 5, awful.tag.viewprev)
 )
 
 root.buttons(rootbuttons)

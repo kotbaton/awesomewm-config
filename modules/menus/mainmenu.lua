@@ -24,7 +24,7 @@ local mainmenu = awful.menu({ items = {
             { "Awesome", menu, beautiful.awesome_icon},
             { "Computer", powermenu, beautiful.shutdown_icon},
             { "Terminal", function() awful.spawn("kitty", false) end, beautiful.terminal_icon},
-            { "Browser", function()  awful.spawn("google-chrome-stable", false) end, beautiful.chrome_icon },
+            { "Browser", function()  awful.spawn("firefox", false) end, beautiful.chrome_icon },
             { "Files", function() awful.spawn("pcmanfm", false) end, beautiful.thunar_icon },
             { "Music", function() awful.spawn("spotify", false) end, beautiful.music_icon },
             { "Telegram", function() awful.spawn("telegram-desktop", false) end, beautiful.telegram_icon },
