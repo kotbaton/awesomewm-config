@@ -129,7 +129,7 @@ theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
 theme.notification_border_width                 = 5
-theme.notification_shape                        = gears.shape.rect
+theme.notification_shape                        = gears.shape.rounded_rect
 theme.notification_opacity                      = 0.90
 theme.notification_margin                       = 16
 theme.notification_width                        = 400
@@ -191,7 +191,7 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- titlebar
 -- theme.titlebar_fg_normal = nil
 -- theme.titlebar_fg_focus = nil
-theme.titlebar_bg_normal = theme.colors.black
+-- theme.titlebar_bg_normal = theme.colors.black
 -- theme.titlebar_bg_focus = theme.colors.green .. '99'
 -- theme.titlebar_bgimage_normal = nil
 -- theme.titlebar_fg = nil

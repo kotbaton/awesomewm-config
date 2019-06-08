@@ -742,8 +742,10 @@ client.connect_signal("manage", function (c)
         awful.placement.no_offscreen(c)
         --awful.placement.no_overlap(c)
     end
+    c.shape = gears.shape.rounded_rect
     if c.maximized then
         c.border_width = 0
+        c.shape = gears.shape.rect
     end
 end)
 
@@ -802,8 +804,10 @@ end)
 client.connect_signal("property::maximized", function(c)
     if c.maximized then
         c.border_width = 0
+        c.shape = gears.shape.rect
     else
         c.border_width = beautiful.border_width
+        c.shape = gears.shape.rounded_rect
     end
 end)
 
