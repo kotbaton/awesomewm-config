@@ -145,7 +145,6 @@ awful.screen.connect_for_each_screen(function(s)
             function (c)
                 if c == client.focus then
                     c.minimized = true
-                    awful.client.setslave(c)
                 else
                     c.minimized = false
                     if not c:isvisible() and c.first_tag then
@@ -637,6 +636,11 @@ local clientkeys = gears.table.join(
         function (c)
             c.ontop = not c.ontop
         end, {description = "toggle keep on top", group = "client"}),
+
+    awful.key({ modkey, "Shift" }, "t",
+        function (c)
+            awful.titlebar.toggle(c)
+        end, {description = "toggle titlebar of active window", group = "client"}),
 
     awful.key({ modkey, "Shift" }, "f",  awful.client.floating.toggle, {description = "toggle floating", group = "client"}),
 
