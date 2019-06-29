@@ -79,16 +79,44 @@ awful.layout.layouts = {
 local function set_wallpaper(s)
     awful.spawn.with_shell("~/.fehbg", false)
 end
-
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
+
+local mytextclock = wibox.widget.textclock("%R")
+mytextclock:buttons(gears.table.join(awful.button({},1, function()
+    if s.textclock.format == "%R" then
+        s.textclock.format = "%d.%m.%y, %A %R"
+    else
+        s.textclock.format = "%R"
+    end
+end)))
+
+local mykeyboardlayout = awful.widget.keyboardlayout()
+local mypromptbox = awful.widget.prompt()
+local myseparator = wibox.widget.textbox(" ")
+local nextEmptyTag = wibox.widget {
+    markup = "<b>+</b>",
+    align = "center",
+    forced_width = dpi(16),
+    widget = wibox.widget.textbox
+}
+
+nextEmptyTag:buttons(gears.table.join(awful.button({},1, function()
+    awful.tag.viewnone()
+    local tgs = awful.screen.focused().tags
+    for i = 1, #tgs do
+        if #tgs[i]:clients() == 0 then
+            awful.tag.viewtoggle(tgs[i])
+            break
+        end
+    end
+end)))
 
 awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     local tags = modules.tools.tagnames.read(s.index)
     awful.tag(tags, s, awful.layout.layouts[1])
-
     -- Buttons for taglist and taglist widget
     local taglist_buttons = gears.table.join(
         awful.button({ }, 1,        function(t) t:view_only() end),
@@ -109,32 +137,16 @@ awful.screen.connect_for_each_screen(function(s)
         awful.button({ }, 4,        function(t) awful.tag.viewnext(t.screen) end),
         awful.button({ }, 5,        function(t) awful.tag.viewprev(t.screen) end)
     )
-
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
-
-    -- Promptbox widget
-    s.mypromptbox = awful.widget.prompt()
 
     -- Layoutbox widget and buttons
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(gears.table.join(
-            awful.button({ }, 1, function () awful.layout.inc( 1) end),
-            awful.button({ }, 2, function () awful.tag.togglemfpol(t) end),
-            awful.button({ }, 3, function () awful.layout.inc(-1) end),
-            awful.button({ }, 4, function () awful.layout.inc( 1) end),
-        awful.button({ }, 5, function () awful.layout.inc(-1) end))
-        )
-
-    s.textclock = wibox.widget.textclock("%R")
-    s.textclock:buttons(gears.table.join(awful.button({},1, function()
-        if s.textclock.format == "%R" then
-            s.textclock.format = "%d.%m.%y, %A %R"
-        else
-            s.textclock.format = "%R"
-        end
-    end)))
-
-    s.keyboardlayout = awful.widget.keyboardlayout()
+        awful.button({ }, 1, function () awful.layout.inc( 1) end),
+        awful.button({ }, 2, function () awful.tag.togglemfpol(t) end),
+        awful.button({ }, 3, function () awful.layout.inc(-1) end),
+        awful.button({ }, 4, function () awful.layout.inc( 1) end),
+        awful.button({ }, 5, function () awful.layout.inc(-1) end)))
 
     local tasklist_buttons = gears.table.join(
         awful.button({ }, 1,
@@ -180,26 +192,6 @@ awful.screen.connect_for_each_screen(function(s)
     }
     s.mytasklist:set_max_widget_size(dpi(170))
 
-    s.separator = wibox.widget.textbox(" ")
-
-    s.nextEmptyTag = wibox.widget {
-            markup = "<b>+</b>",
-            align = "center",
-            forced_width = dpi(16),
-            widget = wibox.widget.textbox
-    }
-
-    s.nextEmptyTag:buttons(gears.table.join(awful.button({},1, function()
-        awful.tag.viewnone()
-        local tgs = awful.screen.focused().tags
-        for i = 1, #tgs do
-            if #tgs[i]:clients() == 0 then
-                awful.tag.viewtoggle(tgs[i])
-                break
-            end
-        end
-    end)))
-
     s.wibar = awful.wibar({
             position = "top",
             screen = s,
@@ -211,27 +203,27 @@ awful.screen.connect_for_each_screen(function(s)
             -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             modules.widgets.menu_button,
-            s.mypromptbox,
+            mypromptbox,
             s.mylayoutbox,
             s.mytaglist,
-            s.nextEmptyTag,
+            nextEmptyTag,
         },
         {
             -- Center widgets
             layout = wibox.layout.align.horizontal,
-            s.separator,
+            myseparator,
             s.mytasklist,
-            s.separator,
+            myseparator,
         },
         {
             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             modules.widgets.player.widget,
-            s.separator,
+            myseparator,
             modules.widgets.battery,
             modules.widgets.volume.text_widget,
-            s.keyboardlayout,
-            s.textclock,
+            mykeyboardlayout,
+            mytextclock,
             -- Add tray widget only on primary screen
             s.index == 1 and modules.widgets.tray.widget or s.separator,
             layout = wibox.layout.fixed.horizontal,
@@ -255,7 +247,7 @@ local globalkeys = gears.table.join(
 
     awful.key({ modkey }, "r",
         function ()
-            awful.screen.focused().mypromptbox:run()
+            mypromptbox:run()
         end, {description = "run prompt", group = "Launcher"}),
 
     awful.key({ modkey,           }, "Return",
@@ -284,7 +276,7 @@ local globalkeys = gears.table.join(
         end, {description = "Galculator", group = "Launcher"}),
 
     awful.key({modkey}, "c", function()
-        local textclock =  awful.screen.focused().textclock
+        local textclock =  mytextclock
         if textclock.format == "%R" then
             textclock.format = "%d.%m.%y, %A %R"
         else
@@ -303,7 +295,7 @@ local globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "q", awesome.quit, {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "space",
-        awful.screen.focused().keyboardlayout.next_layout,
+        mykeyboardlayout.next_layout,
         {description="change language", group="awesome"}),
 
     awful.key({ modkey, "Shift"   }, "a", hotkeys_popup.show_help, {description="show help", group="awesome"}),

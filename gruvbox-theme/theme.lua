@@ -49,7 +49,7 @@ theme.useless_gap               = dpi(0)
 theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
-theme.border_width  = dpi(2)
+theme.border_width  = dpi(3)
 theme.border_normal = theme.colors.darkGrey .. '99'
 theme.border_focus  = theme.colors.green    .. '99'
 theme.border_marked = theme.colors.red      .. '99'
