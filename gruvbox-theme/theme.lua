@@ -198,66 +198,54 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_bg = nil
 -- theme.titlebar_bgimage = nil
 
--- Define the image to load
-theme.titlebar_close_button_normal = theme_path.."icons/titlebar/close_normal.png"
-theme.titlebar_close_button_focus  = theme_path.."icons/titlebar/close_focus.png"
-theme.titlebar_close_button_focus_hover = theme_path.."icons/titlebar/close_focus_hover.png"
-theme.titlebar_close_button_normal_hover = theme_path.."icons/titlebar/close_focus_hover.png"
+-- Create title bar icons
+local recolor = gears.color.recolor_image
+local circle_png = theme_path.."icons/titlebar_circle.png"
 
-theme.titlebar_minimize_button_normal = theme_path.."icons/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus  = theme_path.."icons/titlebar/minimize_focus.png"
-theme.titlebar_minimize_button_focus_hover  = theme_path.."icons/titlebar/minimize_focus_hover.png"
-theme.titlebar_minimize_button_normal_hover  = theme_path.."icons/titlebar/minimize_focus_hover.png"
+theme.titlebar_close_button_normal       = recolor(circle_png, theme.colors.darkGrey)
+theme.titlebar_close_button_focus        = recolor(circle_png, theme.colors.red .. 'EE')
+theme.titlebar_close_button_focus_hover  = recolor(circle_png, theme.colors.lightRed)
+theme.titlebar_close_button_normal_hover = recolor(circle_png, theme.colors.lightRed)
 
-theme.titlebar_ontop_button_normal_inactive = theme_path.."icons/titlebar/ontop_normal_inactive.png"
-theme.titlebar_ontop_button_focus_inactive  = theme_path.."icons/titlebar/ontop_focus_inactive.png"
-theme.titlebar_ontop_button_normal_active = theme_path.."icons/titlebar/ontop_normal_active.png"
-theme.titlebar_ontop_button_focus_active  = theme_path.."icons/titlebar/ontop_focus_active.png"
+theme.titlebar_minimize_button_normal       = recolor(circle_png, theme.colors.darkGrey)
+theme.titlebar_minimize_button_focus        = recolor(circle_png, theme.colors.yellow .. 'EE')
+theme.titlebar_minimize_button_focus_hover  = recolor(circle_png, theme.colors.lightYellow)
+theme.titlebar_minimize_button_normal_hover = recolor(circle_png, theme.colors.lightYellow)
 
-theme.titlebar_sticky_button_normal_inactive = theme_path.."icons/titlebar/sticky_normal_inactive.png"
-theme.titlebar_sticky_button_focus_inactive  = theme_path.."icons/titlebar/sticky_focus_inactive.png"
-theme.titlebar_sticky_button_normal_active = theme_path.."icons/titlebar/sticky_normal_active.png"
-theme.titlebar_sticky_button_focus_active  = theme_path.."icons/titlebar/sticky_focus_active.png"
+theme.titlebar_maximized_button_normal_inactive       = recolor(circle_png, theme.colors.darkGrey)
+theme.titlebar_maximized_button_focus_inactive        = recolor(circle_png, theme.colors.green .. 'EE')
+theme.titlebar_maximized_button_focus_inactive_hover  = recolor(circle_png, theme.colors.lightGreen)
+theme.titlebar_maximized_button_normal_inactive_hover = recolor(circle_png, theme.colors.lightGreen)
 
-theme.titlebar_floating_button_normal_inactive = theme_path.."icons/titlebar/floating_normal_inactive.png"
-theme.titlebar_floating_button_focus_inactive  = theme_path.."icons/titlebar/floating_focus_inactive.png"
-theme.titlebar_floating_button_normal_active = theme_path.."icons/titlebar/floating_normal_active.png"
-theme.titlebar_floating_button_focus_active  = theme_path.."icons/titlebar/floating_focus_active.png"
+theme.titlebar_maximized_button_normal_active       = recolor(circle_png, theme.colors.darkGrey)
+theme.titlebar_maximized_button_focus_active        = recolor(circle_png, theme.colors.green .. 'EE')
+theme.titlebar_maximized_button_focus_active_hover  = recolor(circle_png, theme.colors.lightGreen)
+theme.titlebar_maximized_button_normal_active_hover = recolor(circle_png, theme.colors.lightGreen)
 
-theme.titlebar_maximized_button_normal_inactive = theme_path.."icons/titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive  = theme_path.."icons/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = theme_path.."icons/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active  = theme_path.."icons/titlebar/maximized_focus_active.png"
-
-theme.titlebar_maximized_button_normal_active_hover = theme_path.."icons/titlebar/maximized_focus_active_hover.png"
-theme.titlebar_maximized_button_focus_active_hover = theme_path.."icons/titlebar/maximized_focus_active_hover.png"
-theme.titlebar_maximized_button_normal_inactive_hover = theme_path.."icons/titlebar/maximized_focus_inactive_hover.png"
-theme.titlebar_maximized_button_focus_inactive_hover = theme_path.."icons/titlebar/maximized_focus_inactive_hover.png"
-
--- You can use your own layout icons like this:
+-- Layout icons
+-- Don't load unneeded icons
 local layout_icon_color = theme.colors.grey
+-- theme.layout_fairh          = recolor(theme_path.."icons/layouts/fairh.png",        layout_icon_color)
+-- theme.layout_fairv          = recolor(theme_path.."icons/layouts/fairv.png",        layout_icon_color)
+theme.layout_floating       = recolor(theme_path.."icons/layouts/floating.png",     layout_icon_color)
+-- theme.layout_magnifier      = recolor(theme_path.."icons/layouts/magnifier.png",    layout_icon_color)
+-- theme.layout_max            = recolor(theme_path.."icons/layouts/max.png",          layout_icon_color)
+-- theme.layout_fullscreen     = recolor(theme_path.."icons/layouts/fullscreen.png",   layout_icon_color)
+-- theme.layout_tilebottom     = recolor(theme_path.."icons/layouts/tilebottom.png",   layout_icon_color)
+theme.layout_tileleft       = recolor(theme_path.."icons/layouts/tileleft.png",     layout_icon_color)
+theme.layout_tile           = recolor(theme_path.."icons/layouts/tile.png",         layout_icon_color)
+-- theme.layout_tiletop        = recolor(theme_path.."icons/layouts/tiletop.png",      layout_icon_color)
+-- theme.layout_spiral         = recolor(theme_path.."icons/layouts/spiral.png",       layout_icon_color)
+-- theme.layout_dwindle        = recolor(theme_path.."icons/layouts/dwindle.png",      layout_icon_color)
+-- theme.layout_cornernw       = recolor(theme_path.."icons/layouts/cornernw.png",     layout_icon_color)
+-- theme.layout_cornerne       = recolor(theme_path.."icons/layouts/cornerne.png",     layout_icon_color)
+-- theme.layout_cornersw       = recolor(theme_path.."icons/layouts/cornersw.png",     layout_icon_color)
+-- theme.layout_cornerse       = recolor(theme_path.."icons/layouts/cornerse.png",     layout_icon_color)
+-- theme.layout_centermaster   = recolor(theme_path.."icons/layouts/centermaster.png", layout_icon_color)
+theme.layout_stack          = recolor(theme_path.."icons/layouts/stack.png",        layout_icon_color)
+theme.layout_stackLeft      = recolor(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
 
-theme.layout_fairh          = gears.color.recolor_image(theme_path.."icons/layouts/fairh.png",        layout_icon_color)
-theme.layout_fairv          = gears.color.recolor_image(theme_path.."icons/layouts/fairv.png",        layout_icon_color)
-theme.layout_floating       = gears.color.recolor_image(theme_path.."icons/layouts/floating.png",     layout_icon_color)
-theme.layout_magnifier      = gears.color.recolor_image(theme_path.."icons/layouts/magnifier.png",    layout_icon_color)
-theme.layout_max            = gears.color.recolor_image(theme_path.."icons/layouts/max.png",          layout_icon_color)
-theme.layout_fullscreen     = gears.color.recolor_image(theme_path.."icons/layouts/fullscreen.png",   layout_icon_color)
-theme.layout_tilebottom     = gears.color.recolor_image(theme_path.."icons/layouts/tilebottom.png",   layout_icon_color)
-theme.layout_tileleft       = gears.color.recolor_image(theme_path.."icons/layouts/tileleft.png",     layout_icon_color)
-theme.layout_tile           = gears.color.recolor_image(theme_path.."icons/layouts/tile.png",         layout_icon_color)
-theme.layout_tiletop        = gears.color.recolor_image(theme_path.."icons/layouts/tiletop.png",      layout_icon_color)
-theme.layout_spiral         = gears.color.recolor_image(theme_path.."icons/layouts/spiral.png",       layout_icon_color)
-theme.layout_dwindle        = gears.color.recolor_image(theme_path.."icons/layouts/dwindle.png",      layout_icon_color)
-theme.layout_cornernw       = gears.color.recolor_image(theme_path.."icons/layouts/cornernw.png",     layout_icon_color)
-theme.layout_cornerne       = gears.color.recolor_image(theme_path.."icons/layouts/cornerne.png",     layout_icon_color)
-theme.layout_cornersw       = gears.color.recolor_image(theme_path.."icons/layouts/cornersw.png",     layout_icon_color)
-theme.layout_cornerse       = gears.color.recolor_image(theme_path.."icons/layouts/cornerse.png",     layout_icon_color)
-theme.layout_centermaster   = gears.color.recolor_image(theme_path.."icons/layouts/centermaster.png", layout_icon_color)
-theme.layout_stack          = gears.color.recolor_image(theme_path.."icons/layouts/stack.png",        layout_icon_color)
-theme.layout_stackLeft      = gears.color.recolor_image(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
-
--- Generate Awesome icon:
+-- Generate Awesome icon
 theme.awesome_icon = theme_assets.awesome_icon(
     theme.menu_height, theme.fg_normal, theme.bg_normal
 )
@@ -266,5 +254,3 @@ theme.awesome_icon = theme_assets.awesome_icon(
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = "Papirus"
 return theme
-
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
