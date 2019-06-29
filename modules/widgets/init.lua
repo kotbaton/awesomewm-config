@@ -2,7 +2,6 @@ local widgets = {
 	battery			= require("modules.widgets.battery"),
 	menu_button		= require("modules.widgets.menu_button"),
     player          = require("modules.widgets.player"),
-	tag_info_popup	= require("modules.widgets.tag_info_popup"),
 	tray			= require("modules.widgets.tray"),
 	volume			= require("modules.widgets.volume"),
 }

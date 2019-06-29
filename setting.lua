@@ -28,7 +28,6 @@ settings.launcher = {
 	app9 = '',
 }
 
--- 'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2
 settings.player_commands = {
     -- Spotify commands
 

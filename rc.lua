@@ -50,7 +50,7 @@ end
 naughty.config.defaults.border_width = dpi(4)
 naughty.config.spacing = dpi(8)
 naughty.config.padding = dpi(8)
-naughty.config.defaults.timeout = dpi(5)
+naughty.config.defaults.timeout = 5
 
 -- Theme init
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
@@ -818,14 +818,6 @@ end)
 -- Change border color
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
--- Show tag info popup when tag properties changes
-tag.connect_signal("property::layout",              function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::master_width_factor", function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::useless_gap",         function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::master_fill_policy",  function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::column_count",        function(t) widgets.tag_info_popup.show(t) end)
-tag.connect_signal("property::master_count",        function(t) widgets.tag_info_popup.show(t) end)
 
 gears.timer.start_new(10, function()
     collectgarbage("step", 20000)
