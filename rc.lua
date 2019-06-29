@@ -84,10 +84,10 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 local mytextclock = wibox.widget.textclock("%R")
 mytextclock:buttons(gears.table.join(awful.button({},1, function()
-    if s.textclock.format == "%R" then
-        s.textclock.format = "%d.%m.%y, %A %R"
+    if mytextclock.format == "%R" then
+        mytextclock.format = "%d.%m.%y, %A %R"
     else
-        s.textclock.format = "%R"
+        mytextclock.format = "%R"
     end
 end)))
 
