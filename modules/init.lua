@@ -1,5 +1,5 @@
 local modules = {
-    layout      = require("modules.layout"),
+    layouts     = require("modules.layouts"),
     menus       = require("modules.menus"),
     tools       = require("modules.tools"),
     widgets     = require("modules.widgets"),

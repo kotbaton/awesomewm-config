@@ -49,7 +49,7 @@ theme.useless_gap               = dpi(0)
 theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
-theme.border_width  = dpi(4)
+theme.border_width  = dpi(2)
 theme.border_normal = theme.colors.darkGrey .. '99'
 theme.border_focus  = theme.colors.green    .. '99'
 theme.border_marked = theme.colors.red      .. '99'
@@ -128,8 +128,8 @@ theme.notification_font                         = "Ubuntu Bold 12"
 theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
-theme.notification_border_width                 = 5
-theme.notification_shape                        = gears.shape.rounded_rect
+theme.notification_border_width                 = 4
+theme.notification_shape                        = gears.shape.rect
 theme.notification_opacity                      = 0.90
 theme.notification_margin                       = 16
 theme.notification_width                        = 400
@@ -245,9 +245,9 @@ theme.layout_tile           = recolor(theme_path.."icons/layouts/tile.png",     
 theme.layout_stack          = recolor(theme_path.."icons/layouts/stack.png",        layout_icon_color)
 theme.layout_stackLeft      = recolor(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
 
--- Generate Awesome icon
+-- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(
-    theme.menu_height, theme.fg_normal, theme.bg_normal
+    theme.menu_height, theme.colors.white, theme.colors.black
 )
 
 -- Define the icon theme for application icons. If not set then the icons

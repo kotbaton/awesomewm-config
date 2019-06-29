@@ -1,4 +1,6 @@
 local menus = {
-    clientmenu   = require("modules.menus.clientmenu")
-    meinmenu     = require("modules.menus.mainmenu")
+    clientmenu   = require("modules.menus.clientmenu"),
+    mainmenu     = require("modules.menus.mainmenu")
 }
+
+return menus

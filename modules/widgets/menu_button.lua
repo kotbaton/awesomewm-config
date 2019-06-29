@@ -20,19 +20,13 @@ menu_button = wibox.widget{
 
 menu_button:buttons(gears.table.join(
         awful.button({ }, 1, function ()
-            c = client.focus
-            mainmenu()
+            mainmenu:toggle()
         end),
         awful.button({ }, 2, function ()
-            mainmenu()
+            mainmenu:toggle()
         end),
         awful.button({ }, 3, function ()
-            c = client.focus
-            if c == nil then
-                mainmenu()
-                return
-            end
-            clientmenu(c):toggle()
+            mainmenu:toggle()
         end)
     )
 )

@@ -31,4 +31,4 @@ local mainmenu = awful.menu({ items = {
         }
     })
 
-return function() mainmenu:toggle() end
+return mainmenu

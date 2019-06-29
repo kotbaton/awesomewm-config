@@ -8,14 +8,9 @@ local hotkeys_popup     = require("awful.hotkeys_popup").widget
 require("awful.autofocus")
 require("awful.remote")
 
-local widgets           = require("modules.widgets")
-local mainmenu          = require("modules.menus.mainmenu")
-local clientmenu        = require("modules.menus.clientmenu")
-local player            = require("modules.widgets.player")
-local mylayouts         = require("modules.layouts")
-local tagnames          = require("modules.tools.tagnames")
+local modules           = require("modules")
 local launcher          = require('setting').launcher
-local dpi               = require("beautiful.xresources").apply_dpi 
+local dpi               = require("beautiful.xresources").apply_dpi
 
 -- Set default apps
 local terminal = require('setting').default_apps.terminal
@@ -53,7 +48,7 @@ naughty.config.padding = dpi(8)
 naughty.config.defaults.timeout = 5
 
 -- Theme init
-beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
 
 -- Default modkey.
 local modkey = "Mod4"
@@ -76,9 +71,9 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
-    -- mylayouts.centermaster,
-    mylayouts.stack,
-    mylayouts.stack.left,
+    -- modules.layouts.centermaster,
+    modules.layouts.stack,
+    modules.layouts.stack.left,
 }
 
 local function set_wallpaper(s)
@@ -91,9 +86,9 @@ screen.connect_signal("property::geometry", set_wallpaper)
 awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
-    local tags = tagnames.read(s.index)
-
+    local tags = modules.tools.tagnames.read(s.index)
     awful.tag(tags, s, awful.layout.layouts[1])
+
     -- Buttons for taglist and taglist widget
     local taglist_buttons = gears.table.join(
         awful.button({ }, 1,        function(t) t:view_only() end),
@@ -113,7 +108,8 @@ awful.screen.connect_for_each_screen(function(s)
         end),
         awful.button({ }, 4,        function(t) awful.tag.viewnext(t.screen) end),
         awful.button({ }, 5,        function(t) awful.tag.viewprev(t.screen) end)
-        )
+    )
+
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
 
     -- Promptbox widget
@@ -155,12 +151,12 @@ awful.screen.connect_for_each_screen(function(s)
                 end
             end),
         awful.button({ }, 2,
-            function(c) 
-                -- c:kill() 
+            function(c)
+                -- c:kill()
             end),
         awful.button({ }, 3,
             function(c)
-                clientmenu(c):show() 
+                modules.menus.clientmenu(c):show()
             end),
         awful.button({ }, 4,
             function ()
@@ -174,7 +170,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     s.mytasklist = awful.widget.tasklist {
         screen          = s,
-        filter          = awful.widget.tasklist.filter.currenttags, 
+        filter          = awful.widget.tasklist.filter.currenttags,
         buttons         = tasklist_buttons,
         update_function = list_update,
         layout          = {
@@ -214,7 +210,7 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            widgets.menu_button,
+            modules.widgets.menu_button,
             s.mypromptbox,
             s.mylayoutbox,
             s.mytaglist,
@@ -230,14 +226,14 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            player.widget,
+            modules.widgets.player.widget,
             s.separator,
-            widgets.battery,
-            widgets.volume.text_widget,
+            modules.widgets.battery,
+            modules.widgets.volume.text_widget,
             s.keyboardlayout,
             s.textclock,
             -- Add tray widget only on primary screen
-            s.index == 1 and widgets.tray.widget or s.separator,
+            s.index == 1 and modules.widgets.tray.widget or s.separator,
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.layout.align.horizontal,
@@ -323,12 +319,12 @@ local globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "a",
         function ()
-            mainmenu()
+            modules.menus.mainmenu:toggle()
         end, {description = "show main menu", group = "awesome"}),
 
     awful.key({ modkey,           }, "q",
         function ()
-            widgets.tray.toggle()
+            modules.widgets.tray.toggle()
         end, {description = "show system tray", group = "awesome"}),
 
     awful.key({ modkey,           }, "b",
@@ -339,17 +335,17 @@ local globalkeys = gears.table.join(
     ----------------------{ SOUND }--------------------------------------------
     awful.key({ }, "XF86AudioRaiseVolume",
         function()
-            widgets.volume.control("increase")
+            modules.widgets.volume.control("increase")
         end, {description="Increase volume", group="Volume"}),
 
     awful.key({ }, "XF86AudioLowerVolume",
         function()
-            widgets.volume.control("decrease")
+            modules.widgets.volume.control("decrease")
         end, {description="Decrease volume", group="Volume"}),
 
     awful.key({ }, "XF86AudioMute",
         function()
-            widgets.volume.control("toggle")
+            modules.widgets.volume.control("toggle")
         end, {description="Mute volume", group="Volume"}),
 
     --------------------------{ BRIGHTNESS }----------------------------------
@@ -397,17 +393,17 @@ local globalkeys = gears.table.join(
     ----------------------{ PLAYER }--------------------------------------------
     awful.key({ modkey }, "F1",
         function()
-            player.control.toggle()
+            modules.widgets.player.control.toggle()
         end, {description="Toggle Pause", group="player"}),
 
     awful.key({ modkey }, "F2",
         function()
-            player.control.prev()
+            modules.widgets.player.control.prev()
         end, {description="Prev", group="player"}),
 
     awful.key({ modkey }, "F3",
         function()
-            player.control.next()
+            modules.widgets.player.control.next()
         end, {description="Next", group="player"}),
 
     ----------------------{ TAGS }--------------------------------------------
@@ -438,7 +434,7 @@ local globalkeys = gears.table.join(
                     end
                     -- Write tagnames in cache file
                     local scr = awful.screen.focused()
-                    tagnames.write(scr.index, scr.tags)
+                    modules.tools.tagnames.write(scr.index, scr.tags)
                 end
             }
         end, {description = "Rename active tag", group = "tag"}),
@@ -590,7 +586,7 @@ root.keys(globalkeys)
 local rootbuttons = gears.table.join(
     awful.button({ }, 3,
         function ()
-            mainmenu()
+            modules.menus.mainmenu:toggle()
         end)
     -- awful.button({ }, 4, awful.tag.viewnext),
     -- awful.button({ }, 5, awful.tag.viewprev)
@@ -746,10 +742,12 @@ client.connect_signal("manage", function (c)
         awful.placement.no_offscreen(c)
         --awful.placement.no_overlap(c)
     end
-    c.shape = gears.shape.rounded_rect
+    -- Uncomment for rounded corners
+    -- c.shape = gears.shape.rounded_rect
     if c.maximized then
         c.border_width = 0
-        c.shape = gears.shape.rect
+        -- Uncomment for rounded corners
+        -- c.shape = gears.shape.rect
     end
 end)
 
@@ -808,10 +806,12 @@ end)
 client.connect_signal("property::maximized", function(c)
     if c.maximized then
         c.border_width = 0
-        c.shape = gears.shape.rect
+        -- Uncomment for rounded corners
+        -- c.shape = gears.shape.rect
     else
         c.border_width = beautiful.border_width
-        c.shape = gears.shape.rounded_rect
+        -- Uncomment for rounded corners
+        -- c.shape = gears.shape.rounded_rect
     end
 end)
 
