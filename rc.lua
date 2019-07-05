@@ -413,7 +413,7 @@ local globalkeys = gears.table.join(
         function()
             awful.prompt.run {
                 prompt       = "Rename tag: ",
-                textbox      = awful.screen.focused().mypromptbox.widget,
+                textbox      = mypromptbox.widget,
                 exe_callback = function(new_name)
                     local t = awful.screen.focused().selected_tag -- Get current tag
                     if t then -- If success, check does we got text or no
@@ -668,6 +668,12 @@ local clientkeys = gears.table.join(
                 awful.client.incwfact(-0.05, c)
             end
         end, {description = nil, group = "client"}),
+
+    awful.key({ modkey, }, "g",
+        function (c)
+            local cp = (awful.placement.under_mouse + awful.placement.no_offscreen)
+            cp(c)
+        end, {description = "Put client under cursor", group = "client"}),
 
     awful.key({ modkey, "Control"   }, "j",
         function (c)
