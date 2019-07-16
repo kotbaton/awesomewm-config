@@ -11,9 +11,9 @@ settings.autostart = {
 }
 
 settings.default_apps = {
-    terminal = "kitty",
+    terminal = "kitty --single-instance",
     editor = "vim",
-    editor_cmd = "kitty -e vim",
+    editor_cmd = "kitty --single-instance -e vim",
 }
 
 settings.launcher = {
