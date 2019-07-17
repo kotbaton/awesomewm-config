@@ -322,6 +322,14 @@ local globalkeys = gears.table.join(
             show_battery_status()
         end, {description = "show battery status", group = "awesome"}),
 
+    awful.key({ modkey, "Control", "Shift" }, "t",
+        function ()
+            for _, c in ipairs(client.get()) do
+                awful.titlebar.toggle(c)
+            end
+        end,
+        {description = "toggle titlebar of all windows", group = "client"}),
+
     ----------------------{ SOUND }--------------------------------------------
     awful.key({ }, "XF86AudioRaiseVolume",
         function()
@@ -625,9 +633,12 @@ local clientkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "t",
         function (c)
             awful.titlebar.toggle(c)
-        end, {description = "toggle titlebar of active window", group = "client"}),
+        end,
+        {description = "toggle titlebar of active window", group = "client"}),
 
-    awful.key({ modkey, "Shift" }, "f",  awful.client.floating.toggle, {description = "toggle floating", group = "client"}),
+    awful.key({ modkey, "Shift" }, "f",
+        awful.client.floating.toggle,
+    {description = "toggle floating", group = "client"}),
 
     awful.key({ modkey,  }, "s",
         function (c)
