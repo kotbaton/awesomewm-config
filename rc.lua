@@ -346,6 +346,11 @@ local globalkeys = gears.table.join(
             modules.widgets.volume.control("toggle")
         end, {description="Mute volume", group="Volume"}),
 
+    awful.key({ modkey }, "XF86AudioRaiseVolume",
+        function()
+            modules.widgets.volume.keygrabber:start()
+        end, {description="Start volume keygrabber. Use keys 0-9 to set volume level.", group="Volume"}),
+
     --------------------------{ BRIGHTNESS }----------------------------------
     awful.key({ }, "XF86MonBrightnessUp",
         function()

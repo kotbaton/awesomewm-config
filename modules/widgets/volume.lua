@@ -6,10 +6,11 @@ local watch = require("awful.widget.watch")
 local beautiful = require("beautiful")
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
-local GET_VOL_CMD = 'amixer get Master'
-local INC_VOL_CMD = 'amixer set Master 2%+'
-local DEC_VOL_CMD = 'amixer set Master 2%-'
-local TOG_VOL_CMD = 'amixer set Master toggle'
+local GET_VOL_CMD = 'amixer sget Master'
+local INC_VOL_CMD = 'amixer sset Master 2%+'
+local DEC_VOL_CMD = 'amixer sset Master 2%-'
+local SET_VOL_CMD = 'amixer sset Master '
+local TOG_VOL_CMD = 'amixer sset Master toggle'
 
 local volume = {}
 
@@ -54,10 +55,11 @@ volume.popup_widget = awful.popup {
 	visible = false,
 }
 
-function volume.control(cmd)
+function volume.control(cmd, value)
 	if cmd == "increase" then cmd = INC_VOL_CMD
 	elseif cmd == "decrease" then cmd = DEC_VOL_CMD
 	elseif cmd == "toggle" then cmd = TOG_VOL_CMD
+	elseif cmd == "set" then cmd = SET_VOL_CMD .. value .. "%"
 	end
 	awful.spawn.easy_async(cmd, function(stdout, stderr, exitreason, exitcode)
 			volume.update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
@@ -73,7 +75,7 @@ function volume.control(cmd)
 end
 
 volume.timer = gears.timer {
-	timeout = 2,
+	timeout = 1,
 	callback = function()
 		volume.popup_widget.visible = false
 	end,
@@ -119,5 +121,25 @@ volume.text_widget:buttons(gears.table.join(
                 volume.control("decrease")
 			end))
 )
+
+volume.keygrabber = awful.keygrabber {
+    timeout = 1,
+    keybindings = {
+        { {}, '1', function() volume.control("set", 10) end },
+        { {}, '2', function() volume.control("set", 20) end },
+        { {}, '3', function() volume.control("set", 30) end },
+        { {}, '4', function() volume.control("set", 40) end },
+        { {}, '5', function() volume.control("set", 50) end },
+        { {}, '6', function() volume.control("set", 60) end },
+        { {}, '7', function() volume.control("set", 70) end },
+        { {}, '8', function() volume.control("set", 80) end },
+        { {}, '9', function() volume.control("set", 90) end },
+        { {}, '0', function() volume.control("set", 0)  end },
+    },
+    stop_key = 'Escape',
+    start_callback = function() volume.popup_widget.visible = true end,
+    stop_callback = function() volume.popup_widget.visible = false end,
+}
+
 
 return volume
