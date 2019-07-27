@@ -199,7 +199,7 @@ awful.screen.connect_for_each_screen(function(s)
             screen = s,
             height = dpi(24),
             ontop = false,
-            bg = beautiful.bg_normal,
+            bg = beautiful.colors.black .. '99',
         }):setup {
         {
             -- Left widgets

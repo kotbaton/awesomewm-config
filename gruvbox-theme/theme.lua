@@ -50,7 +50,7 @@ theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
 theme.border_width  = dpi(1)
-theme.border_normal = theme.colors.darkGrey .. '99'
+theme.border_normal = theme.colors.black .. '99'
 theme.border_focus  = theme.colors.green    .. '99'
 theme.border_marked = theme.colors.red      .. '99'
 
@@ -58,7 +58,7 @@ theme.border_marked = theme.colors.red      .. '99'
 theme.taglist_fg_focus                          = theme.colors.white
 theme.taglist_bg_focus                          = theme.colors.darkGrey
 theme.taglist_fg_occupied                       = theme.colors.white
-theme.taglist_bg_occupied                       = theme.colors.black
+theme.taglist_bg_occupied                       = theme.colors.black .. '00'
 -- theme.taglist_fg_urgent                      = nil
 -- theme.taglist_bg_urgent                      = nil
 -- theme.taglist_bg_empty                          = theme.colors.darkGrey
