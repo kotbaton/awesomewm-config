@@ -144,6 +144,7 @@ theme.calendar_month_border_color = theme.colors.green
 
 theme.calendar_weekday_fg_color = theme.colors.lightGreen
 
+theme.calendar_normal_border_color = theme.colors.darkGrey
 theme.calendar_focus_fg_color = theme.colors.white
 theme.calendar_focus_border_color = theme.colors.green
 theme.calendar_focus_border_width = dpi(2)

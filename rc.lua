@@ -118,7 +118,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     local tags = modules.tools.tagnames.read(s.index)
-    awful.tag(tags, s, awful.layout.layouts[1])
+    awful.tag(tags, s, awful.layout.layouts[2])
     -- Buttons for taglist and taglist widget
     local taglist_buttons = gears.table.join(
         awful.button({ }, 1,        function(t) t:view_only() end),
