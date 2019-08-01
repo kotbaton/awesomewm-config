@@ -1,13 +1,7 @@
 local settings = {}
 
 settings.autostart = {
-    "compton",
-    "nm-applet",
-    "xfce4-power-manager",
-    "light-locker",
-    "parcellite",
-    "killall perWindowLayout",
-    "perWindowLayoutD",
+    -- Put there only apps which you need to start with awesome
 }
 
 settings.default_apps = {
