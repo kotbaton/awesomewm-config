@@ -50,9 +50,9 @@ theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
 theme.border_width  = dpi(1)
-theme.border_normal = theme.colors.black .. '99'
-theme.border_focus  = theme.colors.green    .. '99'
-theme.border_marked = theme.colors.red      .. '99'
+theme.border_normal = theme.colors.black
+theme.border_focus  = theme.colors.green
+theme.border_marked = theme.colors.red
 
 -- taglist
 theme.taglist_fg_focus                          = theme.colors.white
@@ -61,8 +61,8 @@ theme.taglist_fg_occupied                       = theme.colors.white
 theme.taglist_bg_occupied                       = theme.colors.black .. '00'
 -- theme.taglist_fg_urgent                      = nil
 -- theme.taglist_bg_urgent                      = nil
--- theme.taglist_bg_empty                          = theme.colors.darkGrey
--- theme.taglist_fg_empty                          = theme.colors.grey
+-- theme.taglist_bg_empty                       = theme.colors.darkGrey
+-- theme.taglist_fg_empty                       = theme.colors.grey
 -- theme.taglist_bg_volatile                    = nil
 -- theme.taglist_fg_volatile                    = nil
 -- theme.taglist_squares_sel                    = nil
@@ -71,7 +71,7 @@ theme.taglist_bg_occupied                       = theme.colors.black .. '00'
 -- theme.taglist_squares_unsel_empty            = nil
 -- theme.taglist_squares_resize                 = nil
 -- theme.taglist_disable_icon                   = nil
--- theme.taglist_font                              = "Ubuntu Mono Bold 12"
+-- theme.taglist_font                           = "Ubuntu Mono Bold 12"
 theme.taglist_spacing                           = 0
 theme.taglist_shape                             = gears.shape.rectangle
 theme.taglist_shape_border_width                = 0
@@ -128,14 +128,14 @@ theme.notification_font                         = "Ubuntu Bold 12"
 theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
-theme.notification_border_width                 = 4
+theme.notification_border_width                 = dpi(4)
 theme.notification_shape                        = gears.shape.rect
 theme.notification_opacity                      = 0.90
-theme.notification_margin                       = 16
-theme.notification_width                        = 400
+theme.notification_margin                       = dpi(16)
+theme.notification_width                        = dpi(400)
 -- theme.notification_height                       = nil
-theme.notification_icon_size                    = icon_size or 96
-theme.notification_max_width                    = 400
+theme.notification_icon_size                    = icon_size or dpi(96)
+theme.notification_max_width                    = dpi(400)
 -- theme.notification_max_height                   = nil
 
 -- calendar
@@ -177,7 +177,7 @@ theme.menu_bg_normal    = theme.colors.black .. 'AA'
 -- hotkeys
 theme.hotkeys_bg = theme.colors.white
 theme.hotkeys_fg = theme.colors.black
-theme.hotkeys_border_width = 4
+theme.hotkeys_border_width = dpi(4)
 theme.hotkeys_border_color = theme.colors.darkGrey
 theme.hotkeys_shape = gears.shape.rounded_rect
 theme.hotkeys_modifiers_fg = theme.colors.black
@@ -185,7 +185,7 @@ theme.hotkeys_modifiers_fg = theme.colors.black
 -- theme.hotkeys_label_fg = nil
 theme.hotkeys_font = "Ubuntu Mono Bold 12"
 theme.hotkeys_description_font = "Ubuntu 11"
-theme.hotkeys_group_margin = 5
+theme.hotkeys_group_margin = dpi(5)
 
 theme.terminal_icon = theme_path.."icons/apps/terminal.svg"
 theme.chrome_icon = theme_path.."icons/apps/chrome.svg"

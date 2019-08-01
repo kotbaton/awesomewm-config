@@ -19,6 +19,7 @@ create_client_menu = function(c)
                 {names[6], function() c:move_to_tag(tags[6]) end},
                 {names[7], function() c:move_to_tag(tags[7]) end},
                 {names[8], function() c:move_to_tag(tags[8]) end},
+                {names[9], function() c:move_to_tag(tags[9]) end},
             }
         },
         {
@@ -32,6 +33,7 @@ create_client_menu = function(c)
                 {names[6], function() c:toggle_tag(tags[6]) end},
                 {names[7], function() c:toggle_tag(tags[7]) end},
                 {names[8], function() c:toggle_tag(tags[8]) end},
+                {names[9], function() c:toggle_tag(tags[9]) end},
             }
         },
         { "+ Toogle maximize", function() c.maximized = not c.maximized end },

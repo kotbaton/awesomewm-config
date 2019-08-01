@@ -19,7 +19,7 @@ local container = wibox.widget {
     visible = false,
     bg = beautiful.colors.green,
     fg = beautiful.colors.black,
-    widget = wibox.widget.background,
+    widget = wibox.container.background,
 }
 
 local function update_text()

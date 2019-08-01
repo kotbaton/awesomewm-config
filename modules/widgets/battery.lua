@@ -20,7 +20,7 @@ local battery = wibox.widget {
 	fg = beautiful.colors.black,
 	shape_border_width = 0,
 	shape = gears.shape.rectangle,
-	widget = wibox.widget.background,
+	widget = wibox.container.background,
 }
 
 watch("acpi", 10,
