@@ -22,6 +22,11 @@ settings.launcher = {
 	app9 = '',
 }
 
+settings.user = {
+    api_key     = "PUT HERE YOUR API KEY",
+    city_id     = "PUT HERE YOUR CITY ID",
+}
+
 settings.player_commands = {
     -- Spotify commands
 

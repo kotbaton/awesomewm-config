@@ -82,15 +82,9 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
-local mycalendar = awful.widget.calendar_popup.month({
-    position = "tr",
-    start_sunday = false
-})
-
 local mytextclock = wibox.widget.textclock("%R")
 mytextclock:buttons(gears.table.join(awful.button({},1, function()
-    mycalendar.screen = awful.screen.focused()
-    mycalendar:toggle()
+    modules.widgets.system_info.toggle()
 end)))
 
 local mykeyboardlayout = awful.widget.keyboardlayout()
@@ -278,8 +272,7 @@ local globalkeys = gears.table.join(
         end, {description = "Galculator", group = "Launcher"}),
 
     awful.key({modkey}, "c", function()
-        mycalendar.screen = awful.screen.focused()
-        mycalendar:toggle()
+        modules.widgets.system_info.toggle()
     end, {description = "Toggle clock format (with date or not)", group = "Launcher"}),
 
     awful.key({"Control", "Mod1"}, "l",
