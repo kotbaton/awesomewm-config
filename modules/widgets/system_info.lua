@@ -197,27 +197,18 @@ end
 si.popup = awful.popup {
     widget = {
         {
+            decorator(weather_text),
             {
-                decorator(weather_text),
-                {
-                    cpu_graph,
-                    reflection = { horizontal = true },
-                    widget = wibox.container.mirror,
-                },
-                {
-                    ram_bar,
-                    ram_text,
-                    layout = wibox.layout.stack,
-                },
-                decorator(cpu_temp),
-
-                spacing = 4,
-                layout = wibox.layout.fixed.vertical,
+                cpu_graph,
+                reflection = { horizontal = true },
+                widget = wibox.container.mirror,
             },
-            margins = 8,
-            widget  = wibox.container.margin
-        },
-        {
+            {
+                ram_bar,
+                ram_text,
+                layout = wibox.layout.stack,
+            },
+            decorator(cpu_temp),
             {
                 date         = os.date('*t'),
                 week_numbers = false,
@@ -225,13 +216,14 @@ si.popup = awful.popup {
                 fn_embed     = decorate_calendar,
                 widget = wibox.widget.calendar.month,
             },
-            margins = 8,
-            widget  = wibox.container.margin
+
+            spacing = 8,
+            layout = wibox.layout.fixed.vertical,
         },
-        layout = wibox.layout.flex.horizontal,
+        margins = 8,
+        widget  = wibox.container.margin
     },
     opacity             = 0.9,
-    minimum_width       = 300,
     border_color        = beautiful.colors.green,
     border_width        = 2,
     placement           = awful.placement.top_right + awful.placement.no_offscreen,
