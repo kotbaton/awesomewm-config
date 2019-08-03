@@ -5,8 +5,6 @@ local wibox		= require("wibox")
 local gears		= require("gears")
 local watch		= require("awful.widget.watch")
 
-beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
-
 local battery_text = wibox.widget{
 	align = "center",
 	widget = wibox.widget.textbox,
@@ -31,9 +29,9 @@ watch("acpi", 10,
         battery_text:set_text(" " .. charge .. "% ")
 		
 		if status == 'Full' then
-			battery.visible = false
-		else
-			battery.visible = true
+			battery:set_visible(false)
+        else
+			battery:set_visible(true)
 		end
 
         if status == 'Charging' then

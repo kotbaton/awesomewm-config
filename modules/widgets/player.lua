@@ -2,9 +2,7 @@ local awful     = require("awful")
 local gears     = require("gears")
 local wibox     = require("wibox")
 local beautiful = require("beautiful")
-local command   = require("setting").player_commands
-
-beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
+local command   = require("settings").player_commands
 
 local text = wibox.widget{
 	forced_width = 220,
@@ -26,9 +24,9 @@ local function update_text()
     awful.spawn.easy_async_with_shell(command.GET_TRACK_CMD, function(stdout, stderr, exitreason, exitcode)
         text:set_text(stdout)
         if string.len(stdout) == 0 then
-            container.visible = false
+            container:set_visible(false)
         else
-            container.visible = true
+            container:set_visible(true)
         end
     end)
     return true

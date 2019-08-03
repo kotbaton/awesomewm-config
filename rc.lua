@@ -9,14 +9,14 @@ require("awful.autofocus")
 require("awful.remote")
 
 local modules           = require("modules")
-local launcher          = require('setting').launcher
+local launcher          = require('settings').launcher
 local dpi               = require("beautiful.xresources").apply_dpi
 
 -- Set default apps
-local terminal = require('setting').default_apps.terminal
+local terminal = require('settings').default_apps.terminal
 
 -- Start autostart application
-for _, app in ipairs(require('setting').autostart) do
+for _, app in ipairs(require('settings').autostart) do
     awful.spawn.once(app)
 end
 
@@ -72,8 +72,8 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
     -- modules.layouts.centermaster,
-    modules.layouts.stack,
-    modules.layouts.stack.left,
+    -- modules.layouts.stack,
+    -- modules.layouts.stack.left,
 }
 
 local function set_wallpaper(s)
@@ -253,17 +253,12 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "w",
         function()
-            awful.spawn("/home/sheh/.scripts/trans_clip.sh", false)
+            awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/trans_clip.sh", false)
         end, {description = "Translate text from selection", group = "Launcher"}),
-
-    awful.key({"Control", "Mod1"}, "q",
-        function()
-            awful.spawn("/home/sheh/.scripts/trans_clip_choose.sh", false)
-        end, {description = "Translate text from selection with choosing language", group = "Launcher"}),
 
     awful.key({"Control", "Mod1"}, "e",
         function()
-            awful.spawn("/home/sheh/.scripts/brief_trans.sh", false)
+            awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/brief_trans.sh", false)
         end, {description = "Translate text", group = "Launcher"}),
 
     awful.key({"Control", "Mod1"}, "c",

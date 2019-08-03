@@ -1,3 +1,6 @@
+# Have sensitive info
+settings.lua
+
 rc.lua.save
 
 # Compiled Lua sources

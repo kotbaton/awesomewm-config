@@ -2,9 +2,8 @@ local gears     = require("gears")
 local awful     = require("awful")
 local wibox     = require("wibox")
 local beautiful = require("beautiful") 
-beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
 
-local user = require("setting").user
+local user = require("settings").user
 
 ---- CPU Temperature ----
 local cpu_temp = wibox.widget {
@@ -50,7 +49,7 @@ local function ram_update(text_widget, bar_widget)
 
             used = string.format("%0.2fG", (total-available)/1024)
             total = string.format("%0.2fG", total/1024)
-            text_widget.text = "RAM: " .. used .. "/" .. total
+            text_widget:set_text("RAM: " .. used .. "/" .. total)
     end)
 end
 
@@ -104,6 +103,7 @@ local calendar_styles = {
     },
     header = {
         fg_color = beautiful.colors.green,
+        bg_color = beautiful.colors.black,
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
     weekday = {
@@ -167,7 +167,7 @@ local function weather_update(text_widget)
         fi
   ']]
     awful.spawn.easy_async(command, function(stdout)
-        text_widget.text = stdout
+        text_widget:set_text(stdout)
     end)
 end
 

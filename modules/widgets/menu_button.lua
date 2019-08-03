@@ -2,7 +2,6 @@ local awful         = require("awful")
 local gears         = require("gears")
 local wibox         = require("wibox")
 local beautiful     = require("beautiful")
-beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
 
 local mainmenu      = require("modules.menus.mainmenu")
 local clientmenu    = require("modules.menus.clientmenu")

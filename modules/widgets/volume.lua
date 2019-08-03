@@ -1,9 +1,10 @@
-local awful = require("awful")
-local gears = require("gears")
-local wibox = require("wibox")
-local naughty = require("naughty")
-local watch = require("awful.widget.watch")
+local awful     = require("awful")
+local gears     = require("gears")
+local wibox     = require("wibox")
+local naughty   = require("naughty")
+local watch     = require("awful.widget.watch")
 local beautiful = require("beautiful")
+
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
 local GET_VOL_CMD = 'amixer sget Master'
@@ -77,7 +78,7 @@ end
 volume.timer = gears.timer {
 	timeout = 1,
 	callback = function()
-		volume.popup_widget.visible = false
+		volume.popup_widget:set_visible(false)
 	end,
 }
 

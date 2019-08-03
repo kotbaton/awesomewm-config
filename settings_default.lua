@@ -1,35 +1,39 @@
 local settings = {}
 
+-- Put there only apps which you need to start with awesome
 settings.autostart = {
-    -- Put there only apps which you need to start with awesome
+
 }
 
+-- Set default apps
 settings.default_apps = {
-    terminal = "kitty --single-instance",
-    editor = "vim",
-    editor_cmd = "kitty --single-instance -e vim",
+    terminal = "",
+    editor = "",
+    editor_cmd = "",
 }
 
+-- Set applikations which you want to run with Super+Alt+number
 settings.launcher = {
-	app1 = 'firefox',
-	app2 = 'pcmanfm',
-	app3 = 'spotify',
-	app4 = 'telegram-desktop',
-	app5 = 'qbittorrent',
+	app1 = '',
+	app2 = '',
+	app3 = '',
+	app4 = '',
+	app5 = '',
 	app6 = '',
 	app7 = '',
 	app8 = '',
 	app9 = '',
 }
 
+-- Set yout API key and city id for weather widget
+-- More info: https://openweathermap.org/
 settings.user = {
-    api_key     = "PUT HERE YOUR API KEY",
-    city_id     = "PUT HERE YOUR CITY ID",
+    api_key     = "",
+    city_id     = "",
 }
 
+-- Change this command, if you use another player
 settings.player_commands = {
-    -- Spotify commands
-
     GET_TRACK_CMD	    = [[sleep 0.1; dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata | grep -Eo '("(.*)")|(\b[0-9][a-zA-Z0-9.]*\b)' | grep -E "(title)|(artist)" -A 1 | tr -d '"' | grep -v : | tr -d '\n' | sed 's/--/ - /']],
 
     PREV_TRACK_CMD	    = 'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous',

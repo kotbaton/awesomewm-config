@@ -138,17 +138,6 @@ theme.notification_icon_size                    = icon_size or dpi(96)
 theme.notification_max_width                    = dpi(400)
 -- theme.notification_max_height                   = nil
 
--- calendar
-theme.calendar_month_border_width = dpi(3)
-theme.calendar_month_border_color = theme.colors.green
-
-theme.calendar_weekday_fg_color = theme.colors.lightGreen
-
-theme.calendar_normal_border_color = theme.colors.darkGrey
-theme.calendar_focus_fg_color = theme.colors.white
-theme.calendar_focus_border_color = theme.colors.green
-theme.calendar_focus_border_width = dpi(1)
-
 -- theme.calendar_style = nil
 -- theme.calendar_font = nil
 -- theme.calendar_spacing = 3
@@ -252,8 +241,8 @@ theme.layout_tile           = recolor(theme_path.."icons/layouts/tile.png",     
 -- theme.layout_cornersw       = recolor(theme_path.."icons/layouts/cornersw.png",     layout_icon_color)
 -- theme.layout_cornerse       = recolor(theme_path.."icons/layouts/cornerse.png",     layout_icon_color)
 -- theme.layout_centermaster   = recolor(theme_path.."icons/layouts/centermaster.png", layout_icon_color)
-theme.layout_stack          = recolor(theme_path.."icons/layouts/stack.png",        layout_icon_color)
-theme.layout_stackLeft      = recolor(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
+-- theme.layout_stack          = recolor(theme_path.."icons/layouts/stack.png",        layout_icon_color)
+-- theme.layout_stackLeft      = recolor(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(
