@@ -78,7 +78,7 @@ end
 volume.timer = gears.timer {
 	timeout = 1,
 	callback = function()
-		volume.popup_widget:set_visible(false)
+		volume.popup_widget.visible = false
 	end,
 }
 

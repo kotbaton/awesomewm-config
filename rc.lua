@@ -71,9 +71,6 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
-    -- modules.layouts.centermaster,
-    -- modules.layouts.stack,
-    -- modules.layouts.stack.left,
 }
 
 local function set_wallpaper(s)
@@ -266,10 +263,6 @@ local globalkeys = gears.table.join(
             awful.spawn("galculator", false)
         end, {description = "Galculator", group = "Launcher"}),
 
-    awful.key({modkey}, "c", function()
-        modules.widgets.system_info.toggle()
-    end, {description = "Toggle clock format (with date or not)", group = "Launcher"}),
-
     awful.key({"Control", "Mod1"}, "l",
         function()
             awful.spawn("light-locker-command --lock")
@@ -285,6 +278,10 @@ local globalkeys = gears.table.join(
         {description="change language", group="awesome"}),
 
     awful.key({ modkey, "Shift"   }, "a", hotkeys_popup.show_help, {description="show help", group="awesome"}),
+
+    awful.key({modkey}, "c", function()
+        modules.widgets.system_info.toggle()
+    end, {description = "open system info popup", group = "awesome"}),
 
     awful.key({ modkey,           }, "x",
         function ()
@@ -374,12 +371,12 @@ local globalkeys = gears.table.join(
     awful.key({ "Shift", "Control" }, "Print", nil,
         function()
             awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -se", false)
-        end, { description = "Make screenshot and open them in gimp", group = "Screenshot" }),
+        end, { description = "Make screenshot of selection and open them in gimp", group = "Screenshot" }),
 
     awful.key({ "Control"}, "Print", nil,
         function()
             awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -e", false)
-        end, { description = "Make screenshot of selection and open then in gimp", group = "Screenshot" }),
+        end, { description = "Make screenshot and open then in gimp", group = "Screenshot" }),
 
     ----------------------{ PLAYER }--------------------------------------------
     awful.key({ modkey }, "F1",
@@ -390,17 +387,17 @@ local globalkeys = gears.table.join(
     awful.key({ modkey }, "F2",
         function()
             modules.widgets.player.control.prev()
-        end, {description="Prev", group="player"}),
+        end, {description="Previous track", group="player"}),
 
     awful.key({ modkey }, "F3",
         function()
             modules.widgets.player.control.next()
-        end, {description="Next", group="player"}),
+        end, {description="Next track", group="player"}),
 
     ----------------------{ TAGS }--------------------------------------------
     awful.key({ modkey,}, "p", function() awful.tag.togglemfpol(t) end, {description = "toggle master fill police", group = "tag"}),
 
-    awful.key({ modkey,}, "`",     awful.tag.history.restore, {description = "go back", group = "tag"}),
+    awful.key({ modkey,}, "`",     awful.tag.history.restore, {description = "go to previous tag", group = "tag"}),
 
     awful.key({ modkey,}, "-", function() awful.tag.setgap(awful.tag.getgap(t) - 5) end, {description = "decrese gaps", group = "tag"}),
 
