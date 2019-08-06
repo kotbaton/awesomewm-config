@@ -86,6 +86,21 @@ local function cpu_graph_update(graph_widget)
     end)
 end
 
+---- Processes ----
+local ps_text = wibox.widget {
+    align  = 'left',
+    valign = 'center',
+    text   = '',
+    widget = wibox.widget.textbox
+}
+
+local function ps_update(widget)
+    local command = [[bash -c "ps -e --sort=-pcpu -o pid,pcpu,comm | head -n 6" ]]
+    awful.spawn.easy_async(command, function(stdout)
+        widget.text = stdout
+    end)
+end
+
 ---- Calendar format function ----
 local calendar_styles = {
     month = {
@@ -179,17 +194,18 @@ si.timer = gears.timer({
         cpu_temp_update(cpu_temp)
         ram_update(ram_text, ram_bar)
         cpu_graph_update(cpu_graph)
+        ps_update(ps_text)
     end,
 })
 
 -- Function which adds border around widget
-local function decorator(w)
+local function decorator(w, height)
     return {
         w,
         shape              = gears.shape.rectangle,
         shape_border_color = beautiful.colors.darkGrey,
         shape_border_width = 1,
-        forced_height      = 24,
+        forced_height      = height or 24,
         widget             = wibox.container.background
     }
 end
@@ -203,6 +219,7 @@ si.popup = awful.popup {
                 reflection = { horizontal = true },
                 widget = wibox.container.mirror,
             },
+            decorator(ps_text, 120),
             {
                 ram_bar,
                 ram_text,
