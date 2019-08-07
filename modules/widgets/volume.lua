@@ -8,8 +8,6 @@ local beautiful = require("beautiful")
 beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
 
 local GET_VOL_CMD = 'amixer sget Master'
-local INC_VOL_CMD = 'amixer sset Master 2%+'
-local DEC_VOL_CMD = 'amixer sset Master 2%-'
 local SET_VOL_CMD = 'amixer sset Master '
 local TOG_VOL_CMD = 'amixer sset Master toggle'
 
@@ -56,19 +54,43 @@ volume.popup_widget = awful.popup {
 	visible = false,
 }
 
+local function update_text_widget(widget, stdout, _, _, _)
+	local mute = string.match(stdout, "%[(o%D%D?)%]")
+    local volume = string.match(stdout, "(%d?%d?%d)%%")
+    volume = tonumber(string.format("% 3d", volume))
+	if mute == "off" then
+		widget:set_text(" ♫MM%")
+	else
+		widget:set_text(" ♫" .. volume .. "%")
+	end
+end
+
+local function update_progressbar_widget(widget, stdout, _, _, _)
+	local mute = string.match(stdout, "%[(o%D%D?)%]")
+    local volume = string.match(stdout, "(%d?%d?%d)%%")
+    volume = tonumber(string.format("% 3d", volume))
+	if mute == "off" then
+		widget.value = volume/100
+		widget.color = beautiful.colors.grey
+	else
+		widget.value = volume/100
+		widget.color = beautiful.colors.green
+	end
+end
+
 function volume.control(cmd, value)
-	if cmd == "increase" then cmd = INC_VOL_CMD
-	elseif cmd == "decrease" then cmd = DEC_VOL_CMD
+    value = value or 2
+	if cmd == "increase" then cmd = SET_VOL_CMD .. value .. '%+'
+	elseif cmd == "decrease" then cmd = SET_VOL_CMD .. value .. '%-'
 	elseif cmd == "toggle" then cmd = TOG_VOL_CMD
-	elseif cmd == "set" then cmd = SET_VOL_CMD .. value .. "%"
 	end
 	awful.spawn.easy_async(cmd, function(stdout, stderr, exitreason, exitcode)
-			volume.update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
-			volume.update_progressbar_widget(volume.progressbar_widget, stdout, stderr, exitreason, exitcode)
+			update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)
+			update_progressbar_widget(volume.progressbar_widget, stdout, stderr, exitreason, exitcode)
 	end)
     volume.popup_widget.screen = awful.screen.focused()
 	volume.popup_widget.visible = true
-	if volume.timer.started then 
+	if volume.timer.started then
 		volume.timer:again()
 	else
 		volume.timer:start()
@@ -82,65 +104,21 @@ volume.timer = gears.timer {
 	end,
 }
 
-function volume.update_text_widget(widget, stdout, _, _, _)
-	local mute = string.match(stdout, "%[(o%D%D?)%]")
-    local volume = string.match(stdout, "(%d?%d?%d)%%")
-    volume = tonumber(string.format("% 3d", volume))
-	if mute == "off" then
-		widget:set_text(" ♫MM%")
-	else
-		widget:set_text(" ♫" .. volume .. "%")
-	end
-end
-
-function volume.update_progressbar_widget(widget, stdout, _, _, _)
-	local mute = string.match(stdout, "%[(o%D%D?)%]")
-    local volume = string.match(stdout, "(%d?%d?%d)%%")
-    volume = tonumber(string.format("% 3d", volume))
-	if mute == "off" then
-		widget.value = volume/100
-		widget.color = beautiful.colors.grey
-	else
-		widget.value = volume/100
-		widget.color = beautiful.colors.green
-	end
-end
-
-watch(GET_VOL_CMD, 10, volume.update_text_widget, volume.text_widget)
+watch(GET_VOL_CMD, 10, update_text_widget, volume.text_widget)
 
 volume.text_widget:buttons(gears.table.join(
-		awful.button({ }, 1, 
+		awful.button({ }, 1,
 			function ()
                 volume.control("toggle")
 			end),
-		awful.button({ }, 4, 
-			function () 
-                volume.control("increase")
+		awful.button({ }, 4,
+			function ()
+                volume.control("increase", 2)
 			end),
-		awful.button({ }, 5, 
-			function () 
-                volume.control("decrease")
+		awful.button({ }, 5,
+			function ()
+                volume.control("decrease", 2)
 			end))
 )
-
-volume.keygrabber = awful.keygrabber {
-    timeout = 1,
-    keybindings = {
-        { {}, '1', function() volume.control("set", 10) end },
-        { {}, '2', function() volume.control("set", 20) end },
-        { {}, '3', function() volume.control("set", 30) end },
-        { {}, '4', function() volume.control("set", 40) end },
-        { {}, '5', function() volume.control("set", 50) end },
-        { {}, '6', function() volume.control("set", 60) end },
-        { {}, '7', function() volume.control("set", 70) end },
-        { {}, '8', function() volume.control("set", 80) end },
-        { {}, '9', function() volume.control("set", 90) end },
-        { {}, '0', function() volume.control("set", 0)  end },
-    },
-    stop_key = 'Escape',
-    start_callback = function() volume.popup_widget.visible = true end,
-    stop_callback = function() volume.popup_widget.visible = false end,
-}
-
 
 return volume

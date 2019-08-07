@@ -167,17 +167,17 @@ theme.menu_bg_normal    = theme.colors.black .. 'AA'
 -- theme.menu_submenu = nil
 
 -- hotkeys
-theme.hotkeys_bg = theme.colors.white
-theme.hotkeys_fg = theme.colors.black
-theme.hotkeys_border_width = dpi(4)
-theme.hotkeys_border_color = theme.colors.darkGrey
-theme.hotkeys_shape = gears.shape.rounded_rect
-theme.hotkeys_modifiers_fg = theme.colors.black
--- theme.hotkeys_label_bg = nil
--- theme.hotkeys_label_fg = nil
-theme.hotkeys_font = "Ubuntu Mono Bold 12"
-theme.hotkeys_description_font = "Ubuntu 11"
-theme.hotkeys_group_margin = dpi(5)
+theme.hotkeys_bg                = theme.colors.black
+theme.hotkeys_fg                = theme.colors.white
+theme.hotkeys_border_width      = dpi(2)
+theme.hotkeys_border_color      = theme.colors.green
+theme.hotkeys_shape             = gears.shape.rectangle
+theme.hotkeys_modifiers_fg      = theme.colors.green
+theme.hotkeys_label_bg          = theme.colors.green
+theme.hotkeys_label_fg          = theme.colors.black
+theme.hotkeys_font              = "Ubuntu Mono Bold 12"
+theme.hotkeys_description_font  = "Ubuntu 10"
+theme.hotkeys_group_margin      = dpi(4)
 
 theme.terminal_icon = theme_path.."icons/apps/terminal.svg"
 theme.chrome_icon = theme_path.."icons/apps/chrome.svg"
