@@ -7,9 +7,10 @@ local user = require("settings").user
 
 ---- CPU Temperature ----
 local cpu_temp = wibox.widget {
-    align  = 'center',
-    text   = 'CPU temp: ',
-    widget = wibox.widget.textbox
+    align         = 'center',
+    text          = 'CPU temp: ',
+    widget        = wibox.widget.textbox,
+    forced_height = 24
 }
 
 local function cpu_temp_update(widget)
@@ -88,14 +89,15 @@ end
 
 ---- Processes ----
 local ps_text = wibox.widget {
-    align  = 'left',
-    valign = 'center',
-    text   = '',
-    widget = wibox.widget.textbox
+    align        = 'left',
+    valign       = 'center',
+    text         = '',
+    forced_width = 200,
+    widget       = wibox.widget.textbox
 }
 
 local function ps_update(widget)
-    local command = [[bash -c "ps -e --sort=-pcpu -o pid,pcpu,comm | head -n 6" ]]
+    local command = [[bash -c "ps -e --sort=-pcpu -o pid,pcpu,comm | head -n 6 | cut -c-22" ]]
     awful.spawn.easy_async(command, function(stdout)
         widget.text = stdout
     end)
@@ -157,9 +159,13 @@ end
 
 ---- Weather widget ----
 local weather_text = wibox.widget {
-    align  = 'center',
-    text   = '...',
-    widget = wibox.widget.textbox
+    align         = 'center',
+    valign        = 'center',
+    text          = '...',
+    forced_width  = 200,
+    forced_height = 24,
+    wrap          = 'word',
+    widget        = wibox.widget.textbox
 }
 
 local function weather_update(text_widget)
@@ -183,6 +189,11 @@ local function weather_update(text_widget)
   ']]
     awful.spawn.easy_async(command, function(stdout)
         text_widget:set_text(stdout)
+        if string.len(stdout) <= 20 then
+            text_widget:set_forced_height(24)
+        else
+            text_widget:set_forced_height(48)
+        end
     end)
 end
 
@@ -205,7 +216,6 @@ local function decorator(w, height)
         shape              = gears.shape.rectangle,
         shape_border_color = beautiful.colors.darkGrey,
         shape_border_width = 1,
-        forced_height      = height or 24,
         widget             = wibox.container.background
     }
 end

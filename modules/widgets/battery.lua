@@ -65,10 +65,8 @@ function show_battery_status()
 			end
 			notification = naughty.notify({
 				text = stdout,
-				title = "Battery status",
 				timeout = 5,
 				hover_timeout = 0.5,
-				width = 200,
 			})
         end)
 end
