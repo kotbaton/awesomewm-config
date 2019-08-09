@@ -372,17 +372,17 @@ local globalkeys = gears.table.join(
     awful.key({ "Shift" }, "Print", nil,
         function()
             awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -s", false)
-        end, { description = "Make screenshot of selection", group = "Screenshot" }),
+        end, { description = "Make screenshot of selected area", group = "Screenshot" }),
 
     awful.key({ "Shift", "Control" }, "Print", nil,
         function()
             awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -se", false)
-        end, { description = "Make screenshot of selection and open them in gimp", group = "Screenshot" }),
+        end, { description = "Make screenshot of selected area and edit in gimp", group = "Screenshot" }),
 
     awful.key({ "Control"}, "Print", nil,
         function()
             awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -e", false)
-        end, { description = "Make screenshot and open then in gimp", group = "Screenshot" }),
+        end, { description = "Make screenshot and edit in gimp", group = "Screenshot" }),
 
     ----------------------{ PLAYER }--------------------------------------------
 

@@ -5,8 +5,6 @@ local naughty   = require("naughty")
 local watch     = require("awful.widget.watch")
 local beautiful = require("beautiful")
 
-beautiful.init(gears.filesystem.get_configuration_dir().. "gruvbox-theme/theme.lua")
-
 local GET_VOL_CMD = 'amixer sget Master'
 local SET_VOL_CMD = 'amixer sset Master '
 local TOG_VOL_CMD = 'amixer sset Master toggle'
