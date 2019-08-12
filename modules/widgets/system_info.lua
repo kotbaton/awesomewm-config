@@ -2,6 +2,7 @@ local gears     = require("gears")
 local awful     = require("awful")
 local wibox     = require("wibox")
 local beautiful = require("beautiful") 
+local dpi       = require("beautiful.xresources").apply_dpi
 
 local user = require("settings").user
 
@@ -10,7 +11,7 @@ local cpu_temp = wibox.widget {
     align         = 'center',
     text          = 'CPU temp: ',
     widget        = wibox.widget.textbox,
-    forced_height = 24
+    forced_height = dpi(24)
 }
 
 local function cpu_temp_update(widget)
@@ -35,9 +36,9 @@ local ram_bar = wibox.widget {
     border_color     = beautiful.colors.darkGrey,
     color            = beautiful.colors.green .. '99',
     background_color = beautiful.colors.black,
-    paddings         = 2,
-    forced_height    = 24,
-    forced_width     = 200,
+    paddings         = dpi(2),
+    forced_height    = dpi(24),
+    forced_width     = dpi(200),
     widget           = wibox.widget.progressbar,
 }
 
@@ -60,10 +61,10 @@ local cpu_graph = wibox.widget {
     background_color = beautiful.colors.black,
     color            = beautiful.colors.lightGreen,
     border_color     = beautiful.colors.darkGrey,
-    forced_height    = 24,
-    forced_width     = 200,
-    step_width       = 4,
-    step_spacing     = 2,
+    forced_height    = dpi(24),
+    forced_width     = dpi(200),
+    step_width       = dpi(4),
+    step_spacing     = dpi(2),
     widget           = wibox.widget.graph,
 }
 
@@ -92,7 +93,7 @@ local ps_text = wibox.widget {
     align        = 'left',
     valign       = 'center',
     text         = '',
-    forced_width = 200,
+    forced_width = dpi(200),
     widget       = wibox.widget.textbox
 }
 
@@ -106,15 +107,15 @@ end
 ---- Calendar format function ----
 local calendar_styles = {
     month = {
-        padding      = 4,
+        padding      = dpi(2),
         bg_color     = beautiful.colors.black,
-        border_width = 1,
+        border_width = dpi(1),
     },
     normal = {
-        border_width = 1,
+        border_width = dpi(1),
     },
     focus = {
-        border_width = 1,
+        border_width = dpi(1),
         fg_color     = beautiful.colors.black,
         bg_color     = beautiful.colors.green,
     },
@@ -162,8 +163,8 @@ local weather_text = wibox.widget {
     align         = 'center',
     valign        = 'center',
     text          = '...',
-    forced_width  = 200,
-    forced_height = 24,
+    forced_width  = dpi(200),
+    forced_height = dpi(24),
     wrap          = 'word',
     widget        = wibox.widget.textbox
 }
@@ -190,9 +191,9 @@ local function weather_update(text_widget)
     awful.spawn.easy_async(command, function(stdout)
         text_widget:set_text(stdout)
         if string.len(stdout) <= 20 then
-            text_widget:set_forced_height(24)
+            text_widget:set_forced_height(dpi(24))
         else
-            text_widget:set_forced_height(48)
+            text_widget:set_forced_height(dpi(48))
         end
     end)
 end
@@ -215,7 +216,7 @@ local function decorator(w, height)
         w,
         shape              = gears.shape.rectangle,
         shape_border_color = beautiful.colors.darkGrey,
-        shape_border_width = 1,
+        shape_border_width = dpi(1),
         widget             = wibox.container.background
     }
 end
@@ -229,7 +230,7 @@ si.popup = awful.popup {
                 reflection = { horizontal = true },
                 widget = wibox.container.mirror,
             },
-            decorator(ps_text, 120),
+            decorator(ps_text, dpi(120)),
             {
                 ram_bar,
                 ram_text,
@@ -244,15 +245,15 @@ si.popup = awful.popup {
                 widget = wibox.widget.calendar.month,
             },
 
-            spacing = 8,
+            spacing = dpi(8),
             layout = wibox.layout.fixed.vertical,
         },
-        margins = 8,
+        margins = dpi(8),
         widget  = wibox.container.margin
     },
     opacity             = 0.9,
     border_color        = beautiful.colors.green,
-    border_width        = 2,
+    border_width        = dpi(2),
     placement           = awful.placement.top_right + awful.placement.no_offscreen,
     shape               = gears.shape.rect,
     visible             = false,
