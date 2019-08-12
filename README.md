@@ -5,6 +5,7 @@ My configuration for awesome WM
 # Dependencies
 * scrot for screenshots
 * trans for translate scripts
+* zenity for translate scripts
 * jq for weather widget
 * API key from openweathermap.org
 
