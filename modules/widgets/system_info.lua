@@ -158,6 +158,35 @@ local function decorate_calendar(widget, flag, date)
     return ret
 end
 
+local calendar_month = wibox.widget {
+    date         = os.date('*t'),
+    week_numbers = false,
+    start_sunday = false,
+    fn_embed     = decorate_calendar,
+    widget       = wibox.widget.calendar.month,
+}
+
+local function calendar_update(modifier)
+    local new_month = calendar_month.date.month + modifier
+        local cur_month = os.date('*t').month
+        if cur_month == new_month then
+            calendar_month:set_date(os.date('*t'))
+        else
+            calendar_month:set_date({
+                month = new_month,
+                year = calendar_month.date.year
+            })
+        end
+end
+
+calendar_month:buttons(gears.table.join(
+    awful.button({}, 4, function()
+        calendar_update(-1)
+    end),
+    awful.button({}, 5, function()
+        calendar_update(1)
+    end)))
+
 ---- Weather widget ----
 local weather_text = wibox.widget {
     align         = 'center',
@@ -190,8 +219,8 @@ local function weather_update(text_widget)
   ']]
     awful.spawn.easy_async(command, function(stdout)
         text_widget:set_text(stdout)
-        if string.len(stdout) <= 20 then
-            text_widget:set_forced_height(dpi(24))
+        if string.len(stdout) <= 23 then
+            text_widget:set_forced_height(24)
         else
             text_widget:set_forced_height(dpi(48))
         end
@@ -211,7 +240,7 @@ si.timer = gears.timer({
 })
 
 -- Function which adds border around widget
-local function decorator(w, height)
+local function decorator(w)
     return {
         w,
         shape              = gears.shape.rectangle,
@@ -230,22 +259,15 @@ si.popup = awful.popup {
                 reflection = { horizontal = true },
                 widget = wibox.container.mirror,
             },
-            decorator(ps_text, dpi(120)),
+            decorator(ps_text),
             {
                 ram_bar,
                 ram_text,
                 layout = wibox.layout.stack,
             },
             decorator(cpu_temp),
-            {
-                date         = os.date('*t'),
-                week_numbers = false,
-                start_sunday = false,
-                fn_embed     = decorate_calendar,
-                widget = wibox.widget.calendar.month,
-            },
-
-            spacing = dpi(8),
+            calendar_month,
+            spacing = 8,
             layout = wibox.layout.fixed.vertical,
         },
         margins = dpi(8),
@@ -269,10 +291,12 @@ function si.toggle()
         si.timer:start()
         si.popup.screen = awful.screen.focused()
         weather_update(weather_text)
+        calendar_month:set_date(os.date('*t'))
         si.popup.visible = true
     else
         si.timer:stop()
         si.popup.visible = false
+        collectgarbage('collect')
     end
 end
 
