@@ -255,7 +255,7 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "c",
         function()
-            awful.spawn("galculator", false)
+            awful.spawn.raise_or_spawn("galculator", false)
         end, {description = "Galculator", group = "Applications"}),
 
     ----------------------{ AWESOME }--------------------------------------------
@@ -287,7 +287,7 @@ local globalkeys = gears.table.join(
         function ()
             awful.prompt.run{
                 prompt       = "Run Lua code: ",
-                textbox      = awful.screen.focused().mypromptbox.widget,
+                textbox      = mypromptbox.widget,
                 exe_callback = awful.util.eval,
             history_path = awful.util.get_cache_dir() .. "/history_eval"}
         end, {description = "Lua execute prompt", group = "Awesome"}),
@@ -508,7 +508,7 @@ local globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"}, "o",
         function ()
             local c = client.focus
-            if c then c:move_to_screen() end
+            if c then c:move_to_screen(1) end
         end, {description = "Move focused window on next screen", group = "Screens management"}),
 
     awful.key({ modkey,           }, "u",
@@ -541,7 +541,7 @@ for i = 1, 9 do
             {description = "View tag", group = "Tag management"}),
 
         -- Toggle tag display.
-        awful.key({ modkey, "Control" }, "#" .. i + 9,
+        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
             function ()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -564,7 +564,7 @@ for i = 1, 9 do
             {description = "Move client to tag", group = "Tag management"}),
 
         -- Toggle tag on focused client.
-        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
+        awful.key({ modkey, "Control" }, "#" .. i + 9,
             function ()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -573,7 +573,7 @@ for i = 1, 9 do
                     end
                 end
             end,
-        {description = "Add client to tag", group = "Tag management"}))
+            {description = "Add client to tag", group = "Tag management"}))
 end
 
 root.keys(globalkeys)
@@ -672,7 +672,7 @@ local clientkeys = gears.table.join(
             if awful.layout.get() ~= awful.layout.suit.floating then
                 awful.client.incwfact(-0.05, c)
             end
-        end, {description = nil, group = "Clients management"}),
+        end, {description = "Decrease client factor", group = "Clients management"}),
 
     awful.key({ modkey, }, "g",
         function (c)
@@ -685,7 +685,7 @@ local clientkeys = gears.table.join(
             if awful.layout.get() ~= awful.layout.suit.floating then
                 awful.client.incwfact( 0.05, c)
             end
-        end, {description = nil, group = "Clients management"})
+        end, {description = "Increase client factor", group = "Clients management"})
 )
 
 -- Rules to apply to new clients (through the "manage" signal).
