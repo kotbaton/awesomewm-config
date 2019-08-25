@@ -23,6 +23,12 @@ local battery = wibox.widget {
 
 watch("acpi", 10,
     function(widget, stdout, stderr, exitreason, exitcode)
+        -- Prevent widget displaying if there is no battery
+        if string.len(stdout) == 0 then 
+			battery:set_visible(false)
+            return
+        end
+
         local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d%d)%%,? ?.*')
         local charge = tonumber(charge_str)
         battery_text:set_text(" " .. charge .. "% ")
