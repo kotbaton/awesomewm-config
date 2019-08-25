@@ -167,7 +167,7 @@ theme.menu_bg_normal    = theme.colors.black .. 'AA'
 -- theme.menu_submenu = nil
 
 -- hotkeys
-theme.hotkeys_bg                = theme.colors.black
+theme.hotkeys_bg                = theme.colors.black .. 'CC'
 theme.hotkeys_fg                = theme.colors.white
 theme.hotkeys_border_width      = dpi(2)
 theme.hotkeys_border_color      = theme.colors.green
