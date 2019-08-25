@@ -24,10 +24,20 @@ tray.widget = wibox.widget {
 function tray.toggle()
 	if tray_widget:get_visible() then
         tray_widget:set_visible(false)
+        tray.timer:stop()
     else 
         tray_widget:set_visible(true)
+        tray.timer:start()
     end
 end
+
+tray.timer = gears.timer({
+	timeout = 5,
+    single_shot = true,
+	callback = function()
+        tray_widget:set_visible(false)
+	end
+})
 
 tray.widget:buttons(gears.table.join(
 	awful.button({ }, 1, function () 
