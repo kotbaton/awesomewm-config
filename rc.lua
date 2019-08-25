@@ -469,6 +469,28 @@ local globalkeys = gears.table.join(
             awful.layout.inc( 1)
         end, {description = "Select next tag layout", group = "Tag management"}),
 
+    awful.key({ "Mod1",           }, "j",
+        function ()
+            local scr = awful.screen.focused()
+            for i = 1, #scr.tags do
+                awful.tag.viewnext()
+                if #scr.selected_tag:clients() ~= 0 then
+                    break
+                end
+            end
+        end, {description = "View next not-empty tag", group = "Tag management"}),
+
+    awful.key({ "Mod1",           }, "k",
+        function ()
+            local scr = awful.screen.focused()
+            for i = 1, #scr.tags do
+                awful.tag.viewprev()
+                if #scr.selected_tag:clients() ~= 0 then
+                    break
+                end
+            end
+        end, {description = "View prev not-empty tag", group = "Tag management"}),
+
     awful.key({ "Mod1", "Shift"   }, "space",
         function ()
             awful.layout.inc(-1)
