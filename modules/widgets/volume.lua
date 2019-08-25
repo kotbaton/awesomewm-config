@@ -113,9 +113,17 @@ volume.text_widget:buttons(gears.table.join(
 			function ()
                 volume.control("increase", 2)
 			end),
+		awful.button({ "Shift" }, 4,
+			function ()
+                volume.control("increase", 10)
+			end),
 		awful.button({ }, 5,
 			function ()
                 volume.control("decrease", 2)
+			end),
+		awful.button({ "Shift" }, 5,
+			function ()
+                volume.control("decrease", 10)
 			end))
 )
 
