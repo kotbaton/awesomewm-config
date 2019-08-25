@@ -23,7 +23,6 @@ local battery = wibox.widget {
 
 watch("acpi", 10,
     function(widget, stdout, stderr, exitreason, exitcode)
-        local batteryType
         local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d%d)%%,? ?.*')
         local charge = tonumber(charge_str)
         battery_text:set_text(" " .. charge .. "% ")
@@ -78,7 +77,6 @@ battery:buttons(gears.table.join(awful.button({ }, 1, function () show_battery_s
 function show_battery_warning()
     naughty.notify {
         text = "Battery is dying!",
-        --title = "Battery is dying",
         timeout = 5,
         hover_timeout = 0.5,
         position = "top_right",

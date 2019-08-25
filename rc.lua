@@ -508,8 +508,13 @@ local globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"}, "o",
         function ()
             local c = client.focus
-            if c then c:move_to_screen(1) end
+            if c then c:move_to_screen() end
         end, {description = "Move focused window on next screen", group = "Screens management"}),
+
+    awful.key({ modkey, }, "\\",
+        function ()
+            awful.spawn.with_shell(gears.filesystem.get_configuration_dir() .. "scripts/monitor_toggle.sh")
+        end, {description = "Toggle HDMI1 monitor", group = "Screens management"}),
 
     awful.key({ modkey,           }, "u",
         function()
