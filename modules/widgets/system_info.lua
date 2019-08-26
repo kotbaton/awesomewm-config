@@ -282,7 +282,7 @@ si.popup = awful.popup {
     ontop               = true,
 }
 
-si.popup:buttons(gears.table.join(awful.button({},1, function()
+si.popup:buttons(gears.table.join(awful.button({}, 1, function()
     si.toggle()
 end)))
 

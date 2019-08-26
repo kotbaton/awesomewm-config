@@ -1,7 +1,7 @@
 #!/bin/bash
 
-internal="LVDS1"
-external="HDMI1"
+internal="$1"
+external="$2"
 
 internal_active=$(xrandr | grep "$internal" -A 1 | grep "*")
 external_active=$(xrandr | grep "$external" -A 1 | grep "*")

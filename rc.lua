@@ -9,7 +9,8 @@ require("awful.autofocus")
 require("awful.remote")
 
 local modules           = require("modules")
-local launcher          = require('settings').launcher
+local launcher          = require("settings").launcher
+local monitors          = require("settings").monitors
 local dpi               = require("beautiful.xresources").apply_dpi
 
 -- Set default apps
@@ -535,8 +536,8 @@ local globalkeys = gears.table.join(
 
     awful.key({ modkey, }, "\\",
         function ()
-            awful.spawn.with_shell(gears.filesystem.get_configuration_dir() .. "scripts/monitor_toggle.sh")
-        end, {description = "Toggle HDMI1 monitor", group = "Screens management"}),
+            awful.spawn.with_shell(gears.filesystem.get_configuration_dir() .. "scripts/monitor_toggle.sh " .. monitors.internal .. " " .. monitors.external)
+        end, {description = "Toggle monitors script", group = "Screens management"}),
 
     awful.key({ modkey,           }, "u",
         function()
