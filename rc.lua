@@ -218,8 +218,7 @@ awful.screen.connect_for_each_screen(function(s)
             modules.widgets.volume.text_widget,
             mykeyboardlayout,
             mytextclock,
-            -- Add tray widget only on primary screen
-            s.index == 1 and modules.widgets.tray.widget or s.separator,
+            modules.widgets.tray.widget,
             layout = wibox.layout.fixed.horizontal,
         },
         layout = wibox.layout.align.horizontal,
