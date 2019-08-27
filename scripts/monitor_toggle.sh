@@ -7,19 +7,19 @@ internal_active=$(xrandr | grep "$internal" -A 1 | grep "*")
 external_active=$(xrandr | grep "$external" -A 1 | grep "*")
 
 external_only() {
-    xrandr --output "$external" --auto --output "$internal" --off
+    xrandr --output "$external" --primary --auto --output "$internal" --off
     sleep 1
     notify-send "Screen info" "$@"
 }
 
 internal_only() {
-    xrandr --output "$external" --off --output "$internal" --auto
+    xrandr --output "$external" --off --output "$internal" --auto --primary
     sleep 1
     notify-send "Screen info" "$@"
 }
 
 both_monitors() {
-    xrandr --output "$internal" --auto --output "$external" --auto --left-of "$internal"
+    xrandr --output "$internal" --auto --output "$external" --primary --auto --left-of "$internal"
     sleep 1
     notify-send "Screen info" "Both monitors are active now."
 }
