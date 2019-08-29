@@ -54,6 +54,10 @@ theme.border_normal = theme.colors.black
 theme.border_focus  = theme.colors.green
 theme.border_marked = theme.colors.red
 
+-- prompt
+theme.prompt_bg = '#00000000'
+theme.prompt_fg = theme.colors.lightGreen
+
 -- taglist
 theme.taglist_fg_focus                          = theme.colors.white
 theme.taglist_bg_focus                          = theme.colors.darkGrey

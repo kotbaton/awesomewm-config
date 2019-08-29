@@ -109,7 +109,7 @@ end)))
 awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
-    local tags = modules.tools.tagnames.read(s.index)
+    local tags = modules.tools.tagnames.read(s)
     awful.tag(tags, s, awful.layout.layouts[2])
     -- Buttons for taglist and taglist widget
     local taglist_buttons = gears.table.join(
@@ -429,8 +429,7 @@ local globalkeys = gears.table.join(
                     end
                     -- Write tagnames in cache file
                     local scr = awful.screen.focused()
-                    modules.tools.tagnames.write(scr.index, scr.tags)
-                end
+                    modules.tools.tagnames.write(scr, scr.tags) end
             }
         end, {description = "Rename active tag", group = "Tag management"}),
 
