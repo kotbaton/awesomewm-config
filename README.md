@@ -37,7 +37,7 @@ Also, you need sign up on openweathermap.org and get API key for weather widget 
    cp settings_default.lua settings.lua
    vim settings.lua
 ```
-5. Restart awesome with `Super+Ctrl+r`.
+5. Restart awesome with `Super+Ctrl+r`. Press `Super+Shift+a` to get hotkeys help.
 
 
 # Directories structure explanation

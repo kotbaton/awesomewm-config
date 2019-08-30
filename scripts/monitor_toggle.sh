@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Some explanation of what this script doing:
+# It check's current monitors configuration using xrandr
+# and then set next configuration state.
+#
+# 1 means on and 0 means off
+# | internal | external |
+# |     1    |     0    |
+# |     0    |     1    |
+# |     1    |     1    |
+#
+# When laptop lid is closed only external monitor is active
+# When external monitor is disconnected only internal monitor is active
+
 internal="$1"
 external="$2"
 

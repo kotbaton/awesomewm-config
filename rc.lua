@@ -9,15 +9,14 @@ require("awful.autofocus")
 require("awful.remote")
 
 local modules           = require("modules")
-local launcher          = require("settings").launcher
-local monitors          = require("settings").monitors
+local settings          = require("settings")
 local dpi               = require("beautiful.xresources").apply_dpi
 
 -- Set default apps
-local terminal = require('settings').default_apps.terminal
+local terminal = settings.default_apps.terminal
 
 -- Start autostart application
-for _, app in ipairs(require('settings').autostart) do
+for _, app in ipairs(settings.autostart) do
     awful.spawn.once(app)
 end
 
@@ -228,15 +227,15 @@ end)
 -- Set keys
 local globalkeys = gears.table.join(
     ----------------------{ START APPS }--------------------------------------------
-    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(launcher.app1) end, {description=launcher.app1, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(launcher.app2) end, {description=launcher.app2, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(launcher.app3) end, {description=launcher.app3, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(launcher.app4) end, {description=launcher.app4, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(launcher.app5) end, {description=launcher.app5, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(launcher.app6) end, {description=launcher.app6, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(launcher.app7) end, {description=launcher.app7, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(launcher.app8) end, {description=launcher.app8, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(launcher.app9) end, {description=launcher.app9, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(settings.launcher.app1) end, {description=settings.launcher.app1, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(settings.launcher.app2) end, {description=settings.launcher.app2, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(settings.launcher.app3) end, {description=settings.launcher.app3, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(settings.launcher.app4) end, {description=settings.launcher.app4, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(settings.launcher.app5) end, {description=settings.launcher.app5, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(settings.launcher.app6) end, {description=settings.launcher.app6, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(settings.launcher.app7) end, {description=settings.launcher.app7, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(settings.launcher.app8) end, {description=settings.launcher.app8, group="Applications"}),
+    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(settings.launcher.app9) end, {description=settings.launcher.app9, group="Applications"}),
 
     awful.key({ modkey,           }, "Return",
         function ()
@@ -266,7 +265,7 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "l",
         function()
-            awful.spawn("light-locker-command --lock")
+            awful.spawn(settings.lock_command)
         end, {description = "Lock", group = "Awesome"}),
 
     awful.key({ modkey, "Control" }, "r", awesome.restart, {description = "Reload awesome", group = "Awesome"}),
@@ -534,7 +533,7 @@ local globalkeys = gears.table.join(
 
     awful.key({ modkey, }, "\\",
         function ()
-            awful.spawn.with_shell(gears.filesystem.get_configuration_dir() .. "scripts/monitor_toggle.sh " .. monitors.internal .. " " .. monitors.external)
+            awful.spawn.with_shell(gears.filesystem.get_configuration_dir() .. "scripts/monitor_toggle.sh " .. settings.monitors.internal .. " " .. settings.monitors.external)
         end, {description = "Toggle monitors script", group = "Screens management"}),
 
     awful.key({ modkey,           }, "u",

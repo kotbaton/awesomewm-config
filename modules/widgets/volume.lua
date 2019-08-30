@@ -100,7 +100,7 @@ volume.timer = gears.timer {
 	end,
 }
 
-watch(GET_VOL_CMD, 10, update_text_widget, volume.text_widget)
+watch(commands.GET_VOL_CMD, 10, update_text_widget, volume.text_widget)
 
 volume.text_widget:buttons(gears.table.join(
 		awful.button({ }, 1,
