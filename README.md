@@ -45,7 +45,7 @@ Also, you need sign up on openweathermap.org and get API key for weather widget 
 	* **theme.lua** — edit this file if you want to change some colors.
 * **scripts** — bash scripts for different purposes.
 * **modules**
-	* **layouts** — my custom layouts.
+	* **layouts** — my custom layouts. Must be uncommented in modules/init.lua
 	* **menus** — functions for build clientmenu and mainmenu.
 	* **tools** — functions for read and write tagnames and third-party script for application menu building.
 	* **widgets** — different widgets.

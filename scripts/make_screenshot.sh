@@ -5,6 +5,11 @@ image_path=$screenshots_dir"/"$time".png"
 options=""
 edit=0
 
+if [ ! -d $screenshots_dir ]; then
+    mkdir -p $screenshots_dir
+    notify-send -t 3000 "Screenshots dir has been created: $screenshots_dir"
+fi
+
 case $1 in 
 	"-s")
 		options+="-s"
