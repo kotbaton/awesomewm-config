@@ -13,6 +13,7 @@ My configuration for awesome WM 4.3
 | lm-sensors | Temperature monitoring for system_info widget |
 | feh | Set wallpaper (you need to choose image as wallpaper using feh) |
 | notify-send | Notification sending |
+
 Also, you need sign up on openweathermap.org and get API key for weather widget work.
 
 
