@@ -45,11 +45,11 @@ local ram_bar = wibox.widget {
 local function ram_update(text_widget, bar_widget)
     local command = "free -m"
     awful.spawn.easy_async(command, function(stdout)
-            local total, _, _, _, _, available =
+            local total, used, free, shared, buff, available =
                 stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
-            bar_widget:set_value(1 - available/total)
+            bar_widget:set_value((used+shared)/total)
 
-            used = string.format("%0.2fG", (total-available)/1024)
+            used = string.format("%0.2fG", (used+shared)/1024)
             total = string.format("%0.2fG", total/1024)
             text_widget:set_text("RAM: " .. used .. "/" .. total)
     end)
