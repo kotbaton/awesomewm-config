@@ -5,9 +5,7 @@ local naughty   = require("naughty")
 local watch     = require("awful.widget.watch")
 local beautiful = require("beautiful")
 
-local GET_VOL_CMD = 'amixer sget Master'
-local SET_VOL_CMD = 'amixer sset Master '
-local TOG_VOL_CMD = 'amixer sset Master toggle'
+local commands = require("settings").volume_commands
 
 local volume = {}
 
@@ -78,9 +76,9 @@ end
 
 function volume.control(cmd, value)
     value = value or 2
-	if cmd == "increase" then cmd = SET_VOL_CMD .. value .. '%+'
-	elseif cmd == "decrease" then cmd = SET_VOL_CMD .. value .. '%-'
-	elseif cmd == "toggle" then cmd = TOG_VOL_CMD
+	if cmd == "increase" then cmd = commands.SET_VOL_CMD .. value .. '%+'
+	elseif cmd == "decrease" then cmd = commands.SET_VOL_CMD .. value .. '%-'
+	elseif cmd == "toggle" then cmd = commands.TOG_VOL_CMD
 	end
 	awful.spawn.easy_async(cmd, function(stdout, stderr, exitreason, exitcode)
 			update_text_widget(volume.text_widget, stdout, stderr, exitreason, exitcode)

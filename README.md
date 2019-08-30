@@ -55,5 +55,5 @@ Also, you need sign up on openweathermap.org and get API key for weather widget 
 		* **player.lua** — widget which display text provided by settings.player_commands.GET_TRACK_CMD. It must work for any player if you set player_commands in settings in right way. Was tested for cmus and spotify.
 		* **system_info.lua** — very long file with all monitoring widgets used in system_info popup.
 		* **tray.lua** — tray widget in right part of top panel. In this file you can change text on tray button.
-		* **volume.lua** — module with volume widget and volume control functions. If you have problems with this widget you can try to change commands in this file.
+		* **volume.lua** — module with volume widget and volume control functions.
 
