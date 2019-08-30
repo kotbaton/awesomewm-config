@@ -57,6 +57,8 @@ theme.border_marked = theme.colors.red
 -- prompt
 theme.prompt_bg = '#00000000'
 theme.prompt_fg = theme.colors.lightGreen
+theme.prompt_fg_cursor = theme.colors.black
+theme.prompt_bg_cursor = theme.colors.green
 
 -- taglist
 theme.taglist_fg_focus                          = theme.colors.white
@@ -153,9 +155,9 @@ theme.notification_max_width                    = dpi(400)
 -- theme.calendar_long_weekdays = nil
 
 -- snap
-theme.snap_bg           = theme.colors.lightGreen .. '99'
-theme.snap_border_width = dpi(10)
-theme.snap_shape        = gears.shape.rectangle
+theme.snap_bg           = theme.colors.green .. '88'
+theme.snap_border_width = dpi(8)
+-- theme.snap_shape        = gears.shape.rounded_rect
 
 -- menu
 theme.menu_submenu_icon = theme_path .."/icons/submenu.png"

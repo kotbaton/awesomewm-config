@@ -244,13 +244,32 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "w",
         function()
-            awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/trans_clip.sh", false)
-        end, {description = "Translate text from selection", group = "Translation scripts"}),
+            awful.spawn.easy_async([[
+                bash -c 'trans -tl ru -brief "$(xclip -o)"'
+            ]], function(stdout)
+                naughty.notify({
+                    title   = "Translation:",
+                    text    = stdout,
+                })
+            end)
+        end, {description = "Translate text from selection", group = "Translation"}),
 
     awful.key({"Control", "Mod1"}, "e",
         function()
-            awful.spawn(gears.filesystem.get_configuration_dir() .. "scripts/brief_trans.sh", false)
-        end, {description = "Translate text", group = "Translation scripts"}),
+            awful.prompt.run {
+                prompt       = "Text for translation: ",
+                exe_callback = function(text)
+                    awful.spawn.easy_async([[
+                            bash -c 'trans -tl ru -brief "]] .. text .. [["'
+                    ]], function(stdout)
+                    naughty.notify({
+                        title   = "Translation:",
+                        text    = stdout,
+                        })
+                    end)
+                end
+            }
+        end, {description = "Translate text", group = "Translation"}),
 
     awful.key({"Control", "Mod1"}, "c",
         function()
