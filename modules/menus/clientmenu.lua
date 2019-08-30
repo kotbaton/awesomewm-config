@@ -3,7 +3,7 @@ local tagnames  = require("modules.tools.tagnames")
 
 create_client_menu = function(c)
     local tags = awful.screen.focused().tags
-    local names = tagnames.read(c.screen.index)
+    local names = tagnames.read(c.screen)
     local task_menu = {
         {
             "× Close",  function() c:kill() end
