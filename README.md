@@ -22,8 +22,8 @@ Also, you need sign up on openweathermap.org and get API key for weather widget 
 	* Debian-based: `sudo apt install awesome`
 	* Arch-based: `sudo pacman -S awesome`
 2. Get dependencies:
-	* Debian-based: 	`sudo apt install scrot xclip zenity jq lm-sensors`
-	* Arch-based: `sudo pacman -S scrot xclip zenity jq lm-sensors`
+	* Debian-based: 	`sudo apt install scrot xclip zenity jq lm-sensors feh libnotify-bin`
+	* Arch-based: `sudo pacman -S scrot xclip zenity jq lm-sensors feh libnotify`
 	* You can get trans (translate-shell) from [here](https://github.com/soimort/translate-shell).
 3. Git clone configuration files in your config  directory and rename directory in awesome.
 ```bash
