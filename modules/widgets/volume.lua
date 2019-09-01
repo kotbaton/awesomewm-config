@@ -40,7 +40,7 @@ volume.popup_widget = awful.popup {
 		layout = wibox.layout.fixed.horizontal,
 	},
 	shape = gears.shape.rect,
-	opacity = 0.90,
+	opacity = 0.8,
 	placement = awful.placement.top + awful.placement.no_offscreen,
     screen = awful.screen.focused(),
 	ontop = true,

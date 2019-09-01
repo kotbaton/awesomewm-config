@@ -130,7 +130,7 @@ theme.tasklist_shape                            = gears.shape.rectangle
 -- theme.tasklist_shape_border_color_urgent        = nil
 
 -- notification
-theme.notification_font                         = "Ubuntu Bold 12"
+theme.notification_font                         = "Ubuntu Mono 12"
 theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'

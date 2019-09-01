@@ -273,7 +273,7 @@ si.popup = awful.popup {
         margins = dpi(8),
         widget  = wibox.container.margin
     },
-    opacity             = 0.9,
+    opacity             = 0.8,
     border_color        = beautiful.colors.green,
     border_width        = dpi(2),
     placement           = awful.placement.top_right + awful.placement.no_offscreen,
