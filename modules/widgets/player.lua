@@ -15,8 +15,8 @@ local text = wibox.widget{
 local container = wibox.widget {
     text,
     visible = false,
-    bg = beautiful.colors.green,
-    fg = beautiful.colors.black,
+    bg = beautiful.player_widget_bg or beautiful.colors.green,
+    fg = beautiful.player_widget_fg or beautiful.colors.black,
     widget = wibox.container.background,
 }
 

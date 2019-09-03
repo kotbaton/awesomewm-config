@@ -20,9 +20,9 @@ volume.progressbar_widget = wibox.widget {
 	value = 0,
 	forced_height = 36,
 	forced_width = 256,
-	border_width = 6,
-	border_color = beautiful.colors.black,
-	background_color = beautiful.colors.darkGrey,
+	border_width = 0,
+    margins = 6,
+	background_color = beautiful.volume_bar_bg or beautiful.colors.darkGrey,
 	color = beautiful.colors.green,
 	widget = wibox.widget.progressbar,
 }
@@ -44,8 +44,8 @@ volume.popup_widget = awful.popup {
 	placement = awful.placement.top + awful.placement.no_offscreen,
     screen = awful.screen.focused(),
 	ontop = true,
-	border_width = 3,
-	border_color = beautiful.colors.green,
+	border_width = beautiful.volume_popup_border_width or 3,
+	border_color = beautiful.volume_popup_border_color or beautiful.colors.green,
 	type = 'normal',
 	visible = false,
 }
@@ -67,10 +67,10 @@ local function update_progressbar_widget(widget, stdout, _, _, _)
     volume = tonumber(string.format("% 3d", volume))
 	if mute == "off" then
 		widget.value = volume/100
-		widget.color = beautiful.colors.grey
+		widget.color = beautiful.volume_bar_fg_muted or beautiful.colors.grey
 	else
 		widget.value = volume/100
-		widget.color = beautiful.colors.green
+		widget.color = beautiful.volume_bar_fg or beautiful.colors.green
 	end
 end
 

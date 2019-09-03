@@ -130,7 +130,7 @@ theme.tasklist_shape                            = gears.shape.rectangle
 -- theme.tasklist_shape_border_color_urgent        = nil
 
 -- notification
-theme.notification_font                         = "Ubuntu Mono 12"
+theme.notification_font                         = "Ubuntu Mono 13"
 theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
@@ -205,6 +205,28 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_fg = nil
 -- theme.titlebar_bg = nil
 -- theme.titlebar_bgimage = nil
+
+-- Player widget
+theme.player_widget_bg = theme.colors.green
+theme.player_widget_fg = theme.colors.black
+
+-- Volume widget
+theme.volume_popup_border_color = theme.colors.green
+theme.volume_popup_border_width = dpi(3)
+theme.volume_bar_bg             = theme.colors.darkGrey
+theme.volume_bar_fg             = theme.colors.green
+theme.volume_bar_fg_muted       = theme.colors.grey
+
+-- System info widget
+theme.si_outer_border_color = theme.colors.green
+theme.si_outer_border_width = dpi(2)
+theme.si_inner_border_color = theme.colors.darkGrey
+theme.si_inner_border_width = dpi(1)
+theme.si_bg                 = theme.colors.black
+theme.si_ram_bar_fg         = theme.colors.green .. '99'
+theme.si_cpu_graph_fg       = theme.colors.lightGreen
+
+-- Battery widget
 
 -- Create title bar icons
 local recolor = gears.color.recolor_image

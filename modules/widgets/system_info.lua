@@ -32,10 +32,10 @@ local ram_text = wibox.widget {
 local ram_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
-    border_width     = 1,
-    border_color     = beautiful.colors.darkGrey,
-    color            = beautiful.colors.green .. '99',
-    background_color = beautiful.colors.black,
+    border_width     = beautiful.si_inner_border_width or 1,
+    border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+    color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
+    background_color = beautiful.si_bg or beautiful.colors.black,
     paddings         = dpi(2),
     forced_height    = dpi(24),
     forced_width     = dpi(200),
@@ -58,9 +58,10 @@ end
 ---- CPU load graph ----
 local cpu_graph = wibox.widget {
     max_value        = 100,
-    background_color = beautiful.colors.black,
-    color            = beautiful.colors.lightGreen,
-    border_color     = beautiful.colors.darkGrey,
+    background_color = beautiful.si_bg or beautiful.colors.black,
+    color            = beautiful.si_cpu_graph_fg or beautiful.colors.lightGreen,
+    border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+    border_width     = beautiful.si_inner_border_width or dpi(1),
     forced_height    = dpi(24),
     forced_width     = dpi(200),
     step_width       = dpi(4),
@@ -220,7 +221,7 @@ local function weather_update(text_widget)
     awful.spawn.easy_async(command, function(stdout)
         text_widget:set_text(stdout)
         if string.len(stdout) <= 23 then
-            text_widget:set_forced_height(24)
+            text_widget:set_forced_height(dpi(24))
         else
             text_widget:set_forced_height(dpi(48))
         end
@@ -244,8 +245,8 @@ local function decorator(w)
     return {
         w,
         shape              = gears.shape.rectangle,
-        shape_border_color = beautiful.colors.darkGrey,
-        shape_border_width = dpi(1),
+        shape_border_color = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+        shape_border_width = beautiful.si_inner_border_width or dpi(1),
         widget             = wibox.container.background
     }
 end
@@ -274,8 +275,8 @@ si.popup = awful.popup {
         widget  = wibox.container.margin
     },
     opacity             = 0.8,
-    border_color        = beautiful.colors.green,
-    border_width        = dpi(2),
+    border_color        = beautiful.si_outer_border_color or beautiful.colors.green,
+    border_width        = beautiful.si_outer_border_width or dpi(2),
     placement           = awful.placement.top_right + awful.placement.no_offscreen,
     shape               = gears.shape.rect,
     visible             = false,
