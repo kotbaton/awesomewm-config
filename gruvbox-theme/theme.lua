@@ -227,6 +227,14 @@ theme.si_ram_bar_fg         = theme.colors.green .. '99'
 theme.si_cpu_graph_fg       = theme.colors.lightGreen
 
 -- Battery widget
+theme.battery_charging_fg           = theme.colors.black
+theme.battery_charging_bg           = theme.colors.green
+theme.battery_discharging_normal_fg = theme.colors.white
+theme.battery_discharging_normal_bg = theme.colors.darkGrey
+theme.battery_discharging_medium_fg = theme.colors.black
+theme.battery_discharging_medium_bg = theme.colors.yellow
+theme.battery_discharging_low_fg    = theme.colors.black
+theme.battery_discharging_low_bg    = theme.colors.red
 
 -- Create title bar icons
 local recolor = gears.color.recolor_image

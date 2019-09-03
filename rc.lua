@@ -213,7 +213,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             modules.widgets.player.widget,
             myseparator,
-            modules.widgets.battery,
+            modules.widgets.battery.widget,
             modules.widgets.volume.text_widget,
             mykeyboardlayout,
             mytextclock,
@@ -322,7 +322,7 @@ local globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "b",
         function ()
-            show_battery_status()
+            modules.widgets.battery.show_status()
         end, {description = "Show battery status", group = "Awesome"}),
 
     awful.key({ modkey, "Control", "Shift" }, "t",
