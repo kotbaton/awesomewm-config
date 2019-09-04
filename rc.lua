@@ -258,6 +258,7 @@ local globalkeys = gears.table.join(
         function()
             awful.prompt.run {
                 prompt       = "Text for translation: ",
+                textbox      = mypromptbox.widget,
                 exe_callback = function(text)
                     awful.spawn.easy_async([[
                             bash -c 'trans -tl ru -brief "]] .. text .. [["'
