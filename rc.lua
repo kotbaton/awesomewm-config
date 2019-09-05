@@ -551,7 +551,7 @@ local globalkeys = gears.table.join(
             if c then c:move_to_screen() end
         end, {description = "Move focused window on next screen", group = "Screens management"}),
 
-    awful.key({ modkey, }, "\\",
+    awful.key({ modkey, }, "F7",
         function ()
             awful.spawn.with_shell(gears.filesystem.get_configuration_dir() .. "scripts/monitor_toggle.sh " .. settings.monitors.internal .. " " .. settings.monitors.external)
         end, {description = "Toggle monitors script", group = "Screens management"}),
