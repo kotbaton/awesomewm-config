@@ -59,6 +59,7 @@ local function battery_widget_update()
 			end
         end
     end)
+    return true
 end
 
 function battery.show_status()

@@ -135,7 +135,10 @@ theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
 theme.notification_border_width                 = dpi(4)
-theme.notification_shape                        = gears.shape.rectangle
+theme.notification_shape                        = function(cr, width, height)
+    gears.shape.partially_rounded_rect(cr, width, height,
+                                       false, false, false, true, 16)
+end
 theme.notification_opacity                      = 0.90
 theme.notification_margin                       = dpi(16)
 theme.notification_spacing                      = dpi(8)
@@ -143,9 +146,9 @@ theme.notification_padding                      = dpi(0)
 theme.notification_width                        = dpi(400)
 theme.notification_timeout                      = 5
 -- theme.notification_height                       = nil
-theme.notification_icon_size                    = icon_size or dpi(96)
+theme.notification_icon_size                    = dpi(96)
 theme.notification_max_width                    = dpi(400)
--- theme.notification_max_height                   = nil
+theme.notification_max_height                   = dpi(150)
 
 -- theme.calendar_style = nil
 -- theme.calendar_font = nil
@@ -175,7 +178,7 @@ theme.menu_bg_normal    = theme.colors.black .. 'AA'
 -- hotkeys
 theme.hotkeys_bg                = theme.colors.black .. 'CC'
 theme.hotkeys_fg                = theme.colors.white
-theme.hotkeys_border_width      = dpi(2)
+theme.hotkeys_border_width      = dpi(4)
 theme.hotkeys_border_color      = theme.colors.green
 theme.hotkeys_shape             = gears.shape.rectangle
 theme.hotkeys_modifiers_fg      = theme.colors.green
@@ -212,18 +215,22 @@ theme.player_widget_fg = theme.colors.black
 
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green
-theme.volume_popup_border_width = dpi(3)
+theme.volume_popup_border_width = dpi(4)
 theme.volume_bar_bg             = theme.colors.darkGrey
 theme.volume_bar_fg             = theme.colors.green
 theme.volume_bar_fg_muted       = theme.colors.grey
 
 -- System info widget
 theme.si_outer_border_color = theme.colors.green
-theme.si_outer_border_width = dpi(2)
+theme.si_outer_border_width = dpi(4)
+theme.si_outer_border_shape = function(cr, width, height)
+    gears.shape.partially_rounded_rect(cr, width, height,
+                                       false, false, false, true, 16)
+end
 theme.si_inner_border_color = theme.colors.darkGrey .. 'AA'
 theme.si_inner_border_width = dpi(1)
-theme.si_inner_bg           = theme.colors.black
-theme.si_outer_bg           = theme.colors.black .. 'AA'
+theme.si_inner_bg           = theme.colors.darkGrey .. '44'
+theme.si_outer_bg           = theme.colors.black
 theme.si_ram_bar_fg         = theme.colors.green .. '99'
 theme.si_cpu_graph_fg       = theme.colors.lightGreen
 

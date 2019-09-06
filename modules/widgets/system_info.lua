@@ -278,12 +278,12 @@ si.popup = awful.popup {
         margins = dpi(8),
         widget  = wibox.container.margin
     },
-    opacity             = 0.8,
+    opacity             = 0.9,
     bg                  = beautiful.si_outer_bg or beautiful.colors.bg_normal,
     border_color        = beautiful.si_outer_border_color or beautiful.colors.green,
     border_width        = beautiful.si_outer_border_width or dpi(2),
     placement           = awful.placement.top_right + awful.placement.no_offscreen,
-    shape               = gears.shape.rect,
+    shape               = beautiful.si_outer_border_shape or gears.shape.rectangle,
     visible             = false,
     ontop               = true,
 }
