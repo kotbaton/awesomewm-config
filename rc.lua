@@ -114,16 +114,14 @@ awful.screen.connect_for_each_screen(function(s)
     local taglist_buttons = gears.table.join(
         awful.button({ }, 1,        function(t) t:view_only() end),
         awful.button({ modkey }, 1, function(t)
-           if client.focus
-                then
+           if client.focus then
                 client.focus:move_to_tag(t)
             end
         end),
         awful.button({ }, 2),
         awful.button({ }, 3,        awful.tag.viewtoggle),
         awful.button({ modkey }, 3, function(t)
-            if client.focus
-                then
+            if client.focus then
                 client.focus:toggle_tag(t)
             end
         end),
@@ -439,8 +437,7 @@ local globalkeys = gears.table.join(
                 exe_callback = function(new_name)
                     local t = awful.screen.focused().selected_tag -- Get current tag
                     if t then -- If success, check does we got text or no
-                        if not new_name or #new_name == 0 -- If length of input text 0 set default tag name
-                            then
+                        if not new_name or #new_name == 0 then -- If length of input text 0 set default tag name
                             t.name = t.index
                         else
                             t.name = t.index .. ":" .. new_name
