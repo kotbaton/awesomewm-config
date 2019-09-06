@@ -32,10 +32,10 @@ local ram_text = wibox.widget {
 local ram_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
-    border_width     = beautiful.si_inner_border_width or 1,
+    border_width     = beautiful.si_inner_border_width or dpi(1),
     border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
-    background_color = beautiful.si_bg or beautiful.colors.black,
+    background_color = beautiful.si_inner_bg or beautiful.colors.black,
     paddings         = dpi(2),
     forced_height    = dpi(24),
     forced_width     = dpi(200),
@@ -58,7 +58,7 @@ end
 ---- CPU load graph ----
 local cpu_graph = wibox.widget {
     max_value        = 100,
-    background_color = beautiful.si_bg or beautiful.colors.black,
+    background_color = beautiful.si_inner_bg or beautiful.colors.black,
     color            = beautiful.si_cpu_graph_fg or beautiful.colors.lightGreen,
     border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     border_width     = beautiful.si_inner_border_width or dpi(1),
@@ -109,24 +109,27 @@ end
 local calendar_styles = {
     month = {
         padding      = dpi(2),
-        bg_color     = beautiful.colors.black,
-        border_width = dpi(1),
+        bg_color     = beautiful.si_inner_bg or beautiful.colors.black,
+        border_width = beautiful.si_inner_border_width or dpi(1),
+        border_color = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     },
     normal = {
-        border_width = dpi(1),
+        border_width = dpi(0),
+        bg_color     = '#00000000',
     },
     focus = {
-        border_width = dpi(1),
+        border_width = dpi(0),
         fg_color     = beautiful.colors.black,
         bg_color     = beautiful.colors.green,
     },
     header = {
         fg_color = beautiful.colors.green,
-        bg_color = beautiful.colors.black,
+        bg_color = '#00000000',
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
     weekday = {
         fg_color = beautiful.colors.green,
+        bg_color = '#00000000',
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
 }
@@ -244,6 +247,7 @@ si.timer = gears.timer({
 local function decorator(w)
     return {
         w,
+        bg                 = beautiful.si_inner_bg,
         shape              = gears.shape.rectangle,
         shape_border_color = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
         shape_border_width = beautiful.si_inner_border_width or dpi(1),
@@ -275,6 +279,7 @@ si.popup = awful.popup {
         widget  = wibox.container.margin
     },
     opacity             = 0.8,
+    bg                  = beautiful.si_outer_bg or beautiful.colors.bg_normal,
     border_color        = beautiful.si_outer_border_color or beautiful.colors.green,
     border_width        = beautiful.si_outer_border_width or dpi(2),
     placement           = awful.placement.top_right + awful.placement.no_offscreen,

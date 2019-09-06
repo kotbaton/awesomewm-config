@@ -28,7 +28,8 @@ function tagnames.read(screen)
     return names
 end
 
-function tagnames.write(screen, tags)
+function tagnames.write(screen)
+    local tags = screen.tags
     local cache_dir = gears.filesystem.get_cache_dir()
     if not gears.filesystem.dir_readable(cache_dir)
     then

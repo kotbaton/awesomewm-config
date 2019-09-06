@@ -220,9 +220,10 @@ theme.volume_bar_fg_muted       = theme.colors.grey
 -- System info widget
 theme.si_outer_border_color = theme.colors.green
 theme.si_outer_border_width = dpi(2)
-theme.si_inner_border_color = theme.colors.darkGrey
+theme.si_inner_border_color = theme.colors.darkGrey .. 'AA'
 theme.si_inner_border_width = dpi(1)
-theme.si_bg                 = theme.colors.black
+theme.si_inner_bg           = theme.colors.black
+theme.si_outer_bg           = theme.colors.black .. 'AA'
 theme.si_ram_bar_fg         = theme.colors.green .. '99'
 theme.si_cpu_graph_fg       = theme.colors.lightGreen
 
