@@ -748,10 +748,22 @@ awful.rules.rules = {
     },
     {
         rule_any = {
-            instance = {"DTA","copyq"},
-            class = {"Arandr","Gpick","Kruler","Wpa_gui","pinentry","veromix","xtightvncviewer"},
-            name = {"Event Tester",},
-            role = {"AlarmWindow","pop-up",}
+            instance = {"DTA",
+                        "copyq"},
+            class = {"Arandr",
+                     "Gpick",
+                     "Kruler",
+                     "Wpa_gui",
+                     "pinentry",
+                     "veromix",
+                     "xtightvncviewer",
+                     "Lxappearance",
+                     "Matplotlib",
+                     "Nm-connection-editor"},
+            name = {"Event Tester",
+                    "Figure *"},
+            role = {"AlarmWindow",
+                    "pop-up",}
         },
         properties = { floating = true }
     },
@@ -762,14 +774,6 @@ awful.rules.rules = {
     {
         rule = { name = "galculator" },
         properties = { floating = true, ontop = true }
-    },
-    {
-        rule = { class = "Matplotlib" },
-        properties = { floating = true }
-    },
-    {
-        rule = { name = "Figure *" },
-        properties = { floating = true }
     },
     {
         rule = { name = "Media viewer" },

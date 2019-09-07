@@ -163,6 +163,7 @@ local function decorate_calendar(widget, flag, date)
 end
 
 local calendar_month = wibox.widget {
+    font         = beautiful.font,
     date         = os.date('*t'),
     week_numbers = false,
     start_sunday = false,
