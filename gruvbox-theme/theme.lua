@@ -148,7 +148,7 @@ theme.notification_timeout                      = 5
 -- theme.notification_height                       = nil
 theme.notification_icon_size                    = dpi(96)
 theme.notification_max_width                    = dpi(400)
-theme.notification_max_height                   = dpi(150)
+theme.notification_max_height                   = dpi(200)
 
 -- theme.calendar_style = nil
 -- theme.calendar_font = nil
@@ -166,7 +166,7 @@ theme.snap_border_width = dpi(8)
 theme.menu_submenu_icon = theme_path .."/icons/submenu.png"
 theme.menu_height       = dpi(24)
 theme.menu_width        = dpi(256)
-theme.menu_font         = "Ubuntu 11 Mono"
+-- theme.menu_font         = nil
 theme.menu_border_color = theme.colors.green .. 'AA'
 theme.menu_border_width = dpi(3)
 theme.menu_fg_focus     = theme.colors.white
@@ -185,7 +185,7 @@ theme.hotkeys_modifiers_fg      = theme.colors.green
 theme.hotkeys_label_bg          = theme.colors.green
 theme.hotkeys_label_fg          = theme.colors.black
 theme.hotkeys_font              = "Ubuntu Mono Bold 12"
-theme.hotkeys_description_font  = "Ubuntu 10"
+theme.hotkeys_description_font  = "Ubuntu Mono 10"
 theme.hotkeys_group_margin      = dpi(4)
 
 theme.terminal_icon = theme_path.."icons/apps/terminal.svg"

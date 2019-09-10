@@ -112,6 +112,7 @@ local calendar_styles = {
         bg_color     = beautiful.si_inner_bg or beautiful.colors.black,
         border_width = beautiful.si_inner_border_width or dpi(1),
         border_color = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+        shape        = beautiful.si_outer_border_shape,
     },
     normal = {
         border_width = dpi(0),

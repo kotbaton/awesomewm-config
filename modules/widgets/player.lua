@@ -7,8 +7,9 @@ local command   = require("settings").player_commands
 local text = wibox.widget{
 	forced_width = 220,
 	align		 = "center",
+    valign       = "center",
 	text		 = "",
-    font         = "Ubuntu Mono 11",
+    font         = beautiful.font,
 	widget		 = wibox.widget.textbox,
 }
 
