@@ -9,7 +9,7 @@ local text = wibox.widget{
 	align		 = "center",
     valign       = "center",
 	text		 = "",
-    font         = beautiful.font,
+    font         = beautiful.player_widget_font,
 	widget		 = wibox.widget.textbox,
 }
 
