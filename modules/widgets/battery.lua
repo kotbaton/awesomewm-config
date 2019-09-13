@@ -32,7 +32,7 @@ local function battery_widget_update()
 
         local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d%d)%%,? ?.*')
         local charge = tonumber(charge_str)
-        battery_text:set_text(" " .. charge .. "% ")
+        battery_text:set_text(charge .. "%")
 		
 		if status == 'Full' then
 			battery.widget:set_visible(false)
@@ -90,4 +90,5 @@ end
 
 gears.timer.start_new(15, battery_widget_update)
 
+battery_widget_update() -- Init battery widget on startup
 return battery

@@ -7,7 +7,16 @@ local theme_path = gears.filesystem.get_configuration_dir() .. "gruvbox-theme/"
 
 local theme = {}
 
-theme.font          = "Ubuntu Mono 13"
+local function font(s, t)
+    local base = "Ubuntu Mono"
+    if t then
+        return base .. " " .. t .. " " .. s
+    else
+        return base .. " " .. s
+    end
+end
+
+theme.font          = font(13)
 
 ------ COLORS --------------
 theme.colors = {
@@ -130,7 +139,7 @@ theme.tasklist_shape                            = gears.shape.rectangle
 -- theme.tasklist_shape_border_color_urgent        = nil
 
 -- notification
-theme.notification_font                         = "Ubuntu Mono 13"
+theme.notification_font                         = theme.font
 theme.notification_bg                           = theme.colors.black
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_color                 = theme.colors.green .. 'AA'
@@ -184,8 +193,8 @@ theme.hotkeys_shape             = gears.shape.rectangle
 theme.hotkeys_modifiers_fg      = theme.colors.green
 theme.hotkeys_label_bg          = theme.colors.green
 theme.hotkeys_label_fg          = theme.colors.black
-theme.hotkeys_font              = "Ubuntu Mono Bold 12"
-theme.hotkeys_description_font  = "Ubuntu Mono 10"
+theme.hotkeys_font              = font(12, "Bold")
+theme.hotkeys_description_font  = font(12)
 theme.hotkeys_group_margin      = dpi(4)
 
 theme.terminal_icon = theme_path.."icons/apps/terminal.svg"
@@ -210,8 +219,9 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_bgimage = nil
 
 -- Player widget
-theme.player_widget_bg = theme.colors.green
-theme.player_widget_fg = theme.colors.black
+theme.player_widget_bg      = theme.colors.green
+theme.player_widget_fg      = theme.colors.black
+theme.player_widget_width   = dpi(250)
 
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green

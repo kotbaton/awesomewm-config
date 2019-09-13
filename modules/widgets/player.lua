@@ -5,7 +5,7 @@ local beautiful = require("beautiful")
 local command   = require("settings").player_commands
 
 local text = wibox.widget{
-	forced_width = 220,
+	forced_width = beautiful.player_widget_width,
 	align		 = "center",
     valign       = "center",
 	text		 = "",
@@ -62,4 +62,6 @@ text:buttons(gears.table.join(
         awful.button({ }, 2, function () player.control.toggle() end)
 ))
 
+
+update_text() -- Init player widget on startup
 return player
