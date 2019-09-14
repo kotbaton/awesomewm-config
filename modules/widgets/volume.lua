@@ -33,7 +33,6 @@ volume.popup_widget = awful.popup {
 			text = " Volume:",
 			valign = 'center',
 			halign = 'center',
-			font = 'Ubuntu Mono Bold 14',
 			widget = wibox.widget.textbox,
 		},
 		volume.progressbar_widget,
@@ -55,9 +54,9 @@ local function update_text_widget(widget, stdout, _, _, _)
     local volume = string.match(stdout, "(%d?%d?%d)%%")
     volume = tonumber(string.format("% 3d", volume))
 	if mute == "off" then
-		widget:set_text(" ♫MM%")
+		widget:set_text("♫MM%")
 	else
-		widget:set_text(" ♫" .. volume .. "%")
+		widget:set_text("♫" .. volume .. "%")
 	end
 end
 

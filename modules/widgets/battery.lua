@@ -31,8 +31,8 @@ local function battery_widget_update()
         end
 
         local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d%d)%%,? ?.*')
-        local charge = tonumber(charge_str)
-        battery_text:set_text(charge .. "%")
+        local charge = tonumber(" " .. charge_str .. " ")
+        battery_text:set_text(" " .. charge .. "% ")
 		
 		if status == 'Full' then
 			battery.widget:set_visible(false)
@@ -50,9 +50,9 @@ local function battery_widget_update()
 				if status ~= 'Charging' then
 					show_battery_warning()
 				end
-			elseif charge > 10 and charge < 40 then
-				battery.widget.fg = beautiful.battery_discharging_normal_fg or beautiful.colors.black
-				battery.widget.bg = beautiful.battery_discharging_normal_bg or beautiful.colors.yellow
+			elseif charge > 10 and charge <= 40 then
+				battery.widget.fg = beautiful.battery_discharging_medium_fg or beautiful.colors.black
+				battery.widget.bg = beautiful.battery_discharging_medium_bg or beautiful.colors.yellow
 			else
 				battery.widget.fg = beautiful.battery_discharging_normal_fg or beautiful.colors.white
 				battery.widget.bg = beautiful.battery_discharging_normal_bg or beautiful.colors.darkGrey
