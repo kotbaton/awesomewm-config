@@ -246,8 +246,10 @@ local globalkeys = gears.table.join(
                 bash -c 'trans -tl ru -brief "$(xclip -o)"'
             ]], function(stdout)
                 naughty.notify({
-                    title   = "Translation:",
-                    text    = stdout,
+                    title      = "Translation:",
+                    text       = stdout,
+                    timeout    = 0,
+                    max_height = dpi(400),
                 })
             end)
         end, {description = "Translate text from selection", group = "Translation"}),
@@ -262,8 +264,10 @@ local globalkeys = gears.table.join(
                             bash -c 'trans -tl ru -brief "]] .. text .. [["'
                     ]], function(stdout)
                     naughty.notify({
-                        title   = "Translation:",
-                        text    = stdout,
+                        title      = "Translation:",
+                        text       = stdout,
+                        timeout    = 0,
+                        max_height = dpi(400),
                         })
                     end)
                 end
