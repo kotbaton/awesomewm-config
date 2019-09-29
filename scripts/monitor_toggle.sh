@@ -32,7 +32,7 @@ internal_only() {
 }
 
 both_monitors() {
-    xrandr --output "$internal" --auto --output "$external" --primary --auto --left-of "$internal"
+    xrandr --output "$internal" --auto --output "$external" --primary --auto --right-of "$internal"
     sleep 1
     notify-send "Screen info" "Both monitors are active now."
 }

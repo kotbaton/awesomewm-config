@@ -222,7 +222,7 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 theme.player_widget_bg      = theme.colors.green
 theme.player_widget_fg      = theme.colors.black
 theme.player_widget_font    = font(12)
-theme.player_widget_width   = dpi(250)
+theme.player_widget_width   = dpi(255)
 
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green

@@ -43,8 +43,8 @@ end
 
 -- Notification configuration
 naughty.config.defaults.border_width = dpi(4)
-naughty.config.spacing = dpi(4)
-naughty.config.padding = dpi(4)
+naughty.config.spacing = dpi(8)
+naughty.config.padding = dpi(6)
 naughty.config.defaults.timeout = 5
 
 -- Theme init
