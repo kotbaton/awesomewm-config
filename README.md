@@ -16,7 +16,7 @@ Wallpaper can be found in `images/` folder.
 | trans | Used in translation scripts |
 | xclip | Get selection for translation script |
 | jq | Parse json in weather widget |
-| lm-sensors | Temperature monitoring for system_info widget |
+| lm_sensors | Temperature monitoring for system_info widget |
 | feh | Set wallpaper (you need to choose image as wallpaper using feh) |
 | notify-send | Notification sending |
 
@@ -28,8 +28,8 @@ Also, you need sign up on openweathermap.org and get API key for weather widget 
 	* Debian-based: `sudo apt install awesome`
 	* Arch-based: `sudo pacman -S awesome`
 2. Get dependencies:
-	* Debian-based: 	`sudo apt install scrot xclip jq lm-sensors feh libnotify-bin`
-	* Arch-based: `sudo pacman -S scrot xclip jq lm-sensors feh libnotify`
+	* Debian-based: 	`sudo apt install scrot xclip jq lm_sensors feh libnotify-bin`
+	* Arch-based: `sudo pacman -S scrot xclip jq lm_sensors feh libnotify`
 	* You can get trans (translate-shell) from [here](https://github.com/soimort/translate-shell).
 3. Git clone configuration files in your config  directory and rename directory in awesome.
 ```bash
