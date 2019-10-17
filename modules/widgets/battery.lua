@@ -64,7 +64,7 @@ end
 
 function battery.show_status()
     battery_widget_update()
-    awful.spawn.easy_async([[bash -c 'acpi']],
+    awful.spawn.easy_async([[bash -c 'acpi && echo "Brightness: $(xbacklight)"']],
         function(stdout, _, _, _)
 			if notification then 
 				naughty.destroy(notification)

@@ -122,6 +122,7 @@ local calendar_styles = {
         border_width = dpi(0),
         fg_color     = beautiful.colors.black,
         bg_color     = beautiful.colors.green,
+        shape        = beautiful.si_outer_border_shape,
     },
     header = {
         fg_color = beautiful.colors.green,
