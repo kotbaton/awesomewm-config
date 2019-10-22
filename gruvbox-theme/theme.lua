@@ -8,7 +8,8 @@ local theme_path = gears.filesystem.get_configuration_dir() .. "gruvbox-theme/"
 local theme = {}
 
 local function font(s, t)
-    local base = "Ubuntu Mono"
+    local base = "Hermit Regular"
+    s = s - 2 -- Hermit is bigger then Ubuntu Mono
     if t then
         return base .. " " .. t .. " " .. s
     else
