@@ -42,9 +42,10 @@ do
 end
 
 -- Notification configuration
-naughty.config.defaults.border_width = dpi(4)
+naughty.config.defaults.border_width = dpi(0)
 naughty.config.spacing = dpi(8)
-naughty.config.padding = dpi(6)
+naughty.config.padding = dpi(8)
+naughty.config.defaults.margin = dpi(8)
 naughty.config.defaults.timeout = 5
 
 -- Theme init
@@ -177,11 +178,11 @@ awful.screen.connect_for_each_screen(function(s)
         buttons         = tasklist_buttons,
         update_function = list_update,
         layout          = {
-            spacing = dpi(8),
+            spacing = beautiful.tasklist_spacing or dpi(8),
             layout = wibox.layout.flex.horizontal,
         },
     }
-    s.mytasklist:set_max_widget_size(dpi(170))
+    s.mytasklist:set_max_widget_size(dpi(200))
 
     s.wibar = awful.wibar({
             position = "top",
@@ -773,6 +774,10 @@ awful.rules.rules = {
     },
     {
         rule_any = {type = { "normal", "dialog" }},
+        properties = { titlebars_enabled = true }
+    },
+    {
+        rule_any = {class = { "qgis", "QGIS3"}},
         properties = { titlebars_enabled = true }
     },
     {

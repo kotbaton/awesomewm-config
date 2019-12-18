@@ -40,7 +40,7 @@ both_monitors() {
 if xrandr | grep "$external disconnected"; then
     internal_only "$external disconnected. Only $internal is active."
 
-elif cat /proc/acpi/button/lid/LID0/state | grep "closed"; then
+elif cat /proc/acpi/button/lid/LID/state | grep "closed"; then
     external_only "Laptop lid closed. Only $external is active now."
 
 elif [ "$internal_active" ] && [ "$external_active" ]; then

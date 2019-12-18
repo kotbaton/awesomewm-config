@@ -121,16 +121,16 @@ local calendar_styles = {
     focus = {
         border_width = dpi(0),
         fg_color     = beautiful.colors.black,
-        bg_color     = beautiful.colors.green,
+        bg_color     = beautiful.colors.white,
         shape        = beautiful.si_outer_border_shape,
     },
     header = {
-        fg_color = beautiful.colors.green,
+        fg_color = beautiful.colors.white,
         bg_color = '#00000000',
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
     weekday = {
-        fg_color = beautiful.colors.green,
+        fg_color = beautiful.colors.white,
         bg_color = '#00000000',
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
@@ -275,11 +275,11 @@ si.popup = awful.popup {
             },
             decorator(cpu_temp),
             calendar_month,
-            spacing = 8,
+            spacing = 16,
             layout = wibox.layout.fixed.vertical,
         },
         margins = dpi(8),
-        widget  = wibox.container.margin
+        widget  = wibox.container.margin,
     },
     opacity             = 0.9,
     bg                  = beautiful.si_outer_bg or beautiful.colors.bg_normal,
