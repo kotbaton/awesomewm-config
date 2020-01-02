@@ -22,6 +22,21 @@ local function cpu_temp_update(widget)
     end)
 end
 
+---- GPU Temperature ----
+local GPU_temp = wibox.widget {
+    align         = 'center',
+    text          = 'GPU temp: ',
+    widget        = wibox.widget.textbox,
+    forced_height = dpi(24)
+}
+local function gpu_temp_update(widget)
+    local command = "nvidia-settings -q gpucoretemp -t"
+    awful.spawn.easy_async(command, function(stdout)
+        local temp = stdout:match("(%d+)")
+        widget.text = "GPU temp: +" .. temp .. "°C"
+    end)
+end
+
 ---- RAM text and bar ----
 local ram_text = wibox.widget {
     align  = 'center',
@@ -32,8 +47,6 @@ local ram_text = wibox.widget {
 local ram_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
-    -- border_width     = beautiful.si_inner_border_width or dpi(1),
-    -- border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
     background_color = beautiful.si_inner_bg or beautiful.colors.black,
     paddings         = dpi(2),
@@ -44,15 +57,13 @@ local ram_bar = wibox.widget {
 
 local swap_text = wibox.widget {
     align  = 'center',
-    text   = 'SWAP: ',
+    text   = 'swap: ',
     widget = wibox.widget.textbox
 }
 
 local swap_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
-    -- border_width     = beautiful.si_inner_border_width or dpi(1),
-    -- border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
     background_color = beautiful.si_inner_bg or beautiful.colors.black,
     paddings         = dpi(2),
@@ -264,6 +275,7 @@ si.timer = gears.timer({
     timeout = 1,
     callback = function()
         cpu_temp_update(cpu_temp)
+        gpu_temp_update(GPU_temp)
         ram_update(ram_text, ram_bar, swap_text, swap_bar)
         cpu_graph_update(cpu_graph)
         ps_update(ps_text)
@@ -292,22 +304,24 @@ si.popup = awful.popup {
                 widget = wibox.container.mirror,
             },
             decorator(ps_text),
-            decorator(
+            decorator({
                 {
-                    {
-                        ram_bar,
-                        ram_text,
-                        layout = wibox.layout.stack,
-                    },
-                    {
-                        swap_bar,
-                        swap_text,
-                        layout = wibox.layout.stack,
-                    },
-                    layout = wibox.layout.fixed.vertical,
-                }
-                    ),
-            decorator(cpu_temp),
+                    ram_bar,
+                    ram_text,
+                    layout = wibox.layout.stack,
+                },
+                {
+                    swap_bar,
+                    swap_text,
+                    layout = wibox.layout.stack,
+                },
+                layout = wibox.layout.fixed.vertical,
+            }),
+            decorator({
+                cpu_temp,
+                GPU_temp,
+                layout = wibox.layout.fixed.vertical,
+            }),
             calendar_month,
             spacing = 16,
             layout = wibox.layout.fixed.vertical,
