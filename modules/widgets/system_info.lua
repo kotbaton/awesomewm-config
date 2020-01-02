@@ -32,8 +32,8 @@ local ram_text = wibox.widget {
 local ram_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
-    border_width     = beautiful.si_inner_border_width or dpi(1),
-    border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+    -- border_width     = beautiful.si_inner_border_width or dpi(1),
+    -- border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
     background_color = beautiful.si_inner_bg or beautiful.colors.black,
     paddings         = dpi(2),
@@ -42,16 +42,40 @@ local ram_bar = wibox.widget {
     widget           = wibox.widget.progressbar,
 }
 
-local function ram_update(text_widget, bar_widget)
+local swap_text = wibox.widget {
+    align  = 'center',
+    text   = 'SWAP: ',
+    widget = wibox.widget.textbox
+}
+
+local swap_bar = wibox.widget {
+    max_value        = 1,
+    value            = 0,
+    -- border_width     = beautiful.si_inner_border_width or dpi(1),
+    -- border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+    color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
+    background_color = beautiful.si_inner_bg or beautiful.colors.black,
+    paddings         = dpi(2),
+    forced_height    = dpi(24),
+    forced_width     = dpi(200),
+    widget           = wibox.widget.progressbar,
+}
+
+local function ram_update(text_widget, bar_widget, text_widget_swap, bar_widget_swap)
     local command = "free -m"
     awful.spawn.easy_async(command, function(stdout)
-            local total, used, free, shared, buff, available =
+            local total, used, free, shared, buff, available, total_swap, used_swap, _ =
                 stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
             bar_widget:set_value((used+shared)/total)
+            bar_widget_swap:set_value(used_swap/total_swap)
 
             used = string.format("%0.2fG", (used+shared)/1024)
             total = string.format("%0.2fG", total/1024)
             text_widget:set_text("RAM: " .. used .. "/" .. total)
+
+            used = string.format("%0.2fG", used_swap/1024)
+            total = string.format("%0.2fG", total_swap/1024)
+            text_widget_swap:set_text("swap: " .. used .. "/" .. total)
     end)
 end
 
@@ -240,7 +264,7 @@ si.timer = gears.timer({
     timeout = 1,
     callback = function()
         cpu_temp_update(cpu_temp)
-        ram_update(ram_text, ram_bar)
+        ram_update(ram_text, ram_bar, swap_text, swap_bar)
         cpu_graph_update(cpu_graph)
         ps_update(ps_text)
     end,
@@ -268,11 +292,21 @@ si.popup = awful.popup {
                 widget = wibox.container.mirror,
             },
             decorator(ps_text),
-            {
-                ram_bar,
-                ram_text,
-                layout = wibox.layout.stack,
-            },
+            decorator(
+                {
+                    {
+                        ram_bar,
+                        ram_text,
+                        layout = wibox.layout.stack,
+                    },
+                    {
+                        swap_bar,
+                        swap_text,
+                        layout = wibox.layout.stack,
+                    },
+                    layout = wibox.layout.fixed.vertical,
+                }
+                    ),
             decorator(cpu_temp),
             calendar_month,
             spacing = 16,
