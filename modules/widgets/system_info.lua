@@ -55,14 +55,12 @@ local sensors_widget = wibox.widget {
 local function sensors_update(widget)
     local command = [[
     bash -c 't1=$(sensors coretemp-isa-0000 -u | grep -Eom 1 --color=never "[0-9]{2}\.[0-9]")
-    t2=$(nvidia-settings -q gpucoretemp -t)
 
-    echo "$t1 $t2"
+    echo "$t1"
     ']]
     awful.spawn.easy_async(command, function(stdout)
-        local cpu, gpu = stdout:match("(%d+).0 (%d+)")
-        widget:set_text("CPU temp: +" .. cpu .. "°C\nGPU temp: +" .. gpu .. "°C")
-        -- widget:set_text(stdout)
+        local cpu = stdout:match("(%d+).0")
+        widget:set_text("CPU temp: +" .. cpu .. "°C")
     end)
 end
 
