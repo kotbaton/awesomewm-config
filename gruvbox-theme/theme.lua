@@ -141,16 +141,15 @@ theme.tasklist_shape                            = gears.shape.rectangle
 
 -- notification
 theme.notification_font                         = theme.font
-theme.notification_bg                           = theme.colors.grey .. 'AA'
+theme.notification_bg                           = theme.colors.darkGrey .. 'CC'
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_width                 = dpi(0)
-theme.notification_border_color                 = theme.colors.grey .. 'AA'
+theme.notification_border_color                 = theme.colors.green .. 'AA'
 -- theme.notification_shape                        = function(cr, width, height)
---     gears.shape.partially_rounded_rect(cr, width, height,
---                                        false, false, false, true, 16)
+--     gears.shape.rounded_rect(cr, width, height, 16)
 -- end
 theme.notification_opacity                      = 1.00
-theme.notification_margin                       = dpi(8)
+theme.notification_margin                       = dpi(16)
 theme.notification_spacing                      = dpi(8)
 theme.notification_padding                      = dpi(8)
 theme.notification_width                        = dpi(400)
@@ -220,9 +219,9 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_bgimage = nil
 
 -- Player widget
-theme.player_widget_bg      = theme.colors.grey .. '55'
-theme.player_widget_fg      = theme.colors.white
-theme.player_widget_font    = font(13)
+theme.player_widget_bg      = theme.colors.yellow .. '99'
+theme.player_widget_fg      = theme.colors.black
+theme.player_widget_font    = font(13, 'Bold')
 theme.player_widget_width   = dpi(290)
 
 -- Volume widget
