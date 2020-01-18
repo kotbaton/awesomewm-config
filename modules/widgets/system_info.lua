@@ -43,35 +43,26 @@ local function add_label(label, widget, label_size)
     }
 end
 
----- CPU Temperature ----
-local cpu_temp = wibox.widget {
+---- Sensors widget ----
+local sensors_widget = wibox.widget {
     align         = 'center',
-    text          = 'CPU temp: +..°',
+    text          = "Wait for update...",
+    wrap          = "word",
     font          = beautiful.si_temp_font or beautiful.font,
     widget        = wibox.widget.textbox,
-    forced_height = dpi(24)
+    forced_height = dpi(50)
 }
-local function cpu_temp_update(widget)
-    local command = "sensors coretemp-isa-0000 -u"
-    awful.spawn.easy_async(command, function(stdout)
-        local temp = stdout:match("%d+", 61) or ".."
-        widget.text = "CPU temp: +" .. temp .. "°C"
-    end)
-end
+local function sensors_update(widget)
+    local command = [[
+    bash -c 't1=$(sensors coretemp-isa-0000 -u | grep -Eom 1 --color=never "[0-9]{2}\.[0-9]")
+    t2=$(nvidia-settings -q gpucoretemp -t)
 
----- GPU Temperature ----
-local GPU_temp = wibox.widget {
-    align         = 'center',
-    text          = 'GPU temp: +..°',
-    font          = beautiful.si_temp_font or beautiful.font,
-    widget        = wibox.widget.textbox,
-    forced_height = dpi(24)
-}
-local function gpu_temp_update(widget)
-    local command = "nvidia-settings -q gpucoretemp -t"
+    echo "$t1 $t2"
+    ']]
     awful.spawn.easy_async(command, function(stdout)
-        local temp = stdout:match("(%d+)") or ".."
-        widget.text = "GPU temp: +" .. temp .. "°C"
+        local cpu, gpu = stdout:match("(%d+).0 (%d+)")
+        widget:set_text("CPU temp: +" .. cpu .. "°C\nGPU temp: +" .. gpu .. "°C")
+        -- widget:set_text(stdout)
     end)
 end
 
@@ -301,8 +292,7 @@ local si = {}
 si.timer = gears.timer({
     timeout = 1,
     callback = function()
-        cpu_temp_update(cpu_temp)
-        gpu_temp_update(GPU_temp)
+        sensors_update(sensors_widget)
         ram_update(ram_bar, swap_bar)
         cpu_graph_update(cpu_graph, cpu_label)
     end,
@@ -338,11 +328,7 @@ si.popup:setup{
         }),
         decorator(add_label("", ram_bar), nil, nil, beautiful.colors.green),
         decorator(add_label("", swap_bar), nil, nil, beautiful.colors.yellow),
-        decorator(add_label("", {
-            cpu_temp,
-            GPU_temp,
-            layout = wibox.layout.fixed.vertical,
-        }, 22)),
+        decorator(add_label("", sensors_widget, 20)),
 
         spacing = dpi(8),
         layout = wibox.layout.fixed.vertical,
