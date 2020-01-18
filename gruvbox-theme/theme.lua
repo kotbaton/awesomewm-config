@@ -161,7 +161,7 @@ theme.notification_max_width                    = dpi(400)
 theme.notification_max_height                   = dpi(200)
 
 -- theme.calendar_style = nil
--- theme.calendar_font = nil
+theme.calendar_font = font(14)
 -- theme.calendar_spacing = 3
 -- theme.calendar_week_numbers = nil
 -- theme.calendar_start_sunday = nil
@@ -233,18 +233,30 @@ theme.volume_bar_fg             = theme.colors.white
 theme.volume_bar_fg_muted       = theme.colors.grey
 
 -- System info widget
+theme.si_weather_widget_font = font(16)
 theme.si_outer_border_color = theme.colors.green
 theme.si_outer_border_width = dpi(0)
 -- theme.si_outer_border_shape = function(cr, width, height)
 --     gears.shape.partially_rounded_rect(cr, width, height,
 --                                        false, false, false, true, 16)
 -- end
-theme.si_inner_border_color = theme.colors.black .. 'AA'
+theme.si_inner_border_color = theme.colors.black .. '00'
 theme.si_inner_border_width = dpi(0)
-theme.si_inner_bg           = theme.colors.black
-theme.si_outer_bg           = theme.colors.black
-theme.si_ram_bar_fg         = theme.colors.grey .. '99'
-theme.si_cpu_graph_fg       = theme.colors.white
+theme.si_inner_bg           = theme.colors.black .. '00'
+theme.si_outer_bg           = theme.colors.black .. 'EE'
+
+theme.si_ram_bar_fg         = theme.colors.green
+theme.si_ram_bar_bg         = theme.colors.darkGrey .. '99'
+theme.si_swp_bar_fg         = theme.colors.yellow
+theme.si_swp_bar_bg         = theme.colors.darkGrey .. '99'
+
+theme.si_bar_shape          = function(cr, width, height)
+    gears.shape.rounded_bar(cr, width, height, 8)
+end
+
+theme.si_cpu_graph_fg = theme.colors.green
+theme.si_cpu_graph_bg = theme.colors.darkGrey .. '00'
+theme.si_temp_font    = font(14, 'Bold')
 
 -- Battery widget
 theme.battery_charging_fg           = theme.colors.black

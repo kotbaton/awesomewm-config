@@ -10,7 +10,7 @@ local battery = {}
 local battery_text = wibox.widget{
 	align = "center",
 	widget = wibox.widget.textbox,
-	text = "100%"
+	text = "100%",
 }
 
 battery.widget = wibox.widget {

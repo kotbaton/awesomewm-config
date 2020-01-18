@@ -6,18 +6,55 @@ local dpi       = require("beautiful.xresources").apply_dpi
 
 local user = require("settings").user
 
+-- Helper functions
+local function decorator(w, vmargin, hmargin, fg)
+    return {
+        {
+            w,
+            bg                 = beautiful.si_inner_bg,
+            fg                 = fg or beautiful.fg_normal,
+            shape_border_color = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
+            shape_border_width = beautiful.si_inner_border_width or dpi(1),
+            widget             = wibox.container.background
+        },
+        forced_width    = dpi(200),
+        top             = vmargin or dpi(2),
+        bottom          = vmargin or dpi(2),
+        left            = hmargin or dpi(20),
+        right           = hmargin or dpi(20),
+        widget          = wibox.container.margin,
+    }
+end
+
+local function add_label(label, widget, label_size)
+    label_size = label_size or 15
+    return {
+        {
+            text            = label,
+            font            = "Hermit " .. label_size,
+            align           = 'center',
+            valign          = 'center',
+            forced_width    = dpi(50),
+            forced_height   = dpi(32),
+            widget          = wibox.widget.textbox,
+        },
+        widget,
+        layout = wibox.layout.align.horizontal,
+    }
+end
+
 ---- CPU Temperature ----
 local cpu_temp = wibox.widget {
     align         = 'center',
-    text          = 'CPU temp: ',
+    text          = 'CPU temp: +..°',
+    font          = beautiful.si_temp_font or beautiful.font,
     widget        = wibox.widget.textbox,
     forced_height = dpi(24)
 }
-
 local function cpu_temp_update(widget)
     local command = "sensors coretemp-isa-0000 -u"
     awful.spawn.easy_async(command, function(stdout)
-        local temp = stdout:match("%d+", 61)
+        local temp = stdout:match("%d+", 61) or ".."
         widget.text = "CPU temp: +" .. temp .. "°C"
     end)
 end
@@ -25,54 +62,45 @@ end
 ---- GPU Temperature ----
 local GPU_temp = wibox.widget {
     align         = 'center',
-    text          = 'GPU temp: ',
+    text          = 'GPU temp: +..°',
+    font          = beautiful.si_temp_font or beautiful.font,
     widget        = wibox.widget.textbox,
     forced_height = dpi(24)
 }
 local function gpu_temp_update(widget)
     local command = "nvidia-settings -q gpucoretemp -t"
     awful.spawn.easy_async(command, function(stdout)
-        local temp = stdout:match("(%d+)")
+        local temp = stdout:match("(%d+)") or ".."
         widget.text = "GPU temp: +" .. temp .. "°C"
     end)
 end
 
----- RAM text and bar ----
-local ram_text = wibox.widget {
-    align  = 'center',
-    text   = 'RAM: ',
-    widget = wibox.widget.textbox
-}
-
+---- RAM bar ----
 local ram_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
     color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
-    background_color = beautiful.si_inner_bg or beautiful.colors.black,
-    paddings         = dpi(2),
-    forced_height    = dpi(24),
+    background_color = beautiful.si_ram_bar_bg or beautiful.colors.black,
+    forced_height    = dpi(30),
     forced_width     = dpi(200),
+    shape            = beautiful.si_bar_shape or gears.rectangle,
+    bar_shape        = beautiful.si_bar_shape or gears.rectangle,
     widget           = wibox.widget.progressbar,
-}
-
-local swap_text = wibox.widget {
-    align  = 'center',
-    text   = 'swap: ',
-    widget = wibox.widget.textbox
 }
 
 local swap_bar = wibox.widget {
     max_value        = 1,
     value            = 0,
-    color            = beautiful.si_ram_bar_fg or beautiful.colors.green .. '99',
-    background_color = beautiful.si_inner_bg or beautiful.colors.black,
-    paddings         = dpi(2),
-    forced_height    = dpi(24),
+    color            = beautiful.si_swp_bar_fg or beautiful.colors.green .. '99',
+    background_color = beautiful.si_swp_bar_bg or beautiful.colors.black,
+    forced_height    = dpi(30),
     forced_width     = dpi(200),
+    shape            = beautiful.si_bar_shape or gears.rectangle,
+    bar_shape        = beautiful.si_bar_shape or gears.rectangle,
     widget           = wibox.widget.progressbar,
 }
 
-local function ram_update(text_widget, bar_widget, text_widget_swap, bar_widget_swap)
+local function ram_update(bar_widget, bar_widget_swap)
     local command = "free -m"
     awful.spawn.easy_async(command, function(stdout)
             local total, used, free, shared, buff, available, total_swap, used_swap, _ =
@@ -82,30 +110,39 @@ local function ram_update(text_widget, bar_widget, text_widget_swap, bar_widget_
 
             used = string.format("%0.2fG", (used+shared)/1024)
             total = string.format("%0.2fG", total/1024)
-            text_widget:set_text("RAM: " .. used .. "/" .. total)
 
             used = string.format("%0.2fG", used_swap/1024)
             total = string.format("%0.2fG", total_swap/1024)
-            text_widget_swap:set_text("swap: " .. used .. "/" .. total)
     end)
 end
 
 ---- CPU load graph ----
 local cpu_graph = wibox.widget {
     max_value        = 100,
-    background_color = beautiful.si_inner_bg or beautiful.colors.black,
+    background_color = beautiful.si_cpu_graph_bg or beautiful.colors.black,
     color            = beautiful.si_cpu_graph_fg or beautiful.colors.lightGreen,
     border_color     = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
     border_width     = beautiful.si_inner_border_width or dpi(1),
-    forced_height    = dpi(24),
+    forced_height    = dpi(32),
     forced_width     = dpi(200),
-    step_width       = dpi(4),
+    step_width       = dpi(6),
     step_spacing     = dpi(2),
     widget           = wibox.widget.graph,
 }
+local cpu_label = wibox.widget {
+    {
+        text = "",
+        font = "Hermit 15",
+        align = 'center',
+        forced_width = dpi(50),
+        widget = wibox.widget.textbox,
+    },
+    fg = beautiful.colors.green,
+    widget = wibox.widget.background,
+}
 
 local total_prev, idle_prev = 0, 0
-local function cpu_graph_update(graph_widget)
+local function cpu_graph_update(graph_widget, label)
     local command = "cat /proc/stat | grep '^cpu '"
     awful.spawn.easy_async(command, function(stdout)
         local user, nice, system, idle, iowait, irq, softirq, steal, _, _ =
@@ -119,24 +156,19 @@ local function cpu_graph_update(graph_widget)
 
         graph_widget:add_value(diff_usage)
 
+        if diff_usage <= 25 then
+            graph_widget.color = beautiful.colors.green
+            label.fg = beautiful.colors.green
+        elseif diff_usage > 25 and diff_usage <= 75 then
+            graph_widget.color = beautiful.colors.yellow
+            label.fg = beautiful.colors.yellow
+        else
+            graph_widget.color = beautiful.colors.red
+            label.fg = beautiful.colors.red
+        end
+
         total_prev = total
         idle_prev = idle
-    end)
-end
-
----- Processes ----
-local ps_text = wibox.widget {
-    align        = 'left',
-    valign       = 'center',
-    text         = '',
-    forced_width = dpi(200),
-    widget       = wibox.widget.textbox
-}
-
-local function ps_update(widget)
-    local command = [[bash -c "ps -e --sort=-pcpu -o pid,pcpu,comm | head -n 6 | cut -c-22" ]]
-    awful.spawn.easy_async(command, function(stdout)
-        widget.text = stdout
     end)
 end
 
@@ -156,16 +188,16 @@ local calendar_styles = {
     focus = {
         border_width = dpi(0),
         fg_color     = beautiful.colors.black,
-        bg_color     = beautiful.colors.white,
+        bg_color     = beautiful.colors.green,
         shape        = beautiful.si_outer_border_shape,
     },
     header = {
-        fg_color = beautiful.colors.white,
+        fg_color = beautiful.colors.green,
         bg_color = '#00000000',
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
     weekday = {
-        fg_color = beautiful.colors.white,
+        fg_color = beautiful.colors.green,
         bg_color = '#00000000',
         markup   = function(t) return '<b>' .. t .. '</b>' end,
     },
@@ -200,7 +232,7 @@ local function decorate_calendar(widget, flag, date)
 end
 
 local calendar_month = wibox.widget {
-    font         = beautiful.font,
+    font         = beautiful.calendar_font or beautiful.font,
     date         = os.date('*t'),
     week_numbers = false,
     start_sunday = false,
@@ -234,9 +266,9 @@ local weather_text = wibox.widget {
     align         = 'center',
     valign        = 'center',
     text          = '...',
-    forced_width  = dpi(200),
-    forced_height = dpi(24),
+    forced_height = dpi(80),
     wrap          = 'word',
+    font          = beautiful.si_weather_widget_font or beautiful.font,
     widget        = wibox.widget.textbox
 }
 
@@ -254,18 +286,13 @@ local function weather_update(text_widget)
             weather_temp=$(echo "$weather" | jq ".main.temp" | cut -d "." -f 1)
             weather_description=$(echo "$weather" | jq -r ".weather[].description" | head -1)
 
-            echo "$weather_temp°, $weather_description"
+            echo -e "Current weather:\n$weather_temp°, $weather_description"
         else
             echo "..."
         fi
   ']]
     awful.spawn.easy_async(command, function(stdout)
         text_widget:set_text(stdout)
-        if string.len(stdout) <= 23 then
-            text_widget:set_forced_height(dpi(24))
-        else
-            text_widget:set_forced_height(dpi(48))
-        end
     end)
 end
 
@@ -276,67 +303,55 @@ si.timer = gears.timer({
     callback = function()
         cpu_temp_update(cpu_temp)
         gpu_temp_update(GPU_temp)
-        ram_update(ram_text, ram_bar, swap_text, swap_bar)
-        cpu_graph_update(cpu_graph)
-        ps_update(ps_text)
+        ram_update(ram_bar, swap_bar)
+        cpu_graph_update(cpu_graph, cpu_label)
     end,
 })
 
--- Function which adds border around widget
-local function decorator(w)
-    return {
-        w,
-        bg                 = beautiful.si_inner_bg,
-        shape              = gears.shape.rectangle,
-        shape_border_color = beautiful.si_inner_border_color or beautiful.colors.darkGrey,
-        shape_border_width = beautiful.si_inner_border_width or dpi(1),
-        widget             = wibox.container.background
-    }
-end
+si.popup = wibox({
+        y               = dpi(24),
+        ontop           = true,
+        opacity         = 1.0,
+        bg              = beautiful.si_outer_bg or beautiful.colors.bg_normal,
+        shape           = beautiful.si_outer_border_shape or gears.shape.rectangle,
+        border_color    = beautiful.si_outer_border_color or beautiful.colors.green,
+        border_width    = beautiful.si_outer_border_width or dpi(2),
+        width           = dpi(300),
+        type            = "dock",
+        visible         = false,
+    })
 
-si.popup = awful.popup {
-    widget = {
-        {
-            decorator(weather_text),
+si.popup:setup{
+    {
+        decorator(weather_text, dpi(16)),
+        layout = wibox.layout.fixed.vertical,
+    },
+    {
+        decorator({
+            cpu_label,
             {
                 cpu_graph,
                 reflection = { horizontal = true },
                 widget = wibox.container.mirror,
             },
-            decorator(ps_text),
-            decorator({
-                {
-                    ram_bar,
-                    ram_text,
-                    layout = wibox.layout.stack,
-                },
-                {
-                    swap_bar,
-                    swap_text,
-                    layout = wibox.layout.stack,
-                },
-                layout = wibox.layout.fixed.vertical,
-            }),
-            decorator({
-                cpu_temp,
-                GPU_temp,
-                layout = wibox.layout.fixed.vertical,
-            }),
-            calendar_month,
-            spacing = 16,
+            layout = wibox.layout.fixed.horizontal,
+        }),
+        decorator(add_label("", ram_bar), nil, nil, beautiful.colors.green),
+        decorator(add_label("", swap_bar), nil, nil, beautiful.colors.yellow),
+        decorator(add_label("", {
+            cpu_temp,
+            GPU_temp,
             layout = wibox.layout.fixed.vertical,
-        },
-        margins = dpi(8),
-        widget  = wibox.container.margin,
+        }, 22)),
+
+        spacing = dpi(8),
+        layout = wibox.layout.fixed.vertical,
     },
-    opacity             = 0.9,
-    bg                  = beautiful.si_outer_bg or beautiful.colors.bg_normal,
-    border_color        = beautiful.si_outer_border_color or beautiful.colors.green,
-    border_width        = beautiful.si_outer_border_width or dpi(2),
-    placement           = awful.placement.top_right + awful.placement.no_offscreen,
-    shape               = beautiful.si_outer_border_shape or gears.shape.rectangle,
-    visible             = false,
-    ontop               = true,
+    {
+        decorator(calendar_month, nil, dpi(35)),
+        layout = wibox.layout.fixed.vertical,
+    },
+    layout = wibox.layout.align.vertical,
 }
 
 si.popup:buttons(gears.table.join(awful.button({}, 1, function()
@@ -346,9 +361,15 @@ end)))
 function si.toggle()
     if not si.timer.started then
         si.timer:start()
-        si.popup.screen = awful.screen.focused()
         weather_update(weather_text)
         calendar_month:set_date(os.date('*t'))
+
+        local fscreen = awful.screen.focused()
+        local geo = fscreen.geometry
+        si.popup.screen = fscreen
+        si.popup.height = geo.height - dpi(24)
+        si.popup.y = geo.y + dpi(24)
+        si.popup.x = geo.x + geo.width - dpi(300)
         si.popup.visible = true
     else
         si.timer:stop()
