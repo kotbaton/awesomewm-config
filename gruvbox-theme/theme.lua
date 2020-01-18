@@ -239,8 +239,8 @@ theme.si_outer_border_width = dpi(0)
 --     gears.shape.partially_rounded_rect(cr, width, height,
 --                                        false, false, false, true, 16)
 -- end
-theme.si_inner_border_color = theme.colors.darkGrey .. 'AA'
-theme.si_inner_border_width = dpi(1)
+theme.si_inner_border_color = theme.colors.black .. 'AA'
+theme.si_inner_border_width = dpi(0)
 theme.si_inner_bg           = theme.colors.black
 theme.si_outer_bg           = theme.colors.black
 theme.si_ram_bar_fg         = theme.colors.grey .. '99'
