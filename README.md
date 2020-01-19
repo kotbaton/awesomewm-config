@@ -18,6 +18,7 @@ Wallpaper can be found in `images/` folder.
 | jq | Parse json in weather widget |
 | lm_sensors | Temperature monitoring for system_info widget |
 | feh | Set wallpaper (you need to choose image as wallpaper using feh) |
+| rofi | Desktop files launcher |
 | notify-send | Notification sending |
 
 Also, you need sign up on openweathermap.org and get API key for weather widget work.

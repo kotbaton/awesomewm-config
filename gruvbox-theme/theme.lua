@@ -221,7 +221,7 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- Player widget
 theme.player_widget_bg      = theme.colors.yellow .. '99'
 theme.player_widget_fg      = theme.colors.black
-theme.player_widget_font    = font(13, 'Bold')
+theme.player_widget_font    = "Ubuntu Mono Bold 14"
 theme.player_widget_width   = dpi(290)
 
 -- Volume widget

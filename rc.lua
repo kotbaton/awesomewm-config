@@ -283,6 +283,11 @@ local globalkeys = gears.table.join(
     ----------------------{ AWESOME }--------------------------------------------
     awful.key({ modkey }, "r",
         function ()
+            awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8 -kb-row-tab "Tab"]])
+        end, {description = "Run rofi launcher", group = "Awesome"}),
+
+    awful.key({ modkey, "Shift" }, "r",
+        function ()
             mypromptbox:run()
         end, {description = "Run prompt", group = "Awesome"}),
 
