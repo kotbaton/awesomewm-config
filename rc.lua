@@ -761,7 +761,8 @@ awful.rules.rules = {
                      "Matplotlib",
                      "Nm-connection-editor"},
             name = {"Event Tester",
-                    "Figure *"},
+                    "Figure *",
+                    "Wpicker"},
             role = {"AlarmWindow",
                     "pop-up",}
         },
