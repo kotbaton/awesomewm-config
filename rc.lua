@@ -241,6 +241,11 @@ local globalkeys = gears.table.join(
             awful.spawn(terminal)
         end, {description = "open a terminal", group = "Applications"}),
 
+    awful.key({ modkey, "Shift" }, "Return",
+        function ()
+            awful.spawn(terminal, { floating = true })
+        end, {description = "open a floating terminal", group = "Applications"}),
+
     awful.key({"Control", "Mod1"}, "w",
         function()
             awful.spawn.easy_async([[
