@@ -15,7 +15,7 @@ delete_action() {
 
 if [ ! -d $screenshots_dir ]; then
     mkdir -p $screenshots_dir
-    notify-send -t 3000 "Screenshots dir has been created: $screenshots_dir"
+    notify-send -t 3000 "Maim" "Screenshots dir has been created: $screenshots_dir"
 fi
 
 case $1 in
@@ -25,7 +25,10 @@ case $1 in
 esac
 
 # Actually take screenshot
-scrot $options $image_path
+maim $options $image_path
+
+# Copy screenshot to clipboard too
+xclip -i $image_path -selection clipboard -t image/png
 
 if [ -f $image_path ]
 then
@@ -34,7 +37,7 @@ then
              --action="dismiss,Dismiss"\
              --action="edit,Edit"\
              --icon="$image_path"\
-             "Scrot"\
+             "Maim"\
              "Screenshot saved!")
 
     case $action in
@@ -48,5 +51,5 @@ then
             ;;
     esac
 else
-	dunstify --timeout 3000 "Scrot" "Something goes wrong!"
+	dunstify --timeout 3000 "Maim" "Something goes wrong!"
 fi
