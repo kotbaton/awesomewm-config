@@ -319,12 +319,13 @@ local globalkeys = gears.table.join(
         end, {description = "Galculator", group = "Applications"}),
 
     ----------------------{ AWESOME }--------------------------------------------
-    awful.key({ modkey }, "r",
-        function ()
-            awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8 -kb-row-tab "Tab"]])
-        end, {description = "Run rofi launcher", group = "Awesome"}),
+    -- Uncomment to use rofi
+    -- awful.key({ modkey }, "r",
+    --     function ()
+    --         awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8 -kb-row-tab "Tab"]])
+    --     end, {description = "Run rofi launcher", group = "Awesome"}),
 
-    awful.key({ modkey, "Shift" }, "r",
+    awful.key({ modkey }, "r",
         function ()
             mypromptbox:run()
         end, {description = "Run prompt", group = "Awesome"}),
@@ -822,8 +823,14 @@ awful.rules.rules = {
         rule = { name = "Media viewer" },
         properties = { floating = true, ontop = true, titlebars_enabled = false, fullscreen = true }
     },
+    {
+        rule_any = { class = {"ulauncher", "Ulauncher"} },
+        properties = {
+            titlebars_enabled = false,
+            border_width = 0,
+        },
+    },
 }
-
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
