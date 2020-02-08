@@ -64,13 +64,13 @@ theme.border_normal = theme.colors.black
 theme.border_focus  = theme.colors.black
 theme.border_marked = theme.colors.red
 
--- prompt
+-- PROMPT --
 theme.prompt_bg = '#00000000'
 theme.prompt_fg = theme.colors.lightGreen
 theme.prompt_fg_cursor = theme.colors.black
 theme.prompt_bg_cursor = theme.colors.green
 
--- taglist
+-- TAGLIST --
 theme.taglist_fg_focus                          = theme.colors.white
 theme.taglist_bg_focus                          = theme.colors.black .. 'AA'
 theme.taglist_fg_occupied                       = theme.colors.grey
@@ -105,19 +105,23 @@ theme.taglist_shape_border_color                = "#00000000"
 -- theme.taglist_shape_border_width_volatile    = nil
 -- theme.taglist_shape_border_color_volatile    = nil
 
-theme.tasklist_fg_normal                        = theme.colors.black
+-- TASKLIST --
+theme.tasklist_fg_normal                        = theme.colors.grey
 theme.tasklist_fg_focus                         = theme.colors.white
-theme.tasklist_fg_minimize                      = theme.colors.black
-theme.tasklist_fg_urgent                        = theme.colors.black
-theme.tasklist_bg_normal                        = theme.colors.grey .. '55'
-theme.tasklist_bg_focus                         = theme.colors.white .. '44'
-theme.tasklist_bg_minimize                      = theme.colors.darkGrey .. '44'
+theme.tasklist_fg_minimize                      = theme.colors.grey
+theme.tasklist_fg_urgent                        = theme.colors.red
+
+-- DON'T ADD ALPHA HERE (it doesn't work with two-background widget)
+theme.tasklist_bg_normal                        = theme.colors.grey
+theme.tasklist_bg_focus                         = theme.colors.white
+theme.tasklist_bg_minimize                      = theme.colors.darkGrey
 theme.tasklist_bg_urgent                        = theme.colors.red
+
 -- theme.tasklist_bg_image_normal               = nil
 -- theme.tasklist_bg_image_focus                = nil
 -- theme.tasklist_bg_image_urgent               = nil
 -- theme.tasklist_bg_image_minimize             = nil
-theme.tasklist_disable_icon                     = true
+theme.tasklist_disable_icon                     = false
 -- theme.tasklist_disable_task_name             = nil
 theme.tasklist_plain_task_name                  = false
 -- theme.tasklist_font                          = nil
@@ -144,12 +148,12 @@ theme.notification_font                         = theme.font
 theme.notification_bg                           = theme.colors.darkGrey .. 'CC'
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_width                 = dpi(0)
-theme.notification_border_color                 = theme.colors.green .. 'AA'
+theme.notification_border_color                 = theme.colors.darkGrey .. 'CC'
 -- theme.notification_shape                        = function(cr, width, height)
 --     gears.shape.rounded_rect(cr, width, height, 16)
 -- end
 theme.notification_opacity                      = 1.00
-theme.notification_margin                       = dpi(16)
+theme.notification_margin                       = dpi(8)
 theme.notification_spacing                      = dpi(8)
 theme.notification_padding                      = dpi(8)
 theme.notification_width                        = dpi(400)
@@ -219,8 +223,9 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_bgimage = nil
 
 -- Player widget
-theme.player_widget_bg      = theme.colors.yellow .. 'AA'
-theme.player_widget_fg      = theme.colors.black
+-- DON'T ADD ALPHA HERE (it doesn't work with two-background widget)
+theme.player_widget_bg      = theme.colors.yellow
+theme.player_widget_fg      = theme.colors.lightYellow
 theme.player_widget_font    = font(13)
 theme.player_widget_width   = dpi(290)
 
@@ -242,7 +247,7 @@ theme.si_outer_border_width = dpi(0)
 theme.si_inner_border_color = theme.colors.black .. '00'
 theme.si_inner_border_width = dpi(0)
 theme.si_inner_bg           = theme.colors.black .. '00'
-theme.si_outer_bg           = theme.colors.black .. 'EE'
+theme.si_outer_bg           = theme.colors.black .. 'DD'
 
 theme.si_ram_bar_fg         = theme.colors.green
 theme.si_ram_bar_bg         = theme.colors.darkGrey .. '99'

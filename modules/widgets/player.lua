@@ -8,17 +8,26 @@ local text = wibox.widget{
 	forced_width = beautiful.player_widget_width,
 	align		 = "center",
     valign       = "center",
-	text		 = "",
+	text		 = "...",
     font         = beautiful.player_widget_font,
 	widget		 = wibox.widget.textbox,
 }
 
 local container = wibox.widget {
-    text,
+    {
+        wibox.widget.base.make_widget(),
+        forced_height = 2,
+        bg = beautiful.player_widget_bg or beautiful.colors.green,
+        widget        = wibox.container.background,
+    },
+    {
+        text,
+        bg = (beautiful.player_widget_bg or beautiful.colors.green) .. '44',
+        fg = beautiful.player_widget_fg or beautiful.colors.black,
+        widget = wibox.container.background,
+    },
     visible = false,
-    bg = beautiful.player_widget_bg or beautiful.colors.green,
-    fg = beautiful.player_widget_fg or beautiful.colors.black,
-    widget = wibox.container.background,
+    layout = wibox.layout.fixed.vertical,
 }
 
 local function update_text()
@@ -56,12 +65,11 @@ function player.control.prev()
     update_text()
 end
 
-text:buttons(gears.table.join(
+container:buttons(gears.table.join(
         awful.button({ }, 1, function () player.control.next() end),
         awful.button({ }, 3, function () player.control.prev() end),
         awful.button({ }, 2, function () player.control.toggle() end)
 ))
-
 
 update_text() -- Init player widget on startup
 return player
