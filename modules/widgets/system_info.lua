@@ -129,7 +129,7 @@ local cpu_label = wibox.widget {
         widget = wibox.widget.textbox,
     },
     fg = beautiful.colors.green,
-    widget = wibox.widget.background,
+    widget = wibox.container.background,
 }
 
 local total_prev, idle_prev = 0, 0
