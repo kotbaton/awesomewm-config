@@ -238,6 +238,7 @@ theme.volume_bar_fg_muted       = theme.colors.grey
 
 -- System info widget
 theme.si_weather_widget_font = font(16)
+theme.si_weather_widget_icon_font = font(18)
 theme.si_outer_border_color = theme.colors.green
 theme.si_outer_border_width = dpi(0)
 -- theme.si_outer_border_shape = function(cr, width, height)

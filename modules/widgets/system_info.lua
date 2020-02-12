@@ -253,17 +253,26 @@ calendar_month:buttons(gears.table.join(
     end)))
 
 ---- Weather widget ----
+local weather_icon = wibox.widget {
+    align         = 'center',
+    valign        = 'center',
+    text          = '',
+    forced_height = dpi(40),
+    forced_width  = dpi(50),
+    font          = beautiful.si_weather_widget_icon_font or beautiful.font,
+    widget        = wibox.widget.textbox
+}
 local weather_text = wibox.widget {
     align         = 'center',
     valign        = 'center',
-    text          = '...',
-    forced_height = dpi(80),
+    text          = 'Wait for update...',
+    forced_height = dpi(40),
     wrap          = 'word',
     font          = beautiful.si_weather_widget_font or beautiful.font,
     widget        = wibox.widget.textbox
 }
 
-local function weather_update(text_widget)
+local function weather_update(text_widget, icon_widget)
     local key = user.api_key
     local city_id = user.city_id
     local command = [[
@@ -276,14 +285,43 @@ local function weather_update(text_widget)
         if [ ! -z "$weather" ]; then
             weather_temp=$(echo "$weather" | jq ".main.temp" | cut -d "." -f 1)
             weather_description=$(echo "$weather" | jq -r ".weather[].description" | head -1)
+            weather_icon=$(echo "$weather" | jq -r ".weather[].icon" | head -1)
 
-            echo -e "Current weather:\n$weather_temp°, $weather_description"
+            echo "$weather_icon;$weather_temp;$weather_description"
         else
-            echo "..."
+            echo "0;0;Weather unavailable"
         fi
   ']]
     awful.spawn.easy_async(command, function(stdout)
-        text_widget:set_text(stdout)
+        local icon_code, temp, description = stdout:match("(%S+);(%d+);(%C+)")
+        local icon = ''
+        if icon_code == '01d' then
+            icon = ''
+        elseif icon_code == '01n' then
+            icon = ''
+        elseif icon_code == '02d' then
+            icon = ''
+        elseif icon_code == '02n' then
+            icon = ''
+        elseif icon_code:find('02') or icon_code:find('03') then
+            icon = ''
+        elseif icon_code:find('09') then
+            icon = ''
+        elseif icon_code == '10d' then
+            icon = ''
+        elseif icon_code == '10n' then
+            icon = ''
+        elseif icon_code:find('11') then
+            icon = ''
+        elseif icon_code:find('13') then
+            icon = ''
+        elseif icon_code:find('50') then
+            icon = ''
+        else
+            icon = '×'
+        end
+        text_widget:set_text(temp .. "°C, " .. description)
+        icon_widget:set_text(icon)
     end)
 end
 
@@ -313,7 +351,11 @@ si.popup = wibox({
 
 si.popup:setup{
     {
-        decorator(weather_text, dpi(16)),
+        decorator({
+                weather_icon,
+                weather_text,
+                layout = wibox.layout.align.horizontal,
+            }, dpi(16)),
         layout = wibox.layout.fixed.vertical,
     },
     {
@@ -347,7 +389,7 @@ end)))
 function si.toggle()
     if not si.timer.started then
         si.timer:start()
-        weather_update(weather_text)
+        weather_update(weather_text, weather_icon)
         calendar_month:set_date(os.date('*t'))
 
         local fscreen = awful.screen.focused()
