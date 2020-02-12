@@ -253,26 +253,26 @@ calendar_month:buttons(gears.table.join(
     end)))
 
 ---- Weather widget ----
-local weather_icon = wibox.widget {
-    align         = 'center',
-    valign        = 'center',
-    text          = '',
-    forced_height = dpi(40),
-    forced_width  = dpi(50),
-    font          = beautiful.si_weather_widget_icon_font or beautiful.font,
-    widget        = wibox.widget.textbox
-}
 local weather_text = wibox.widget {
     align         = 'center',
     valign        = 'center',
-    text          = 'Wait for update...',
+    text          = '0°C',
     forced_height = dpi(40),
     wrap          = 'word',
-    font          = beautiful.si_weather_widget_font or beautiful.font,
+    font          = beautiful.si_weather_temp_font or beautiful.font,
+    widget        = wibox.widget.textbox
+}
+local weather_description = wibox.widget {
+    align         = 'center',
+    valign        = 'center',
+    text          = 'Wait for update',
+    forced_height = dpi(20),
+    wrap          = 'word',
+    font          = beautiful.si_weather_description_font or beautiful.font,
     widget        = wibox.widget.textbox
 }
 
-local function weather_update(text_widget, icon_widget)
+local function weather_update()
     local key = user.api_key
     local city_id = user.city_id
     local command = [[
@@ -303,7 +303,7 @@ local function weather_update(text_widget, icon_widget)
             icon = ''
         elseif icon_code == '02n' then
             icon = ''
-        elseif icon_code:find('02') or icon_code:find('03') then
+        elseif icon_code:find('02') or icon_code:find('03') or icon_code:find('04') then
             icon = ''
         elseif icon_code:find('09') then
             icon = ''
@@ -320,8 +320,9 @@ local function weather_update(text_widget, icon_widget)
         else
             icon = '×'
         end
-        text_widget:set_text(temp .. "°C, " .. description)
-        icon_widget:set_text(icon)
+        -- weather_text:set_text(temp .. "°C, " .. description)
+        weather_text:set_text(icon .. " " .. temp .. "°C")
+        weather_description:set_text(description)
     end)
 end
 
@@ -352,10 +353,10 @@ si.popup = wibox({
 si.popup:setup{
     {
         decorator({
-                weather_icon,
                 weather_text,
-                layout = wibox.layout.align.horizontal,
-            }, dpi(16)),
+                weather_description,
+                layout = wibox.layout.fixed.vertical,
+            }, dpi(10)),
         layout = wibox.layout.fixed.vertical,
     },
     {
@@ -389,7 +390,7 @@ end)))
 function si.toggle()
     if not si.timer.started then
         si.timer:start()
-        weather_update(weather_text, weather_icon)
+        weather_update()
         calendar_month:set_date(os.date('*t'))
 
         local fscreen = awful.screen.focused()
