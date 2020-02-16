@@ -16,6 +16,11 @@
 internal="$1"
 external="$2"
 
+if [ -z "$internal" ] || [ -z "$external" ]; then
+    notify-send "Screen info" "You must set monitor names in settings.lua"
+    exit 1
+fi
+
 internal_active=$(xrandr | grep "$internal" -A 1 | grep "*")
 external_active=$(xrandr | grep "$external" -A 1 | grep "*")
 
