@@ -82,7 +82,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 local mytextclock = wibox.widget.textclock("%R")
 mytextclock:buttons(gears.table.join(awful.button({},1, function()
-    modules.widgets.system_info.toggle()
+    modules.sidebar.toggle()
 end)))
 
 local mykeyboardlayout = awful.widget.keyboardlayout()
@@ -345,7 +345,7 @@ local globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "a", hotkeys_popup.show_help, {description="Show help", group="Awesome"}),
 
     awful.key({modkey}, "c", function()
-        modules.widgets.system_info.toggle()
+        modules.sidebar.toggle()
     end, {description = "Open system info popup", group = "Awesome"}),
 
     awful.key({ modkey,           }, "x",
