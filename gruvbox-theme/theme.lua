@@ -111,11 +111,24 @@ theme.tasklist_fg_focus                         = theme.colors.white
 theme.tasklist_fg_minimize                      = theme.colors.grey
 theme.tasklist_fg_urgent                        = theme.colors.red
 
--- DON'T ADD ALPHA HERE (it doesn't work with two-background widget)
-theme.tasklist_bg_normal                        = theme.colors.grey
-theme.tasklist_bg_focus                         = theme.colors.white
-theme.tasklist_bg_minimize                      = theme.colors.darkGrey
-theme.tasklist_bg_urgent                        = theme.colors.red
+local function make_gradient(color)
+    local alpha_level = '22'
+    return {
+        type  = 'linear',
+        from  = { 0, 0 },
+        to    = { 0, 24 },
+        stops = {
+            { 0.1, color },
+            { 0.1, color .. alpha_level }
+        }
+    }
+end
+
+theme.tasklist_bg_normal                        = make_gradient(theme.colors.grey)
+theme.tasklist_bg_focus                         = make_gradient(theme.colors.white)
+theme.tasklist_bg_minimize                      = make_gradient(theme.colors.darkGrey)
+theme.tasklist_bg_urgent                        = make_gradient(theme.colors.red)
+
 
 -- theme.tasklist_bg_image_normal               = nil
 -- theme.tasklist_bg_image_focus                = nil
@@ -223,7 +236,6 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_bgimage = nil
 
 -- Player widget
--- DON'T ADD ALPHA HERE (it doesn't work with two-background widget)
 theme.player_widget_bg      = theme.colors.yellow
 theme.player_widget_fg      = theme.colors.lightYellow
 theme.player_widget_font    = font(13)

@@ -183,36 +183,12 @@ awful.screen.connect_for_each_screen(function(s)
         },
         widget_template = {
             {
-                wibox.widget.base.make_widget(),
-                forced_height = 2,
-                id            = 'background_role',
-                widget        = wibox.container.background,
+                id     = 'text_role',
+                align  = 'center',
+                widget = wibox.widget.textbox,
             },
-            {
-                {
-                    id     = 'text_role',
-                    align  = 'center',
-                    widget = wibox.widget.textbox,
-                },
-                id     = 'bg2',
-                bg     = beautiful.tasklist_bg_focus .. '44',
-                widget = wibox.container.background,
-            },
-            layout = wibox.layout.fixed.vertical,
-
-            update_callback = function(self, c, index, objects)
-                local alpha = '44'
-                bg2_widget = self:get_children_by_id('bg2')[1]
-                if c == client.focus then
-                    bg2_widget:set_bg(beautiful.tasklist_bg_focus .. alpha)
-                elseif c.urgent then
-                    bg2_widget:set_bg(beautiful.tasklist_bg_urgent .. alpha)
-                elseif c.minimized then
-                    bg2_widget:set_bg(beautiful.tasklist_bg_minimize .. alpha)
-                else
-                    bg2_widget:set_bg(beautiful.tasklist_bg_normal .. alpha)
-                end
-            end,
+            id     = 'background_role',
+            widget = wibox.container.background,
         },
     }
     s.mytasklist:set_max_widget_size(dpi(200))

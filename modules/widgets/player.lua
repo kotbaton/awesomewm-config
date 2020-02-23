@@ -14,20 +14,18 @@ local text = wibox.widget{
 }
 
 local container = wibox.widget {
-    {
-        wibox.widget.base.make_widget(),
-        forced_height = 2,
-        bg = beautiful.player_widget_bg or beautiful.colors.green,
-        widget        = wibox.container.background,
-    },
-    {
         text,
-        bg = (beautiful.player_widget_bg or beautiful.colors.green) .. '44',
+        bg = {
+            type  = 'linear',
+            from  = { 0, 0 },
+            to    = { 0, 24 },
+            stops = {
+                { 0.1, beautiful.player_widget_bg },
+                { 0.1, beautiful.player_widget_bg .. '22' }
+            }
+        },
         fg = beautiful.player_widget_fg or beautiful.colors.black,
         widget = wibox.container.background,
-    },
-    visible = false,
-    layout = wibox.layout.fixed.vertical,
 }
 
 local function update_text()

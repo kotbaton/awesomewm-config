@@ -26,7 +26,7 @@ local cpu_label = wibox.widget {
         forced_width = dpi(50),
         widget = wibox.widget.textbox,
     },
-    fg = beautiful.colors.green,
+    fg = beautiful.si_cpu_graph_fg or beautiful.colors.lightGreen,
     widget = wibox.container.background,
 }
 
