@@ -4,7 +4,6 @@ local widgets = {
     player          = require("modules.widgets.player"),
 	tray			= require("modules.widgets.tray"),
 	volume			= require("modules.widgets.volume"),
-	system_info		= require("modules.widgets.system_info"),
 }
 
 return widgets
