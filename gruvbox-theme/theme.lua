@@ -189,16 +189,28 @@ theme.snap_border_width = dpi(8)
 -- theme.snap_shape        = gears.shape.rounded_rect
 
 -- menu
-theme.menu_submenu_icon = theme_path .."/icons/submenu.png"
+theme.menu_submenu_icon = theme_path .. "/icons/submenu.png"
 theme.menu_height       = dpi(24)
-theme.menu_width        = dpi(256)
+theme.menu_width        = dpi(200)
 -- theme.menu_font         = nil
-theme.menu_border_color = theme.colors.black
+theme.menu_border_color = theme.colors.black .. 'D9'
 theme.menu_border_width = dpi(3)
-theme.menu_fg_focus     = theme.colors.black
-theme.menu_bg_focus     = theme.colors.white .. 'EE'
+theme.menu_fg_focus     = theme.colors.white
+-- theme.menu_bg_focus     = theme.colors.white .. 'AA'
+theme.menu_bg_focus     = {
+    type = "linear",
+    from  = { 0, 0 },
+    to    = { 0, 24 },
+    stops = {
+        { 0.1, theme.colors.blue  },
+        { 0.1, theme.colors.blue .. '44' },
+        { 0.5, theme.colors.blue .. '22' },
+        { 0.9, theme.colors.blue .. '44' },
+        { 0.9, theme.colors.blue },
+    }
+}
 theme.menu_fg_normal    = theme.colors.white
-theme.menu_bg_normal    = theme.colors.black .. 'AA'
+theme.menu_bg_normal    = theme.colors.black .. '99'
 -- theme.menu_submenu = nil
 
 -- hotkeys
@@ -244,9 +256,13 @@ theme.player_widget_width   = dpi(290)
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green
 theme.volume_popup_border_width = dpi(0)
-theme.volume_bar_bg             = theme.colors.grey .. 'AA'
+theme.volume_popup_bg           = theme.colors.black .. 'DD'
+theme.volume_bar_bg             = theme.colors.darkGrey .. '99'
 theme.volume_bar_fg             = theme.colors.white
 theme.volume_bar_fg_muted       = theme.colors.grey
+theme.volume_bar_shape          = function(cr, width, height)
+    gears.shape.rounded_bar(cr, width, height, 8)
+end
 
 -- System info widget
 theme.si_weather_temp_font = font(16)
@@ -309,6 +325,10 @@ theme.titlebar_maximized_button_normal_active       = recolor(circle_png, theme.
 theme.titlebar_maximized_button_focus_active        = recolor(circle_png, theme.colors.green .. 'EE')
 theme.titlebar_maximized_button_focus_active_hover  = recolor(circle_png, theme.colors.lightGreen)
 theme.titlebar_maximized_button_normal_active_hover = recolor(circle_png, theme.colors.lightGreen)
+
+theme.titlebar_ontop_button_focus_inactive  = recolor(circle_png, theme.colors.blue)
+theme.titlebar_floating_button_focus_inactive  = recolor(circle_png, theme.colors.purple)
+theme.titlebar_sticky_button_focus_inactive  = recolor(circle_png, theme.colors.orange)
 
 -- Layout icons
 -- Don't load unneeded icons

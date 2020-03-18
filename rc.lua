@@ -160,7 +160,7 @@ awful.screen.connect_for_each_screen(function(s)
             end),
         awful.button({ }, 3,
             function(c)
-                modules.menus.clientmenu(c):show()
+                modules.menus.clientmenu(c):toggle()
             end),
         awful.button({ }, 4,
             function ()
@@ -806,7 +806,6 @@ client.connect_signal("manage", function (c)
     -- i.e. put it at the end of others instead of setting it master.
     if not awesome.startup then awful.client.setslave(c) end
     if not startup and not c.size_hints.user_position and not c.size_hints.program_position then
-        awful.placement.under_mouse(c)
         awful.placement.no_offscreen(c)
         --awful.placement.no_overlap(c)
     end

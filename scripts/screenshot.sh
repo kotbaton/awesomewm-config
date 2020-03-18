@@ -15,7 +15,7 @@ delete_action() {
 
 if [ ! -d $screenshots_dir ]; then
     mkdir -p $screenshots_dir
-    notify-send -t 3000 "Maim" "Screenshots dir has been created: $screenshots_dir"
+    dunstify --timeout 3000 "Maim" "Screenshots dir has been created: $screenshots_dir"
 fi
 
 case $1 in

@@ -22,6 +22,7 @@ volume.progressbar_widget = wibox.widget {
 	forced_width = 300,
 	border_width = 0,
     margins = 12,
+    shape = beautiful.volume_bar_shape or gears.shape.rectangle,
 	background_color = beautiful.volume_bar_bg or beautiful.colors.darkGrey,
 	color = beautiful.colors.green,
 	widget = wibox.widget.progressbar,
@@ -39,10 +40,9 @@ volume.popup_widget = awful.popup {
 		layout = wibox.layout.fixed.horizontal,
 	},
 	shape = gears.shape.rect,
-	opacity = 0.8,
-	placement = awful.placement.top + awful.placement.no_offscreen,
     screen = awful.screen.focused(),
 	ontop = true,
+	bg = beautiful.volume_popup_bg or beautiful.colors.black,
 	border_width = beautiful.volume_popup_border_width or 3,
 	border_color = beautiful.volume_popup_border_color or beautiful.colors.green,
 	type = 'normal',
@@ -85,6 +85,7 @@ function volume.control(cmd, value)
 	end)
     volume.popup_widget.screen = awful.screen.focused()
 	volume.popup_widget.visible = true
+    awful.placement.top(volume.popup_widget, { margins = { top = 32 } })
 	if volume.timer.started then
 		volume.timer:again()
 	else
@@ -93,7 +94,7 @@ function volume.control(cmd, value)
 end
 
 volume.timer = gears.timer {
-	timeout = 1,
+	timeout = 2,
 	callback = function()
 		volume.popup_widget.visible = false
 	end,
