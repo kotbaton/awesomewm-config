@@ -4,7 +4,7 @@ My configuration for awesome WM 4.3
 
 # Screenshots
 ![alt text](images/screenshot1.png?raw=true)
-With system_info widget:
+With sidebar:
 ![alt text](images/screenshot2.png?raw=true)
 Wallpaper can be found in `images/` folder.
 
