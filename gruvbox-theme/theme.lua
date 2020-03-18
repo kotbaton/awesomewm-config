@@ -314,6 +314,10 @@ theme.titlebar_maximized_button_focus_active        = recolor(circle_png, theme.
 theme.titlebar_maximized_button_focus_active_hover  = recolor(circle_png, theme.colors.lightGreen)
 theme.titlebar_maximized_button_normal_active_hover = recolor(circle_png, theme.colors.lightGreen)
 
+theme.titlebar_ontop_button_focus_inactive  = recolor(circle_png, theme.colors.blue)
+theme.titlebar_floating_button_focus_inactive  = recolor(circle_png, theme.colors.purple)
+theme.titlebar_sticky_button_focus_inactive  = recolor(circle_png, theme.colors.orange)
+
 -- Layout icons
 -- Don't load unneeded icons
 local layout_icon_color = theme.colors.grey
