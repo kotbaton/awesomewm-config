@@ -50,20 +50,22 @@ popup:setup{
     layout = wibox.layout.align.vertical,
 }
 
+local function timer_callback()
+    ramswap.update()
+    cpu.update()
+    sensors.update()
+end
+
 -- Timer with update callback
 local timer = gears.timer({
     timeout = 1,
-    callback = function()
-        ramswap.update()
-        cpu.update()
-        sensors.update()
-    end,
+    callback = timer_callback
 })
 
 local sidebar = {}
 function sidebar.toggle()
     if not timer.started then
-        timer:start()
+        timer_callback()
 
         -- Update this only once
         weather.update()
@@ -76,6 +78,7 @@ function sidebar.toggle()
         popup.y = geo.y + dpi(24)
         popup.x = geo.x + geo.width - dpi(300)
         popup.visible = true
+        timer:start()
     else
         timer:stop()
         popup.visible = false
