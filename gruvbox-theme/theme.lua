@@ -244,9 +244,13 @@ theme.player_widget_width   = dpi(290)
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green
 theme.volume_popup_border_width = dpi(0)
-theme.volume_bar_bg             = theme.colors.grey .. 'AA'
+theme.volume_popup_bg           = theme.colors.black .. 'DD'
+theme.volume_bar_bg             = theme.colors.darkGrey .. '99'
 theme.volume_bar_fg             = theme.colors.white
 theme.volume_bar_fg_muted       = theme.colors.grey
+theme.volume_bar_shape          = function(cr, width, height)
+    gears.shape.rounded_bar(cr, width, height, 8)
+end
 
 -- System info widget
 theme.si_weather_temp_font = font(16)
