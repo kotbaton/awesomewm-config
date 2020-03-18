@@ -25,7 +25,7 @@ case $1 in
 esac
 
 # Actually take screenshot
-maim $options $image_path
+maim --hidecursor $options $image_path
 
 # Copy screenshot to clipboard too
 xclip -i $image_path -selection clipboard -t image/png
