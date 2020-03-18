@@ -160,7 +160,7 @@ awful.screen.connect_for_each_screen(function(s)
             end),
         awful.button({ }, 3,
             function(c)
-                modules.menus.clientmenu(c):show()
+                modules.menus.clientmenu(c):toggle()
             end),
         awful.button({ }, 4,
             function ()

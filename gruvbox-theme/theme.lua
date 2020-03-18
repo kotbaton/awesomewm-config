@@ -191,7 +191,7 @@ theme.snap_border_width = dpi(8)
 -- menu
 theme.menu_submenu_icon = theme_path .. "/icons/submenu.png"
 theme.menu_height       = dpi(24)
-theme.menu_width        = dpi(256)
+theme.menu_width        = dpi(200)
 -- theme.menu_font         = nil
 theme.menu_border_color = theme.colors.black .. 'D9'
 theme.menu_border_width = dpi(3)

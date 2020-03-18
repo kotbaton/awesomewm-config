@@ -6,7 +6,6 @@ local function create_client_menu(c)
     local tags = awful.screen.focused().tags
     local names = tagnames.read(c.screen)
     local task_menu = {
-        { "Close",  function() c:kill() end, beautiful.titlebar_close_button_focus },
         {
             "Move to tag",
             {
@@ -40,6 +39,7 @@ local function create_client_menu(c)
         { "Floating", function() c.floating = not c.floating end, beautiful.titlebar_floating_button_focus_inactive },
         { "On top",   function() c.ontop = not c.ontop end, beautiful.titlebar_ontop_button_focus_inactive },
         { "Sticky",   function() c.sticky = not c.sticky end, beautiful.titlebar_sticky_button_focus_inactive },
+        { "Close",  function() c:kill() end, beautiful.titlebar_close_button_focus },
     }
     
     return awful.menu(task_menu)
