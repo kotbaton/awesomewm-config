@@ -1,15 +1,13 @@
 local awful     = require("awful")
+local beautiful = require("beautiful")
 local tagnames  = require("modules.tools.tagnames")
 
-create_client_menu = function(c)
+local function create_client_menu(c)
     local tags = awful.screen.focused().tags
     local names = tagnames.read(c.screen)
     local task_menu = {
         {
-            "× Close",  function() c:kill() end
-        },
-        {
-            "    Move to tag",
+            "Move to tag",
             {
                 {names[1], function() c:move_to_tag(tags[1]) end},
                 {names[2], function() c:move_to_tag(tags[2]) end},
@@ -23,7 +21,7 @@ create_client_menu = function(c)
             }
         },
         {
-            "    Add to tag",
+            "Add to tag",
             {
                 {names[1], function() c:toggle_tag(tags[1]) end},
                 {names[2], function() c:toggle_tag(tags[2]) end},
@@ -36,15 +34,31 @@ create_client_menu = function(c)
                 {names[9], function() c:toggle_tag(tags[9]) end},
             }
         },
-        { "+ Toogle maximize", function() c.maximized = not c.maximized end },
-        { "↓ Toogle minimize", function() c.minimized = not c.minimized end },
-        { "✈ Toogle floating", function() c.floating = not c.floating end },
-        { "^ Toggle on top",   function() c.ontop = not c.ontop end },
-        { "▪ Toggle sticky",   function() c.sticky = not c.sticky end },
-        { "  Nevermind",       function() end },
+        { "Maximize", function() c.maximized = not c.maximized end, beautiful.titlebar_maximized_button_focus_inactive },
+        { "Minimize", function() c.minimized = not c.minimized end, beautiful.titlebar_minimize_button_focus },
+        { "Floating", function() c.floating = not c.floating end, beautiful.titlebar_floating_button_focus_inactive },
+        { "On top",   function() c.ontop = not c.ontop end, beautiful.titlebar_ontop_button_focus_inactive },
+        { "Sticky",   function() c.sticky = not c.sticky end, beautiful.titlebar_sticky_button_focus_inactive },
+        { "Close",  function() c:kill() end, beautiful.titlebar_close_button_focus },
     }
     
     return awful.menu(task_menu)
 end
 
-return create_client_menu
+local current = {
+    menu = nil,
+    client = nil
+}
+
+local function toggle_menu(c)
+    if current.menu then
+        current.menu:hide()
+    end
+    if not current.menu or c ~= current.client then
+        current.menu = create_client_menu(c)
+        current.client = c
+    end
+    return current.menu
+end
+
+return toggle_menu

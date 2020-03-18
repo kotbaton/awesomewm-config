@@ -42,9 +42,10 @@ do
 end
 
 -- Notification configuration
-naughty.config.defaults.border_width = dpi(4)
+naughty.config.defaults.border_width = dpi(0)
 naughty.config.spacing = dpi(8)
-naughty.config.padding = dpi(6)
+naughty.config.padding = dpi(8)
+naughty.config.defaults.margin = dpi(8)
 naughty.config.defaults.timeout = 5
 
 -- Theme init
@@ -81,7 +82,7 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 local mytextclock = wibox.widget.textclock("%R")
 mytextclock:buttons(gears.table.join(awful.button({},1, function()
-    modules.widgets.system_info.toggle()
+    modules.sidebar.toggle()
 end)))
 
 local mykeyboardlayout = awful.widget.keyboardlayout()
@@ -159,7 +160,7 @@ awful.screen.connect_for_each_screen(function(s)
             end),
         awful.button({ }, 3,
             function(c)
-                modules.menus.clientmenu(c):show()
+                modules.menus.clientmenu(c):toggle()
             end),
         awful.button({ }, 4,
             function ()
@@ -177,18 +178,27 @@ awful.screen.connect_for_each_screen(function(s)
         buttons         = tasklist_buttons,
         update_function = list_update,
         layout          = {
-            spacing = dpi(8),
+            spacing = beautiful.tasklist_spacing or dpi(8),
             layout = wibox.layout.flex.horizontal,
         },
+        widget_template = {
+            {
+                id     = 'text_role',
+                align  = 'center',
+                widget = wibox.widget.textbox,
+            },
+            id     = 'background_role',
+            widget = wibox.container.background,
+        },
     }
-    s.mytasklist:set_max_widget_size(dpi(170))
+    s.mytasklist:set_max_widget_size(dpi(200))
 
     s.wibar = awful.wibar({
             position = "top",
             screen = s,
             height = dpi(24),
             ontop = false,
-            bg = beautiful.colors.black .. '99',
+            bg = beautiful.colors.black .. 'DD',
         }):setup {
         {
             -- Left widgets
@@ -240,6 +250,11 @@ local globalkeys = gears.table.join(
             awful.spawn(terminal)
         end, {description = "open a terminal", group = "Applications"}),
 
+    awful.key({ modkey, "Shift" }, "Return",
+        function ()
+            awful.spawn(terminal, { floating = true })
+        end, {description = "open a floating terminal", group = "Applications"}),
+
     awful.key({"Control", "Mod1"}, "w",
         function()
             awful.spawn.easy_async([[
@@ -282,6 +297,11 @@ local globalkeys = gears.table.join(
     ----------------------{ AWESOME }--------------------------------------------
     awful.key({ modkey }, "r",
         function ()
+            awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8 -kb-row-tab "Tab"]])
+        end, {description = "Run rofi launcher", group = "Awesome"}),
+
+    awful.key({ modkey, "Shift" }, "r",
+        function ()
             mypromptbox:run()
         end, {description = "Run prompt", group = "Awesome"}),
 
@@ -301,7 +321,7 @@ local globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "a", hotkeys_popup.show_help, {description="Show help", group="Awesome"}),
 
     awful.key({modkey}, "c", function()
-        modules.widgets.system_info.toggle()
+        modules.sidebar.toggle()
     end, {description = "Open system info popup", group = "Awesome"}),
 
     awful.key({ modkey,           }, "x",
@@ -387,23 +407,13 @@ local globalkeys = gears.table.join(
 
     awful.key({ }, "Print", nil,
         function()
-            awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh", false)
+            awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh", false)
         end, { description = "Make screenshot of fullscreen", group = "Screenshot" }),
 
     awful.key({ "Shift" }, "Print", nil,
         function()
-            awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -s", false)
+            awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh -s", false)
         end, { description = "Make screenshot of selected area", group = "Screenshot" }),
-
-    awful.key({ "Shift", "Control" }, "Print", nil,
-        function()
-            awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -se", false)
-        end, { description = "Make screenshot of selected area and edit in gimp", group = "Screenshot" }),
-
-    awful.key({ "Control"}, "Print", nil,
-        function()
-            awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/make_screenshot.sh -e", false)
-        end, { description = "Make screenshot and edit in gimp", group = "Screenshot" }),
 
     ----------------------{ PLAYER }--------------------------------------------
 
@@ -765,7 +775,8 @@ awful.rules.rules = {
                      "Matplotlib",
                      "Nm-connection-editor"},
             name = {"Event Tester",
-                    "Figure *"},
+                    "Figure *",
+                    "Wpicker"},
             role = {"AlarmWindow",
                     "pop-up",}
         },
@@ -773,6 +784,10 @@ awful.rules.rules = {
     },
     {
         rule_any = {type = { "normal", "dialog" }},
+        properties = { titlebars_enabled = true }
+    },
+    {
+        rule_any = {class = { "qgis", "QGIS3"}},
         properties = { titlebars_enabled = true }
     },
     {
@@ -791,7 +806,6 @@ client.connect_signal("manage", function (c)
     -- i.e. put it at the end of others instead of setting it master.
     if not awesome.startup then awful.client.setslave(c) end
     if not startup and not c.size_hints.user_position and not c.size_hints.program_position then
-        awful.placement.under_mouse(c)
         awful.placement.no_offscreen(c)
         --awful.placement.no_overlap(c)
     end

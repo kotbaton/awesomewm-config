@@ -8,7 +8,7 @@ local theme_path = gears.filesystem.get_configuration_dir() .. "gruvbox-theme/"
 local theme = {}
 
 local function font(s, t)
-    local base = "Hermit Regular"
+    local base = "Hermit"
     s = s - 2 -- Hermit is bigger then Ubuntu Mono
     if t then
         return base .. " " .. t .. " " .. s
@@ -59,21 +59,21 @@ theme.useless_gap               = dpi(0)
 theme.gap_single_client         = true
 theme.maximized_honor_padding   = false
 
-theme.border_width  = dpi(1)
+theme.border_width  = dpi(2)
 theme.border_normal = theme.colors.black
-theme.border_focus  = theme.colors.green
+theme.border_focus  = theme.colors.black
 theme.border_marked = theme.colors.red
 
--- prompt
+-- PROMPT --
 theme.prompt_bg = '#00000000'
 theme.prompt_fg = theme.colors.lightGreen
 theme.prompt_fg_cursor = theme.colors.black
 theme.prompt_bg_cursor = theme.colors.green
 
--- taglist
+-- TAGLIST --
 theme.taglist_fg_focus                          = theme.colors.white
-theme.taglist_bg_focus                          = theme.colors.darkGrey
-theme.taglist_fg_occupied                       = theme.colors.white
+theme.taglist_bg_focus                          = theme.colors.black .. 'AA'
+theme.taglist_fg_occupied                       = theme.colors.grey
 theme.taglist_bg_occupied                       = theme.colors.black .. '00'
 -- theme.taglist_fg_urgent                      = nil
 -- theme.taglist_bg_urgent                      = nil
@@ -105,19 +105,36 @@ theme.taglist_shape_border_color                = "#00000000"
 -- theme.taglist_shape_border_width_volatile    = nil
 -- theme.taglist_shape_border_color_volatile    = nil
 
-theme.tasklist_fg_normal                        = theme.colors.black
-theme.tasklist_fg_focus                         = theme.colors.black
-theme.tasklist_fg_minimize                      = theme.colors.black
-theme.tasklist_fg_urgent                        = theme.colors.black
-theme.tasklist_bg_normal                        = theme.colors.grey
-theme.tasklist_bg_focus                         = theme.colors.green
-theme.tasklist_bg_minimize                      = theme.colors.darkGrey
-theme.tasklist_bg_urgent                        = theme.colors.red
+-- TASKLIST --
+theme.tasklist_fg_normal                        = theme.colors.grey
+theme.tasklist_fg_focus                         = theme.colors.white
+theme.tasklist_fg_minimize                      = theme.colors.grey
+theme.tasklist_fg_urgent                        = theme.colors.red
+
+local function make_gradient(color)
+    local alpha_level = '22'
+    return {
+        type  = 'linear',
+        from  = { 0, 0 },
+        to    = { 0, 24 },
+        stops = {
+            { 0.1, color },
+            { 0.1, color .. alpha_level }
+        }
+    }
+end
+
+theme.tasklist_bg_normal                        = make_gradient(theme.colors.grey)
+theme.tasklist_bg_focus                         = make_gradient(theme.colors.white)
+theme.tasklist_bg_minimize                      = make_gradient(theme.colors.darkGrey)
+theme.tasklist_bg_urgent                        = make_gradient(theme.colors.red)
+
+
 -- theme.tasklist_bg_image_normal               = nil
 -- theme.tasklist_bg_image_focus                = nil
 -- theme.tasklist_bg_image_urgent               = nil
 -- theme.tasklist_bg_image_minimize             = nil
-theme.tasklist_disable_icon                     = true
+theme.tasklist_disable_icon                     = false
 -- theme.tasklist_disable_task_name             = nil
 theme.tasklist_plain_task_name                  = false
 -- theme.tasklist_font                          = nil
@@ -141,18 +158,17 @@ theme.tasklist_shape                            = gears.shape.rectangle
 
 -- notification
 theme.notification_font                         = theme.font
-theme.notification_bg                           = theme.colors.black
+theme.notification_bg                           = theme.colors.darkGrey .. 'CC'
 theme.notification_fg                           = theme.colors.white
-theme.notification_border_color                 = theme.colors.green .. 'AA'
-theme.notification_border_width                 = dpi(4)
-theme.notification_shape                        = function(cr, width, height)
-    gears.shape.partially_rounded_rect(cr, width, height,
-                                       false, false, false, true, 16)
-end
-theme.notification_opacity                      = 0.90
-theme.notification_margin                       = dpi(16)
+theme.notification_border_width                 = dpi(0)
+theme.notification_border_color                 = theme.colors.darkGrey .. 'CC'
+-- theme.notification_shape                        = function(cr, width, height)
+--     gears.shape.rounded_rect(cr, width, height, 16)
+-- end
+theme.notification_opacity                      = 1.00
+theme.notification_margin                       = dpi(8)
 theme.notification_spacing                      = dpi(8)
-theme.notification_padding                      = dpi(0)
+theme.notification_padding                      = dpi(8)
 theme.notification_width                        = dpi(400)
 theme.notification_timeout                      = 5
 -- theme.notification_height                       = nil
@@ -161,7 +177,7 @@ theme.notification_max_width                    = dpi(400)
 theme.notification_max_height                   = dpi(200)
 
 -- theme.calendar_style = nil
--- theme.calendar_font = nil
+theme.calendar_font = font(14)
 -- theme.calendar_spacing = 3
 -- theme.calendar_week_numbers = nil
 -- theme.calendar_start_sunday = nil
@@ -173,16 +189,28 @@ theme.snap_border_width = dpi(8)
 -- theme.snap_shape        = gears.shape.rounded_rect
 
 -- menu
-theme.menu_submenu_icon = theme_path .."/icons/submenu.png"
+theme.menu_submenu_icon = theme_path .. "/icons/submenu.png"
 theme.menu_height       = dpi(24)
-theme.menu_width        = dpi(256)
+theme.menu_width        = dpi(200)
 -- theme.menu_font         = nil
-theme.menu_border_color = theme.colors.green .. 'AA'
+theme.menu_border_color = theme.colors.black .. 'D9'
 theme.menu_border_width = dpi(3)
 theme.menu_fg_focus     = theme.colors.white
-theme.menu_bg_focus     = theme.colors.green .. 'AA'
+-- theme.menu_bg_focus     = theme.colors.white .. 'AA'
+theme.menu_bg_focus     = {
+    type = "linear",
+    from  = { 0, 0 },
+    to    = { 0, 24 },
+    stops = {
+        { 0.1, theme.colors.blue  },
+        { 0.1, theme.colors.blue .. '44' },
+        { 0.5, theme.colors.blue .. '22' },
+        { 0.9, theme.colors.blue .. '44' },
+        { 0.9, theme.colors.blue },
+    }
+}
 theme.menu_fg_normal    = theme.colors.white
-theme.menu_bg_normal    = theme.colors.black .. 'AA'
+theme.menu_bg_normal    = theme.colors.black .. '99'
 -- theme.menu_submenu = nil
 
 -- hotkeys
@@ -220,31 +248,49 @@ theme.logout_icon = theme_path .. "icons/apps/logout.svg"
 -- theme.titlebar_bgimage = nil
 
 -- Player widget
-theme.player_widget_bg      = theme.colors.green
-theme.player_widget_fg      = theme.colors.black
-theme.player_widget_font    = font(12)
-theme.player_widget_width   = dpi(255)
+theme.player_widget_bg      = theme.colors.yellow
+theme.player_widget_fg      = theme.colors.lightYellow
+theme.player_widget_font    = font(13)
+theme.player_widget_width   = dpi(290)
 
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green
-theme.volume_popup_border_width = dpi(4)
-theme.volume_bar_bg             = theme.colors.darkGrey
-theme.volume_bar_fg             = theme.colors.green
+theme.volume_popup_border_width = dpi(0)
+theme.volume_popup_bg           = theme.colors.black .. 'DD'
+theme.volume_bar_bg             = theme.colors.darkGrey .. '99'
+theme.volume_bar_fg             = theme.colors.white
 theme.volume_bar_fg_muted       = theme.colors.grey
+theme.volume_bar_shape          = function(cr, width, height)
+    gears.shape.rounded_bar(cr, width, height, 8)
+end
 
 -- System info widget
+theme.si_weather_temp_font = font(16)
+theme.si_weather_description_font = font(14)
+
 theme.si_outer_border_color = theme.colors.green
-theme.si_outer_border_width = dpi(4)
-theme.si_outer_border_shape = function(cr, width, height)
-    gears.shape.partially_rounded_rect(cr, width, height,
-                                       false, false, false, true, 16)
+theme.si_outer_border_width = dpi(0)
+-- theme.si_outer_border_shape = function(cr, width, height)
+--     gears.shape.partially_rounded_rect(cr, width, height,
+--                                        false, false, false, true, 16)
+-- end
+theme.si_inner_border_color = theme.colors.black .. '00'
+theme.si_inner_border_width = dpi(0)
+theme.si_inner_bg           = theme.colors.black .. '00'
+theme.si_outer_bg           = theme.colors.black .. 'DD'
+
+theme.si_ram_bar_fg         = theme.colors.green
+theme.si_ram_bar_bg         = theme.colors.darkGrey .. '99'
+theme.si_swp_bar_fg         = theme.colors.yellow
+theme.si_swp_bar_bg         = theme.colors.darkGrey .. '99'
+
+theme.si_bar_shape          = function(cr, width, height)
+    gears.shape.rounded_bar(cr, width, height, 8)
 end
-theme.si_inner_border_color = theme.colors.darkGrey .. 'AA'
-theme.si_inner_border_width = dpi(1)
-theme.si_inner_bg           = theme.colors.darkGrey .. '44'
-theme.si_outer_bg           = theme.colors.black
-theme.si_ram_bar_fg         = theme.colors.green .. '99'
-theme.si_cpu_graph_fg       = theme.colors.lightGreen
+
+theme.si_cpu_graph_fg = theme.colors.green
+theme.si_cpu_graph_bg = theme.colors.darkGrey .. '00'
+theme.si_temp_font    = font(14, 'Bold')
 
 -- Battery widget
 theme.battery_charging_fg           = theme.colors.black
@@ -279,6 +325,10 @@ theme.titlebar_maximized_button_normal_active       = recolor(circle_png, theme.
 theme.titlebar_maximized_button_focus_active        = recolor(circle_png, theme.colors.green .. 'EE')
 theme.titlebar_maximized_button_focus_active_hover  = recolor(circle_png, theme.colors.lightGreen)
 theme.titlebar_maximized_button_normal_active_hover = recolor(circle_png, theme.colors.lightGreen)
+
+theme.titlebar_ontop_button_focus_inactive  = recolor(circle_png, theme.colors.blue)
+theme.titlebar_floating_button_focus_inactive  = recolor(circle_png, theme.colors.purple)
+theme.titlebar_sticky_button_focus_inactive  = recolor(circle_png, theme.colors.orange)
 
 -- Layout icons
 -- Don't load unneeded icons

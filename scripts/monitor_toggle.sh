@@ -16,6 +16,11 @@
 internal="$1"
 external="$2"
 
+if [ -z "$internal" ] || [ -z "$external" ]; then
+    notify-send "Screen info" "You must set monitor names in settings.lua"
+    exit 1
+fi
+
 internal_active=$(xrandr | grep "$internal" -A 1 | grep "*")
 external_active=$(xrandr | grep "$external" -A 1 | grep "*")
 
@@ -40,7 +45,7 @@ both_monitors() {
 if xrandr | grep "$external disconnected"; then
     internal_only "$external disconnected. Only $internal is active."
 
-elif cat /proc/acpi/button/lid/LID0/state | grep "closed"; then
+elif cat /proc/acpi/button/lid/LID/state | grep "closed"; then
     external_only "Laptop lid closed. Only $external is active now."
 
 elif [ "$internal_active" ] && [ "$external_active" ]; then
