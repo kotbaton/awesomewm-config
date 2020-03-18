@@ -48,6 +48,7 @@ volume.popup_widget = awful.popup {
 	type = 'normal',
 	visible = false,
 }
+awful.placement.top(volume.popup_widget, { margins = { top = 32 } })
 
 local function update_text_widget(widget, stdout, _, _, _)
 	local mute = string.match(stdout, "%[(o%D%D?)%]")
