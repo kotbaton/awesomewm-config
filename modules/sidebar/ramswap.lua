@@ -15,7 +15,6 @@ local ram_bar = wibox.widget {
     forced_height    = dpi(30),
     forced_width     = dpi(200),
     shape            = beautiful.si_bar_shape or gears.rectangle,
-    bar_shape        = beautiful.si_bar_shape or gears.rectangle,
     widget           = wibox.widget.progressbar,
 }
 
@@ -28,7 +27,6 @@ local swap_bar = wibox.widget {
     forced_height    = dpi(30),
     forced_width     = dpi(200),
     shape            = beautiful.si_bar_shape or gears.rectangle,
-    bar_shape        = beautiful.si_bar_shape or gears.rectangle,
     widget           = wibox.widget.progressbar,
 }
 
