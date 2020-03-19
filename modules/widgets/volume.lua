@@ -22,8 +22,9 @@ volume.progressbar_widget = wibox.widget {
 	forced_width = 300,
 	border_width = 0,
     margins = 12,
-    shape = beautiful.volume_bar_shape or gears.shape.rectangle,
-	background_color = beautiful.volume_bar_bg or beautiful.colors.darkGrey,
+    shape       = beautiful.volume_bar_shape or gears.shape.rectangle,
+    bar_shape   = beautiful.volume_bar_shape or gears.shape.rectangle,
+    background_color = beautiful.volume_bar_bg or beautiful.colors.darkGrey,
 	color = beautiful.colors.green,
 	widget = wibox.widget.progressbar,
 }
