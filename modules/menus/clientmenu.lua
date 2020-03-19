@@ -51,14 +51,14 @@ local current = {
 }
 
 local function toggle_menu(c)
-    if current.menu then
-        current.menu:hide()
-    end
-    if not current.menu or c ~= current.client then
+    if c ~= current.client then
+        if current.menu then
+            current.menu:hide()
+        end
         current.menu = create_client_menu(c)
         current.client = c
     end
-    return current.menu
+    current.menu:toggle()
 end
 
 return toggle_menu
