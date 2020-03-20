@@ -11,6 +11,7 @@ local base_command = gears.filesystem.get_configuration_dir() .. 'google_tasks/g
 local tasklists = nil
 local current_tasklist = nil
 local tasklist_choose_menu = nil
+local cached_lists = {}
 
 local function new_task_widget(item)
     return wibox.widget {
@@ -58,6 +59,7 @@ local scrollable_widget = wibox.widget {
 }
 
 scrollable_widget:set_fps(30)
+scrollable_widget:pause()
 
 
 local function update_list_with_items(tasklist, items)
@@ -69,14 +71,19 @@ local function update_list_with_items(tasklist, items)
 end
 
 local function update_tasklist_widget()
+    tasklist_title:set_text('Updating...')
     if current_tasklist then
-        tasklist_title:set_text('Updating...')
-
-        local command = base_command .. ' --list ' .. current_tasklist.id
-        awful.spawn.easy_async(command, function(stdout, stderr)
-            local result = cjson.decode(stdout)
-            update_list_with_items(current_tasklist, result.items)
-        end)
+        if cached_lists[current_tasklist] == nil then
+            local command = base_command .. ' --list ' .. current_tasklist.id
+            awful.spawn.easy_async(command, function(stdout, stderr)
+                local result = cjson.decode(stdout)
+                update_list_with_items(current_tasklist, result.items)
+                cached_lists[current_tasklist] = result
+            end)
+        else
+            update_list_with_items(current_tasklist,
+                                   cached_lists[current_tasklist].items)
+        end
     end
 end
 
