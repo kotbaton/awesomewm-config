@@ -791,6 +791,17 @@ awful.rules.rules = {
         properties = { titlebars_enabled = true }
     },
     {
+        rule_any = {
+            class = {"microsoft teams - preview", "Microsoft Teams - Preview"},
+        },
+        properties = {
+            titlebars_enabled = false,
+            focusable = false,
+            floating = true,
+            placement = awful.placement.no_offscreen + awful.placement.top_right,
+        }
+    },
+    {
         rule = { name = "galculator" },
         properties = { floating = true, ontop = true }
     },
@@ -848,9 +859,9 @@ client.connect_signal("request::titlebars", function(c)
             awful.titlebar.widget.closebutton    (c), -- RED
             awful.titlebar.widget.minimizebutton (c), -- YELLOW
             awful.titlebar.widget.maximizedbutton(c), -- GREEN
-            -- awful.titlebar.widget.floatingbutton (c), -- BLUE
-            -- awful.titlebar.widget.ontopbutton    (c), -- PURPLE
-            -- awful.titlebar.widget.stickybutton   (c), -- ORANGE
+            -- awful.titlebar.widget.floatingbutton (c),
+            -- awful.titlebar.widget.ontopbutton    (c),
+            -- awful.titlebar.widget.stickybutton   (c),
         },
         {
             -- Middle
