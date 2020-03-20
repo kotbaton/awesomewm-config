@@ -74,6 +74,7 @@ function sidebar.toggle()
         -- Update this only when open sidebar
         weather.update()
         calendar.update()
+        google_tasks.update()
 
         local fscreen = awful.screen.focused()
         local geo = fscreen.geometry
@@ -90,7 +91,7 @@ function sidebar.toggle()
     end
 end
 
-popup:buttons(gears.table.join(awful.button({}, 1, function()
+popup:buttons(gears.table.join(awful.button({}, 3, function()
     sidebar.toggle()
 end)))
 
