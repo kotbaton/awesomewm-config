@@ -14,6 +14,8 @@ local sensors  = require("modules.sidebar.sensors")
 -- Import helpers
 local helpers  = require("modules.sidebar.helpers")
 
+local google_tasks = require("google_tasks")
+
 -- Create popup widget and set layout
 local popup = wibox({
         y               = dpi(24),
@@ -39,6 +41,8 @@ popup:setup{
         helpers.decorator(ramswap.widget.ram, nil, nil, beautiful.colors.green),
         helpers.decorator(ramswap.widget.swap, nil, nil, beautiful.colors.yellow),
         helpers.decorator(sensors.widget),
+
+        helpers.decorator(google_tasks.widget),
 
         spacing = dpi(8),
         layout = wibox.layout.fixed.vertical,
@@ -67,7 +71,7 @@ function sidebar.toggle()
     if not timer.started then
         timer_callback()
 
-        -- Update this only once
+        -- Update this only when open sidebar
         weather.update()
         calendar.update()
 
