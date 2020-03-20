@@ -53,7 +53,7 @@ local function construct_list_widget(items)
 end
 
 function tasks.update()
-    local command = [[python /home/sheh/works/google-tasks/tasks.py RGE4eUlkQnRjTExibWVlSA]]
+    local command = [[python google_tasks.py --list RGE4eUlkQnRjTExibWVlSA]]
     awful.spawn.easy_async(command, function(stdout, stderr)
         local result = cjson.decode(stdout)
 

@@ -1,6 +1,7 @@
+#!/usr/bin/python
 import json
 import pickle
-import os.path
+import os
 import sys
 import argparse
 
@@ -11,11 +12,11 @@ from google.auth.transport.requests import Request
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/tasks.readonly']
 
-# all taskslists
-# list of tasks from [tasklist]
-# update [task] from [tasklist]
-# mark [task] from [tasklist] as completed
-# insert new [task] into [tasklist]
+# v all taskslists
+# v list of tasks from [tasklist]
+#   update [task] from [tasklist]
+#   mark [task] from [tasklist] as completed
+#   insert new [task] into [tasklist]
 
 def get_parser():
     parser = argparse.ArgumentParser(description='Google tasks API wrapper')
@@ -32,12 +33,16 @@ def get_parser():
 
 
 def authorize():
+    dir = os.path.dirname(os.path.realpath(__file__))
+    token_filename = f'{dir}/token.pickle'
+    credentials_filename = f'{dir}/credentials.json'
+
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    if os.path.exists(token_filename):
+        with open(token_filename, 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -45,10 +50,10 @@ def authorize():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                credentials_filename, SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
+        with open(token_filename, 'wb') as token:
             pickle.dump(creds, token)
 
     return build('tasks', 'v1', credentials=creds)
