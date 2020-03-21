@@ -42,7 +42,7 @@ popup:setup{
         helpers.decorator(ramswap.widget.swap, nil, nil, beautiful.colors.yellow),
         helpers.decorator(sensors.widget),
 
-        helpers.decorator(google_tasks.widget),
+        helpers.decorator(google_tasks()),
 
         spacing = dpi(8),
         layout = wibox.layout.fixed.vertical,
@@ -74,7 +74,6 @@ function sidebar.toggle()
         -- Update this only when open sidebar
         weather.update()
         calendar.update()
-        google_tasks.update()
 
         local fscreen = awful.screen.focused()
         local geo = fscreen.geometry
