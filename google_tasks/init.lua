@@ -4,6 +4,8 @@ local wibox             = require('wibox')
 local beautiful         = require('beautiful')
 local dpi               = require('beautiful.xresources').apply_dpi
 
+local naughty           = require('naughty') -- TODO: Delete it
+
 local cjson             = require('cjson')
 
 local base_command = gears.filesystem.get_configuration_dir() .. 'google_tasks/google_tasks.py'
@@ -14,15 +16,15 @@ local tasklist_choose_menu = nil
 local cached_lists = {}
 
 local function new_task_widget(item)
-    return wibox.widget {
+    local task_widget = wibox.widget {
         {
             checked       = false,
             color         = beautiful.colors.white,
             shape         = gears.shape.circle,
             paddings      = dpi(2),
             check_border_width = dpi(2),
-            forced_height = dpi(24),
-            forced_width  = dpi(24),
+            forced_height = dpi(20),
+            forced_width  = dpi(20),
             widget = wibox.widget.checkbox,
         },
         {
@@ -35,6 +37,16 @@ local function new_task_widget(item)
         forced_height = dpi(24),
         layout = wibox.layout.fixed.horizontal,
     }
+
+    -- This buttons doesn't work
+    task_widget:buttons(awful.util.table.join(awful.button({}, 1, function()
+        print('~~~~~~~~~~~~~~~~~~~~~')
+        naughty.notify({title='test'})
+        -- checkbox:set_checked(true)
+        -- checkbox:emit_signal('widget::redraw_needed')
+    end)))
+
+    return task_widget
 end
 
 local tasklist_widget = wibox.widget {
