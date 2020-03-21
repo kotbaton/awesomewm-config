@@ -85,7 +85,7 @@ def main():
         print(json.dumps(results))
 
     elif args.list:
-        results = service.tasks().list(tasklist=args.list[0]).execute()
+        results = service.tasks().list(tasklist=args.list[0], showCompleted=False).execute()
         print(json.dumps(results))
 
     elif args.mark_as_completed:

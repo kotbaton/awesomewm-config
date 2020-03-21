@@ -56,8 +56,9 @@ local function new(tasklist, task)
         checkbox:set_checked(true)
         command = base_command .. ' --mark_as_completed '
                                .. task.id .. ' ' .. tasklist.id
-        awful.spawn(command)
-        awesome.emit_signal('tasks::update_needed')
+        awful.spawn.easy_async(command, function(stdout)
+            awesome.emit_signal('tasks::update_needed')
+        end)
     end)))
 
     return list_item

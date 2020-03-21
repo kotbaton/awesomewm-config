@@ -28,6 +28,15 @@ function new(args)
         widget = wibox.widget.textbox
     }
 
+    local tasklist_sync_button = wibox.widget {
+        text   = '  ',
+        align  = 'center',
+        valign = 'center',
+        -- forced_width = dpi(40),
+        font   = 'Hermit Bold 15', -- TODO
+        widget = wibox.widget.textbox
+    }
+
     local tasklist_body = wibox.widget {
         spacing = dpi(4),
         layout = wibox.layout.fixed.vertical,
@@ -42,7 +51,7 @@ function new(args)
             end
         else
             tasklist_body:add(wibox.widget {
-                text = 'This tasklist is empty',
+                text   = 'There is nothing to do',
                 align  = 'center',
                 valign = 'center',
                 widget = wibox.widget.textbox,
@@ -53,16 +62,16 @@ function new(args)
     local function update_tasklist_menu()
         -- Put into cache awful.menu with tasklist choose options
         local menu_entries = {}
-        for i in pairs(cache.tasklists.items) do
+        for i, tasklist in ipairs(cache.tasklists.items) do
             menu_entries[i] = {
-                cache.tasklists.items[i].title,
+                tasklist.title,
                 function()
-                    if cache.current_tasklist == cache.tasklists.items[i] then
+                    if cache.current_tasklist == tasklist then
                         return
                     end
-                    cache.current_tasklist = cache.tasklists.items[i]
+                    cache.current_tasklist = tasklist
                     update_widget(cache.current_tasklist,
-                                  cache.lists[cache.current_tasklist].items)
+                                  cache.lists[cache.current_tasklist.id].items)
                 end
             }
         end
@@ -74,7 +83,7 @@ function new(args)
         local command = base_command .. ' --list ' .. tasklist.id
         awful.spawn.easy_async(command, function(stdout, stderr)
             local result = cjson.decode(stdout)
-            cache.lists[tasklist] = result
+            cache.lists[tasklist.id] = result
 
             awesome.emit_signal('tasks::ready', tasklist)
         end)
@@ -85,7 +94,9 @@ function new(args)
         local command = base_command .. ' --all'
         awful.spawn.easy_async(command, function(stdout, stderr)
             cache.tasklists = cjson.decode(stdout)
-            cache.current_tasklist = cache.tasklists.items[1]
+            if not cache.current_tasklist then
+                cache.current_tasklist = cache.tasklists.items[1]
+            end
 
             for i, tasklist in ipairs(cache.tasklists.items) do
                 get_list(tasklist)
@@ -100,6 +111,12 @@ function new(args)
         cache.tasklist_choose_menu:toggle()
     end))
 
+    tasklist_sync_button:buttons(awful.button({}, 1, function()
+        tasklist_title:set_text('Updating...')
+        get_all_tasklists()
+        update_tasklist_menu()
+    end))
+
     local timer = gears.timer {
         timeout   = 300,
         autostart = true,
@@ -110,24 +127,44 @@ function new(args)
         }
 
     awesome.connect_signal('tasks::update_needed', function()
+        tasklist_title:set_text('Updating...')
         get_list(cache.current_tasklist)
     end)
 
     awesome.connect_signal('tasks::ready', function(tasklist)
-        if tasklist == cache.current_tasklist then
-                    update_widget(cache.current_tasklist,
-                                  cache.lists[cache.current_tasklist].items)
+        if tasklist.id == cache.current_tasklist.id then
+            update_widget(tasklist,
+                          cache.lists[tasklist.id].items)
         end
     end)
+
+    tasklist_body:buttons(
+        gears.table.join(
+            awful.button({}, 4, function()
+                -- TODO ?
+            end),
+            awful.button({}, 5, function()
+                -- TODO ?
+            end))
+    )
 
     -- Actually a widget
     google_tasks = {
         {
-            tasklist_title,
+            {
+                nil,
+                tasklist_title,
+                tasklist_sync_button,
+                forced_height = dpi(40),
+                layout = wibox.layout.align.horizontal
+            },
             fg     = beautiful.colors.purple,
             widget = wibox.container.background,
         },
-        tasklist_body,
+        {
+            tasklist_body,
+            widget = wibox.container.background,
+        },
         layout = wibox.layout.fixed.vertical,
     }
 
