@@ -4,9 +4,9 @@ local wibox             = require('wibox')
 local beautiful         = require('beautiful')
 local dpi               = require('beautiful.xresources').apply_dpi
 
-local naughty           = require('naughty') -- TODO: Delete it
-
 local cjson             = require('cjson')
+
+local list_item         = require('google_tasks.list_item')
 
 local base_command = gears.filesystem.get_configuration_dir() .. 'google_tasks/google_tasks.py'
 
@@ -14,40 +14,6 @@ local tasklists = nil
 local current_tasklist = nil
 local tasklist_choose_menu = nil
 local cached_lists = {}
-
-local function new_task_widget(item)
-    local task_widget = wibox.widget {
-        {
-            checked       = false,
-            color         = beautiful.colors.white,
-            shape         = gears.shape.circle,
-            paddings      = dpi(2),
-            check_border_width = dpi(2),
-            forced_height = dpi(20),
-            forced_width  = dpi(20),
-            widget = wibox.widget.checkbox,
-        },
-        {
-            text   = item.title,
-            align  = 'left',
-            valign = 'center',
-            widget = wibox.widget.textbox
-        },
-        spacing = dpi(8),
-        forced_height = dpi(24),
-        layout = wibox.layout.fixed.horizontal,
-    }
-
-    -- This buttons doesn't work
-    task_widget:buttons(awful.util.table.join(awful.button({}, 1, function()
-        print('~~~~~~~~~~~~~~~~~~~~~')
-        naughty.notify({title='test'})
-        -- checkbox:set_checked(true)
-        -- checkbox:emit_signal('widget::redraw_needed')
-    end)))
-
-    return task_widget
-end
 
 local tasklist_widget = wibox.widget {
     spacing = dpi(4),
@@ -62,23 +28,21 @@ local tasklist_title = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local scrollable_widget = wibox.widget {
-    tasklist_widget,
-    step_function = wibox.container.scroll.step_functions
-                    .linear_back_and_forth,
-    speed = 100,
-    layout = wibox.container.scroll.vertical
-}
-
-scrollable_widget:set_fps(30)
-scrollable_widget:pause()
-
 
 local function update_list_with_items(tasklist, items)
     tasklist_title:set_text(tasklist.title)
     tasklist_widget:reset()
-    for i in pairs(items) do
-        tasklist_widget:add(new_task_widget(items[i]))
+    if items then
+        for i in pairs(items) do
+            tasklist_widget:add(list_item(tasklist, items[i]))
+        end
+    else
+        tasklist_widget:add(wibox.widget {
+            text = 'This tasklist is empty',
+            align  = 'center',
+            valign = 'center',
+            widget = wibox.widget.textbox,
+        })
     end
 end
 
@@ -141,7 +105,7 @@ return {
             fg     = beautiful.colors.orange,
             widget = wibox.container.background,
         },
-        scrollable_widget,
+        tasklist_widget,
         layout = wibox.layout.fixed.vertical,
     },
     update = function()
