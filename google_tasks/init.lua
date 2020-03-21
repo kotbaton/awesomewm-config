@@ -15,7 +15,7 @@ local google_tasks = {}
 local cache = {
     tasklists = nil,
     current_tasklist = nil,
-    tasklist_choose_menu = nil, -- ?
+    tasklist_choose_menu = nil,
     lists = {}
 }
 
@@ -61,24 +61,26 @@ function new(args)
                         return
                     end
                     cache.current_tasklist = cache.tasklists.items[i]
-                    update_tasklist_widget()
+                    update_widget(cache.current_tasklist,
+                                  cache.lists[cache.current_tasklist].items)
                 end
             }
         end
         cache.tasklist_choose_menu = awful.menu(menu_entries)
     end
 
-    local function get_list(tasklist, callback)
+    local function get_list(tasklist)
         -- Get tasks from tasklist and save it into cache
         local command = base_command .. ' --list ' .. tasklist.id
         awful.spawn.easy_async(command, function(stdout, stderr)
             local result = cjson.decode(stdout)
             cache.lists[tasklist] = result
-            if callback then callback() end
+
+            awesome.emit_signal('tasks::ready', tasklist)
         end)
     end
 
-    local function get_all_tasklists(callback)
+    local function get_all_tasklists()
         -- Get remote info about all tasklists and save it into cache
         local command = base_command .. ' --all'
         awful.spawn.easy_async(command, function(stdout, stderr)
@@ -88,7 +90,6 @@ function new(args)
             for i, tasklist in ipairs(cache.tasklists.items) do
                 get_list(tasklist)
             end
-            if callback then callback() end
         end)
     end
 
@@ -104,18 +105,19 @@ function new(args)
         autostart = true,
         call_now  = true,
         callback  = function()
-            get_all_tasklists(function()
-                update_widget(cache.current_tasklist,
-                    cache.current_tasklist.items)
-                end)
-            end
+            get_all_tasklists()
+        end
         }
 
     awesome.connect_signal('tasks::update_needed', function()
-        get_list(cached.current_tasklist, function()
-            update_widget(cache.current_tasklist,
-                          cache.current_tasklist.items)
-        end)
+        get_list(cache.current_tasklist)
+    end)
+
+    awesome.connect_signal('tasks::ready', function(tasklist)
+        if tasklist == cache.current_tasklist then
+                    update_widget(cache.current_tasklist,
+                                  cache.lists[cache.current_tasklist].items)
+        end
     end)
 
     -- Actually a widget
@@ -128,6 +130,8 @@ function new(args)
         tasklist_body,
         layout = wibox.layout.fixed.vertical,
     }
+
+    return google_tasks
 end
 
 return setmetatable(google_tasks, {__call = function(_, ...) return new(...) end})
