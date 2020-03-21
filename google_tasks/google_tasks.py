@@ -10,13 +10,15 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/tasks.readonly']
+SCOPES = ['https://www.googleapis.com/auth/tasks.readonly',
+          'https://www.googleapis.com/auth/tasks']
 
 # v all taskslists
 # v list of tasks from [tasklist]
+# v mark [task] from [tasklist] as completed
+# v insert new [task] into [tasklist]
+
 #   update [task] from [tasklist]
-#   mark [task] from [tasklist] as completed
-#   insert new [task] into [tasklist]
 
 def get_parser():
     parser = argparse.ArgumentParser(description='Google tasks API wrapper')
@@ -25,10 +27,23 @@ def get_parser():
     group.add_argument('--all',
                        action='store_true',
                        help='Get JSON with all user\'s task lists')
-    parser.add_argument('--list',
+    group.add_argument('--list',
                        nargs=1,
+                       metavar=('TASKLIST_ID',),
                        type=str,
                        help='Get JSON with all tasks in the speceified task list')
+    group.add_argument('--mark_as_completed',
+                       nargs=2,
+                       metavar=('TASK_ID', 'TASKLIST_ID'),
+                       type=str,
+                       help='Mark TASK from TASKLIST as comleted')
+    group.add_argument('--insert',
+                       nargs=3,
+                       metavar=('TASKLIST_ID', 'TITLE', 'NOTES'),
+                       type=str,
+                       help='Insert new task with TITLE and NOTES into TASKLIST')
+
+
     return parser
 
 
@@ -72,6 +87,27 @@ def main():
     elif args.list:
         results = service.tasks().list(tasklist=args.list[0]).execute()
         print(json.dumps(results))
+
+    elif args.mark_as_completed:
+        task = args.mark_as_completed[0]
+        tasklist = args.mark_as_completed[1]
+
+        task_body = service.tasks().get(tasklist=tasklist, task=task).execute()
+
+        task_body['status'] = 'completed'
+
+        result = service.tasks().update(tasklist=tasklist,
+                                         task=task,
+                                         body=task_body).execute()
+    elif args.insert:
+        tasklist_id = args.insert[0]
+        task_body = {
+            'title': args.insert[1],
+            'notes': args.insert[2]
+        }
+
+        result = service.tasks().insert(tasklist=tasklist_id, body=task_body).execute()
+        print(result)
 
     else:
         parser.print_help()
