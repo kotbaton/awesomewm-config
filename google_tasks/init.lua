@@ -39,7 +39,6 @@ function new(args)
         text   = '  ',
         align  = 'center',
         valign = 'center',
-        -- forced_width = dpi(40),
         font   = 'Hermit Bold 15', -- TODO
         widget = wibox.widget.textbox
     }
@@ -199,7 +198,7 @@ function new(args)
                 nil,
                 tasklist_title,
                 tasklist_sync_button,
-                forced_height = dpi(40),
+                forced_height = dpi(30),
                 layout = wibox.layout.align.horizontal
             },
             fg     = beautiful.colors.purple,

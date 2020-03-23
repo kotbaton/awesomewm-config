@@ -30,6 +30,21 @@ local popup = wibox({
         visible         = false,
     })
 
+local separator = wibox.widget {
+    forced_height = dpi(2),
+    color = {
+        type = 'linear',
+        from = {0, 0},
+        to = {dpi(300), 0},
+        stops = {
+            { 0.05, '#00000000' },
+            { 0.5, beautiful.colors.grey },
+            { 0.95, '#00000000' },
+        }
+    },
+    widget = wibox.widget.separator()
+}
+
 -- Decorator arguments: decorator(w, vmargin, hmargin, fg)
 popup:setup{
     {
@@ -42,12 +57,17 @@ popup:setup{
         helpers.decorator(ramswap.widget.swap, nil, nil, beautiful.colors.yellow),
         helpers.decorator(sensors.widget),
 
+        separator,
+
         helpers.decorator(google_tasks()),
 
-        spacing = dpi(8),
+
+        spacing = dpi(4),
         layout = wibox.layout.fixed.vertical,
     },
     {
+        separator,
+
         helpers.decorator(calendar.widget, nil, dpi(35)),
         layout = wibox.layout.fixed.vertical,
     },
