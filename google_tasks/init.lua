@@ -2,6 +2,7 @@ local awful             = require('awful')
 local gears             = require('gears')
 local wibox             = require('wibox')
 local beautiful         = require('beautiful')
+local naughty           = require('naughty')
 local dpi               = require('beautiful.xresources').apply_dpi
 
 local cjson             = require('cjson')
@@ -93,6 +94,14 @@ function new(args)
         -- Get remote info about all tasklists and save it into cache
         local command = base_command .. ' --all'
         awful.spawn.easy_async(command, function(stdout, stderr)
+            if stdout == '' or stdout == nil then
+                naughty.notify {
+                    title = "Google Tasks",
+                    text = "Synchronization fails.",
+                }
+                return
+            end
+
             cache.tasklists = cjson.decode(stdout)
             if not cache.current_tasklist then
                 cache.current_tasklist = cache.tasklists.items[1]
