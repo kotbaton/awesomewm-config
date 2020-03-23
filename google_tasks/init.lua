@@ -183,17 +183,52 @@ local function new(args)
 
     add_task_button:buttons(awful.button({}, 1, function()
         awful.prompt.run {
-            prompt       = 'Add task: ',
-            textbox      = tasklist_prompt.widget,
-            bg_cursor = beautiful.colors.purple,
-            fg_cursor = beautiful.colors.purple,
+            prompt      = 'Add task: ',
+            textbox     = tasklist_prompt.widget,
+            bg_cursor   = beautiful.colors.purple,
+            fg_cursor   = beautiful.colors.purple,
+            highlighter = function(b, a)
+                local cmd = b..'ZZZCURSORZZZ'..a
+
+                -- Highlight delimiter
+                local ind = cmd:find('//')
+                if ind then
+                    cmd = '<span foreground="' .. beautiful.colors.white .. '">'
+                          .. cmd:sub(1, ind-1) .. '</span>'
+                          .. '<b><span foreground="' .. beautiful.colors.purple .. '">'
+                          .. cmd:sub(ind, ind+1) .. '</span></b>'
+                          .. '<span foreground="' .. beautiful.colors.grey .. '">'
+                          .. cmd:sub(ind+2) .. '</span>'
+                else
+                    cmd = '<span foreground="' .. beautiful.colors.white .. '">'
+                          .. cmd .. '</span>'
+                         
+                end
+
+                local pos = cmd:find('ZZZCURSORZZZ')
+                b,a = cmd:sub(1, pos-1), cmd:sub(pos+12, #cmd)
+                return b,a
+            end,
             exe_callback = function(text)
+                if text == '' or text == nil then
+                    return
+                end
                 tasklist_title:set_text('Adding...')
                 -- Save in case of changing current tasklist until we save task
                 local cur_tasklist_id = cache.current_tasklist.id
+
+                local title, notes = '', ''
+                local ind = text:find('//')
+                if ind then
+                    title = text:sub(1, ind - 1)
+                    notes = text:sub(ind + 2)
+                else
+                    title = text
+                end
+
                 local command = base_command .. ' --insert '
                                 .. cur_tasklist_id .. ' "'
-                                .. text .. '" ""'
+                                .. title .. '" "' .. notes .. '"'
                 awful.spawn.easy_async(command, function(stdout, stderr)
                     if stdout == '' or stdout == nil then
                         raise_error_notification()
@@ -282,6 +317,7 @@ local function new(args)
             tasklist_body,
             widget = wibox.container.background,
         },
+        spacing = dpi(8),
         layout = wibox.layout.fixed.vertical,
     }
 
