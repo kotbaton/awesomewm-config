@@ -13,11 +13,14 @@ local base_command = gears.filesystem.get_configuration_dir() .. 'google_tasks/g
 
 local google_tasks = {}
 
-local tasks_on_page = 4
+-- [[ TODO: Try insert this section into new() function,
+-- so tasks_on_page can be setted by arguments
+local tasks_on_page = 12 -- TODO: Move this somewhere
 local page = {
     first = 1,
     last = nil,
 }
+-- ]]
 
 local cache = {
     tasklists = nil,
@@ -26,7 +29,38 @@ local cache = {
     lists = {},
 }
 
+function button_decorator(widget, args)
+    args = args or {}
+    local res = wibox.widget {
+        widget or nil,
+        fg     = args.fg or beautiful.colors.purple,
+        bg     = args.bg or nil,
+        shape  = args.shape or function(cr, width, height)
+            gears.shape.rounded_bar(cr, width, height, 8)
+        end,
+        widget = wibox.container.background,
+    }
+    res:connect_signal('mouse::enter', function()
+        res.fg = args.fg_hover or beautiful.colors.lightPurple
+        res.bg = args.bg_hover or nil
+    end)
+    res:connect_signal('mouse::leave', function()
+        res.fg = args.fg or beautiful.colors.purple
+        res.bg = args.bg or nil
+    end)
+    return res
+end
+
+
 function new(args)
+    local add_task_button = wibox.widget {
+        text   = '  ',
+        align  = 'center',
+        valign = 'center',
+        font   = 'Hermit Bold 15', -- TODO
+        widget = wibox.widget.textbox
+    }
+
     local tasklist_title = wibox.widget {
         text   = 'Updating...',
         align  = 'center',
@@ -194,15 +228,11 @@ function new(args)
     -- Actually a widget
     google_tasks = {
         {
-            {
-                nil,
-                tasklist_title,
-                tasklist_sync_button,
-                forced_height = dpi(30),
-                layout = wibox.layout.align.horizontal
-            },
-            fg     = beautiful.colors.purple,
-            widget = wibox.container.background,
+            button_decorator(add_task_button),
+            button_decorator(tasklist_title),
+            button_decorator(tasklist_sync_button),
+            forced_height = dpi(30),
+            layout = wibox.layout.align.horizontal
         },
         {
             tasklist_body,
