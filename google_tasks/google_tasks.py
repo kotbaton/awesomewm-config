@@ -107,7 +107,7 @@ def main():
         }
 
         result = service.tasks().insert(tasklist=tasklist_id, body=task_body).execute()
-        print(result)
+        print(json.dumps(result))
 
     else:
         parser.print_help()

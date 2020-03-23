@@ -15,7 +15,7 @@ local google_tasks = {}
 
 -- [[ TODO: Try insert this section into new() function,
 -- so tasks_on_page can be setted by arguments
-local tasks_on_page = 12 -- TODO: Move this somewhere
+local tasks_on_page = 4 -- TODO: Move this somewhere
 local page = {
     first = 1,
     last = nil,
@@ -29,7 +29,15 @@ local cache = {
     lists = {},
 }
 
-function button_decorator(widget, args)
+local function raise_error_notification()
+    naughty.notify {
+        title = "Google Tasks",
+        text = "Synchronization fails.",
+    }
+end
+
+
+local function button_decorator(widget, args)
     args = args or {}
     local res = wibox.widget {
         widget or nil,
@@ -52,7 +60,7 @@ function button_decorator(widget, args)
 end
 
 
-function new(args)
+local function new(args)
     local add_task_button = wibox.widget {
         text   = '  ',
         align  = 'center',
@@ -77,6 +85,11 @@ function new(args)
         widget = wibox.widget.textbox
     }
 
+    local tasklist_prompt = awful.widget.prompt {
+        fg = beautiful.colors.purple,
+        history_max = 0,
+    }
+
     local tasklist_body = wibox.widget {
         spacing = dpi(4),
         layout = wibox.layout.fixed.vertical,
@@ -86,7 +99,6 @@ function new(args)
         tasklist_title:set_text(tasklist.title)
         tasklist_body:reset()
         if items then
-            -- for i in pairs(items) do
             page.first = 1
             page.last = #items < tasks_on_page and #items or tasks_on_page
             for i = page.first, page.last do
@@ -137,10 +149,7 @@ function new(args)
         local command = base_command .. ' --all'
         awful.spawn.easy_async(command, function(stdout, stderr)
             if stdout == '' or stdout == nil then
-                naughty.notify {
-                    title = "Google Tasks",
-                    text = "Synchronization fails.",
-                }
+                raise_error_notification()
                 return
             end
 
@@ -166,6 +175,35 @@ function new(args)
         tasklist_title:set_text('Updating...')
         get_all_tasklists()
         update_tasklist_menu()
+    end))
+
+    add_task_button:buttons(awful.button({}, 1, function()
+        awful.prompt.run {
+            prompt       = 'Add task: ',
+            textbox      = tasklist_prompt.widget,
+            bg_cursor = beautiful.colors.purple,
+            fg_cursor = beautiful.colors.purple,
+            exe_callback = function(text)
+                tasklist_title:set_text('Adding...')
+                -- Save in case of changing current tasklist until we save task
+                local cur_tasklist_id = cache.current_tasklist.id
+                local command = base_command .. ' --insert '
+                                .. cur_tasklist_id .. ' "'
+                                .. text .. '" ""'
+                awful.spawn.easy_async(command, function(stdout, stderr)
+                    if stdout == '' or stdout == nil then
+                        raise_error_notification()
+                        return
+                    end
+                    local new_task = cjson.decode(stdout)
+                    table.insert(cache.lists[cur_tasklist_id].items, 1, new_task)
+                    if cache.current_tasklist.id == cur_tasklist_id then
+                        update_widget(cache.current_tasklist,
+                                      cache.lists[cache.current_tasklist.id].items)
+                    end
+                end)
+            end
+        }
     end))
 
     local timer = gears.timer {
@@ -218,6 +256,7 @@ function new(args)
                 if page.first >= 1 and page.last < #cur_items then
                     page.first = page.first + 1
                     page.last = page.last + 1
+
                     tasklist_body:remove(1)
                     tasklist_body:add(list_item(cache.current_tasklist,
                                                 cur_items[page.last]))
@@ -234,6 +273,7 @@ function new(args)
             forced_height = dpi(30),
             layout = wibox.layout.align.horizontal
         },
+        tasklist_prompt,
         {
             tasklist_body,
             widget = wibox.container.background,
