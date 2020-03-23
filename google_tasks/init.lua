@@ -13,11 +13,17 @@ local base_command = gears.filesystem.get_configuration_dir() .. 'google_tasks/g
 
 local google_tasks = {}
 
+local tasks_on_page = 4
+local page = {
+    first = 1,
+    last = nil,
+}
+
 local cache = {
     tasklists = nil,
     current_tasklist = nil,
     tasklist_choose_menu = nil,
-    lists = {}
+    lists = {},
 }
 
 function new(args)
@@ -47,7 +53,10 @@ function new(args)
         tasklist_title:set_text(tasklist.title)
         tasklist_body:reset()
         if items then
-            for i in pairs(items) do
+            -- for i in pairs(items) do
+            page.first = 1
+            page.last = #items < tasks_on_page and #items or tasks_on_page
+            for i = page.first, page.last do
                 tasklist_body:add(list_item(tasklist, items[i]))
             end
         else
@@ -150,10 +159,36 @@ function new(args)
     tasklist_body:buttons(
         gears.table.join(
             awful.button({}, 4, function()
-                -- TODO ?
+                local cur_items = cache.lists[cache.current_tasklist.id].items
+
+                -- Don't scroll in this case
+                if #cur_items < tasks_on_page then return end
+
+                -- Scroll if we can
+                if page.first > 1 and page.last <= #cur_items then
+                    page.first = page.first - 1
+                    page.last = page.last - 1
+
+                    tasklist_body:remove(tasks_on_page)
+                    tasklist_body:insert(1, list_item(cache.current_tasklist,
+                                                      cur_items[page.first]))
+                end
+
             end),
             awful.button({}, 5, function()
-                -- TODO ?
+                local cur_items = cache.lists[cache.current_tasklist.id].items
+
+                -- Don't scroll in this case
+                if #cur_items < tasks_on_page then return end
+
+                -- Scroll if we can
+                if page.first >= 1 and page.last < #cur_items then
+                    page.first = page.first + 1
+                    page.last = page.last + 1
+                    tasklist_body:remove(1)
+                    tasklist_body:add(list_item(cache.current_tasklist,
+                                                cur_items[page.last]))
+                end
             end))
     )
 
