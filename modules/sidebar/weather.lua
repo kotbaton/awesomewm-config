@@ -49,6 +49,11 @@ local function weather_update()
     awful.spawn.easy_async(command, function(stdout)
         local icon_code, temp, description = stdout:match("(%S+);(%d+);(%C+)")
         local icon = ''
+
+        icon_code = icon_code or '0'
+        temp = temp or '0'
+        description = description or 'Weather unavailable'
+
         if icon_code == '01d' then
             icon = ''
         elseif icon_code == '01n' then

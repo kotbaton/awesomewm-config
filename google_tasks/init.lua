@@ -15,7 +15,7 @@ local google_tasks = {}
 
 -- [[ TODO: Try insert this section into new() function,
 -- so tasks_on_page can be setted by arguments
-local tasks_on_page = 4 -- TODO: Move this somewhere
+local tasks_on_page = 12 -- TODO: Move this somewhere
 local page = {
     first = 1,
     last = nil,
@@ -139,6 +139,10 @@ local function new(args)
         awful.spawn.easy_async(command, function(stdout, stderr)
             local result = cjson.decode(stdout)
             cache.lists[tasklist.id] = result
+            -- TODO: Is this sort works?
+            table.sort(cache.lists[tasklist.id].items, function(a, b)
+                return a.position < b.position
+            end)
 
             awesome.emit_signal('tasks::ready', tasklist)
         end)
