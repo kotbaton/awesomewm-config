@@ -23,10 +23,61 @@ local page = {
 }
 -- ]]
 
+--[[
+-- Tasklist representation:
+-- https://developers.google.com/tasks/v1/reference/tasklists#resource
+-- {
+--   "kind": "tasks#taskList",
+--   "id": string,
+--   "etag": etag,
+--   "title": string,
+--   "updated": datetime,
+--   "selfLink": string
+-- }
+--]]
+
+--[[
+-- Task representation:
+-- https://developers.google.com/tasks/v1/reference/tasks
+-- {
+--   "kind": "tasks#task",
+--   "id": string,
+--   "etag": etag,
+--   "title": string,
+--   "updated": datetime,
+--   "selfLink": string,
+--   "parent": string,
+--   "position": string,
+--   "notes": string,
+--   "status": string,
+--   "due": datetime,
+--   "completed": datetime,
+--   "deleted": boolean,
+--   "hidden": boolean,
+--   "links": [
+--     {
+--       "type": string,
+--       "description": string,
+--       "link": string
+--     }
+--   ]
+-- }
+--]]
+
 local cache = {
+    -- 'Array' with tasklists tables
     tasklists = nil,
+
+    -- Ref to current tasklist table
     current_tasklist = nil,
+
+    -- Cahced version of tasklist choose menu
+    -- (So we don't need rebuid it every time)
     tasklist_choose_menu = nil,
+
+    -- Cached lists with tasks
+    -- key: tasklist_id:     tasklist_id
+    -- value: array with task representation tables
     lists = {},
 }
 
@@ -118,7 +169,7 @@ local function new(args)
     local function update_tasklist_menu()
         -- Put into cache awful.menu with tasklist choose options
         local menu_entries = {}
-        for i, tasklist in ipairs(cache.tasklists.items) do
+        for i, tasklist in ipairs(cache.tasklists) do
             menu_entries[i] = {
                 tasklist.title,
                 function()
@@ -127,7 +178,7 @@ local function new(args)
                     end
                     cache.current_tasklist = tasklist
                     update_widget(cache.current_tasklist,
-                                  cache.lists[cache.current_tasklist.id].items)
+                                  cache.lists[cache.current_tasklist.id])
                 end
             }
         end
@@ -141,7 +192,7 @@ local function new(args)
             local result = cjson.decode(stdout)
             cache.lists[tasklist.id] = result
             -- TODO: Is this sort works?
-            table.sort(cache.lists[tasklist.id].items, function(a, b)
+            table.sort(cache.lists[tasklist.id], function(a, b)
                 return a.position < b.position
             end)
 
@@ -160,10 +211,10 @@ local function new(args)
 
             cache.tasklists = cjson.decode(stdout)
             if not cache.current_tasklist then
-                cache.current_tasklist = cache.tasklists.items[1]
+                cache.current_tasklist = cache.tasklists[1]
             end
 
-            for i, tasklist in ipairs(cache.tasklists.items) do
+            for i, tasklist in ipairs(cache.tasklists) do
                 get_list(tasklist)
             end
         end)
@@ -209,10 +260,10 @@ local function new(args)
                         return
                     end
                     local new_task = cjson.decode(stdout)
-                    table.insert(cache.lists[cur_tasklist_id].items, 1, new_task)
+                    table.insert(cache.lists[cur_tasklist_id], 1, new_task)
                     if cache.current_tasklist.id == cur_tasklist_id then
                         update_widget(cache.current_tasklist,
-                                      cache.lists[cache.current_tasklist.id].items)
+                                      cache.lists[cache.current_tasklist.id])
                     end
                 end)
             end
@@ -227,7 +278,7 @@ local function new(args)
     awesome.connect_signal('tasks::ready', function(tasklist)
         if tasklist.id == cache.current_tasklist.id then
             update_widget(tasklist,
-                          cache.lists[tasklist.id].items)
+                          cache.lists[tasklist.id])
         end
     end)
 
@@ -264,7 +315,7 @@ local function new(args)
                         return
                     end
                     local edited_task = cjson.decode(stdout)
-                    for _, task in ipairs(cache.lists[cur_tasklist_id].items) do
+                    for _, task in ipairs(cache.lists[cur_tasklist_id]) do
                         if task.id == edited_task.id then
                             task.title = edited_task.title
                             task.notes = edited_task.notes
@@ -273,7 +324,7 @@ local function new(args)
                     end
                     if cache.current_tasklist.id == cur_tasklist_id then
                         update_widget(cache.current_tasklist,
-                                      cache.lists[cache.current_tasklist.id].items)
+                                      cache.lists[cache.current_tasklist.id])
                     end
                 end)
             end
@@ -283,7 +334,7 @@ local function new(args)
     tasklist_body:buttons(
         gears.table.join(
             awful.button({}, 4, function()
-                local cur_items = cache.lists[cache.current_tasklist.id].items
+                local cur_items = cache.lists[cache.current_tasklist.id]
 
                 -- Don't scroll in this case
                 if #cur_items < tasks_on_page then return end
@@ -300,7 +351,7 @@ local function new(args)
 
             end),
             awful.button({}, 5, function()
-                local cur_items = cache.lists[cache.current_tasklist.id].items
+                local cur_items = cache.lists[cache.current_tasklist.id]
 
                 -- Don't scroll in this case
                 if #cur_items < tasks_on_page then return end

@@ -86,12 +86,17 @@ def main():
     args = parser.parse_args()
 
     if args.all:
-        results = service.tasklists().list(maxResults=10).execute()
-        print(json.dumps(results))
+        results = service.tasklists().list(maxResults=20).execute()
+        print(json.dumps(results['items']))
 
     elif args.list:
-        results = service.tasks().list(tasklist=args.list[0], showCompleted=False).execute()
-        print(json.dumps(results))
+        results = service\
+                  .tasks()\
+                  .list(tasklist=args.list[0],
+                        maxResults=50,
+                        showCompleted=False)\
+                  .execute()
+        print(json.dumps(results['items']))
 
     elif args.mark_as_completed:
         task = args.mark_as_completed[0]
