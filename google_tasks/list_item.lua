@@ -20,37 +20,37 @@ local function new(tasklist, task)
         widget = wibox.widget.checkbox
     }
 
-    local body_widget = {
+    local title_widget = wibox.widget {
         text   = task.title,
         align  = 'left',
-        valign = 'center',
-        forced_height = dpi(24),
-        widget = wibox.widget.textbox
-    }
-    local notes_widget = {
-        text   = task.notes,
-        align  = 'left',
-        valign = 'center',
-        forced_height = dpi(16),
+        valign = 'top',
         font = 'Hermit 10', -- TODO
+        forced_height = (task.notes ~= nil) and dpi(20) or nil,
         widget = wibox.widget.textbox
     }
 
-    list_item = wibox.widget {
-        checkbox,
-        {
-            body_widget,
-            {
-                notes_widget,
-                fg = beautiful.colors.grey,
-                widget = wibox.container.background
-            },
-            layout = wibox.layout.fixed.vertical,
-        },
-        forced_height = not task.notes and dpi(32) or dpi(40),
-        spacing = dpi(8),
-        layout = wibox.layout.fixed.horizontal,
+    local notes_widget = wibox.widget {
+        text   = task.notes,
+        align  = 'left',
+        valign = 'top',
+        wrap   = 'word',
+        font = 'Hermit 9', -- TODO
+        widget = wibox.widget.textbox
     }
+
+    local body_widget = wibox.widget {
+        title_widget,
+        {
+            notes_widget,
+            fg = beautiful.colors.grey,
+            widget = wibox.container.background
+        },
+        layout = wibox.layout.fixed.vertical,
+    }
+
+    body_widget:buttons(awful.button({}, 1, function()
+        awesome.emit_signal('tasks::edit', tasklist, task)
+    end))
 
     checkbox:buttons(awful.util.table.join(awful.button({}, 1, function()
         checkbox:set_checked(true)
@@ -60,6 +60,14 @@ local function new(tasklist, task)
             awesome.emit_signal('tasks::update_needed')
         end)
     end)))
+
+    list_item = wibox.widget {
+        checkbox,
+        body_widget,
+        spacing = dpi(8),
+        forced_height = dpi(40),
+        layout = wibox.layout.fixed.horizontal,
+    }
 
     return list_item
 end

@@ -42,6 +42,11 @@ def get_parser():
                        metavar=('TASKLIST_ID', 'TITLE', 'NOTES'),
                        type=str,
                        help='Insert new task with TITLE and NOTES into TASKLIST')
+    group.add_argument('--edit',
+                       nargs=4,
+                       metavar=('TASKLIST_ID', 'TASK_ID', 'TITLE', 'NOTES'),
+                       type=str,
+                       help='Update task with TASK_ID by TITLE and NOTES in TASKLIST')
 
 
     return parser
@@ -99,6 +104,21 @@ def main():
         result = service.tasks().update(tasklist=tasklist,
                                          task=task,
                                          body=task_body).execute()
+    elif args.edit:
+        tasklist_id = args.edit[0]
+        task_id = args.edit[1]
+
+        task_body = service.tasks().get(tasklist=tasklist_id, task=task_id).execute()
+
+        if (new_title := args.edit[2]):
+            task_body['title'] = new_title
+
+        task_body['notes'] = args.edit[3]
+
+        result = service.tasks().update(tasklist=tasklist_id,
+                                         task=task_id,
+                                         body=task_body).execute()
+        print(json.dumps(result))
     elif args.insert:
         tasklist_id = args.insert[0]
         task_body = {

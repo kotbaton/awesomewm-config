@@ -8,6 +8,7 @@ local dpi               = require('beautiful.xresources').apply_dpi
 local cjson             = require('cjson')
 
 local list_item         = require('google_tasks.list_item')
+local helpers           = require('google_tasks.helpers')
 
 local base_command = gears.filesystem.get_configuration_dir() .. 'google_tasks/google_tasks.py'
 
@@ -187,28 +188,7 @@ local function new(args)
             textbox     = tasklist_prompt.widget,
             bg_cursor   = beautiful.colors.purple,
             fg_cursor   = beautiful.colors.purple,
-            highlighter = function(b, a)
-                local cmd = b..'ZZZCURSORZZZ'..a
-
-                -- Highlight delimiter
-                local ind = cmd:find('//')
-                if ind then
-                    cmd = '<span foreground="' .. beautiful.colors.white .. '">'
-                          .. cmd:sub(1, ind-1) .. '</span>'
-                          .. '<b><span foreground="' .. beautiful.colors.purple .. '">'
-                          .. cmd:sub(ind, ind+1) .. '</span></b>'
-                          .. '<span foreground="' .. beautiful.colors.grey .. '">'
-                          .. cmd:sub(ind+2) .. '</span>'
-                else
-                    cmd = '<span foreground="' .. beautiful.colors.white .. '">'
-                          .. cmd .. '</span>'
-                         
-                end
-
-                local pos = cmd:find('ZZZCURSORZZZ')
-                b,a = cmd:sub(1, pos-1), cmd:sub(pos+12, #cmd)
-                return b,a
-            end,
+            highlighter = helpers.highlighter,
             exe_callback = function(text)
                 if text == '' or text == nil then
                     return
@@ -217,14 +197,7 @@ local function new(args)
                 -- Save in case of changing current tasklist until we save task
                 local cur_tasklist_id = cache.current_tasklist.id
 
-                local title, notes = '', ''
-                local ind = text:find('//')
-                if ind then
-                    title = text:sub(1, ind - 1)
-                    notes = text:sub(ind + 2)
-                else
-                    title = text
-                end
+                local title, notes = helpers.split_text(text)
 
                 local command = base_command .. ' --insert '
                                 .. cur_tasklist_id .. ' "'
@@ -245,15 +218,6 @@ local function new(args)
         }
     end))
 
-    local timer = gears.timer {
-        timeout   = 300,
-        autostart = true,
-        call_now  = true,
-        callback  = function()
-            get_all_tasklists()
-        end
-        }
-
     awesome.connect_signal('tasks::update_needed', function()
         tasklist_title:set_text('Updating...')
         get_list(cache.current_tasklist)
@@ -264,6 +228,54 @@ local function new(args)
             update_widget(tasklist,
                           cache.lists[tasklist.id].items)
         end
+    end)
+
+    awesome.connect_signal('tasks::edit', function(tasklist, task)
+        local text = task.title
+        if task.notes ~= nil and task.notes ~= '' then
+            text = text .. '//' .. task.notes
+        end
+        awful.prompt.run {
+            prompt      = 'Edit task: ',
+            text        = text,
+            textbox     = tasklist_prompt.widget,
+            bg_cursor   = beautiful.colors.purple,
+            fg_cursor   = beautiful.colors.purple,
+            highlighter = helpers.highlighter,
+            exe_callback = function(text)
+                if text == '' or text == nil then
+                    return
+                end
+                tasklist_title:set_text('Editing...')
+                -- Save in case of changing current tasklist until we save task
+                local cur_tasklist_id = cache.current_tasklist.id
+
+                local title, notes = helpers.split_text(text)
+
+                local command = base_command .. ' --edit '
+                                .. cur_tasklist_id .. ' '
+                                .. task.id .. ' "'
+                                .. title .. '" "' .. notes .. '"'
+                awful.spawn.easy_async(command, function(stdout, stderr)
+                    if stdout == '' or stdout == nil then
+                        raise_error_notification()
+                        return
+                    end
+                    local edited_task = cjson.decode(stdout)
+                    for _, task in ipairs(cache.lists[cur_tasklist_id].items) do
+                        if task.id == edited_task.id then
+                            task.title = edited_task.title
+                            task.notes = edited_task.notes
+                            break
+                        end
+                    end
+                    if cache.current_tasklist.id == cur_tasklist_id then
+                        update_widget(cache.current_tasklist,
+                                      cache.lists[cache.current_tasklist.id].items)
+                    end
+                end)
+            end
+        }
     end)
 
     tasklist_body:buttons(
@@ -302,6 +314,15 @@ local function new(args)
                 end
             end))
     )
+
+    local timer = gears.timer {
+        timeout   = 300,
+        autostart = true,
+        call_now  = true,
+        callback  = function()
+            get_all_tasklists()
+        end
+    }
 
     -- Actually a widget
     google_tasks = {
