@@ -38,12 +38,37 @@ local function new(tasklist, task)
         widget = wibox.widget.textbox
     }
 
+    local due_widget = nil
+    if task.due then
+        local y, m, d = task.due:match('(%d+)-(%d+)-(%d+)')
+        due_widget = wibox.widget {
+            {
+                text   = ' ' .. d .. '.' .. m .. '.' .. y .. ' ',
+                align  = 'left',
+                valign = 'top',
+                font = 'Hermit 10', -- TODO
+                widget = wibox.widget.textbox
+            },
+            fg = beautiful.colors.white,
+            bg = beautiful.colors.red .. 'AA',
+            shape = function(cr, width, height)
+                gears.shape.rounded_bar(cr, width, height, 8)
+            end,
+            widget = wibox.container.background
+        }
+    end
+
     local body_widget = wibox.widget {
         title_widget,
         {
-            notes_widget,
-            fg = beautiful.colors.grey,
-            widget = wibox.container.background
+            due_widget,
+            {
+                notes_widget,
+                fg = beautiful.colors.grey,
+                widget = wibox.container.background
+            },
+            spacing = dpi(4),
+            layout = wibox.layout.fixed.horizontal
         },
         layout = wibox.layout.fixed.vertical,
     }

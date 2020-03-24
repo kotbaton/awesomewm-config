@@ -184,7 +184,8 @@ local function new(args)
 
     add_task_button:buttons(awful.button({}, 1, function()
         awful.prompt.run {
-            prompt      = 'Add task: ',
+            prompt      = 'Add: ',
+            font        = 'Hermit 11', -- TODO
             textbox     = tasklist_prompt.widget,
             bg_cursor   = beautiful.colors.purple,
             fg_cursor   = beautiful.colors.purple,
@@ -236,8 +237,9 @@ local function new(args)
             text = text .. '//' .. task.notes
         end
         awful.prompt.run {
-            prompt      = 'Edit task: ',
+            prompt      = 'Edit: ',
             text        = text,
+            font        = 'Hermit 11', -- TODO
             textbox     = tasklist_prompt.widget,
             bg_cursor   = beautiful.colors.purple,
             fg_cursor   = beautiful.colors.purple,
