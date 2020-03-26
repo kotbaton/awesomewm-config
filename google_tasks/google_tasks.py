@@ -38,15 +38,15 @@ def get_parser():
                        type=str,
                        help='Mark TASK from TASKLIST as comleted')
     group.add_argument('--insert',
-                       nargs=3,
-                       metavar=('TASKLIST_ID', 'TITLE', 'NOTES'),
-                       type=str,
-                       help='Insert new task with TITLE and NOTES into TASKLIST')
-    group.add_argument('--edit',
                        nargs=4,
-                       metavar=('TASKLIST_ID', 'TASK_ID', 'TITLE', 'NOTES'),
+                       metavar=('TASKLIST_ID', 'TITLE', 'NOTES', 'DUE'),
                        type=str,
-                       help='Update task with TASK_ID by TITLE and NOTES in TASKLIST')
+                       help='Insert new task with TITLE, NOTES and DUE into TASKLIST')
+    group.add_argument('--edit',
+                       nargs=5,
+                       metavar=('TASKLIST_ID', 'TASK_ID', 'TITLE', 'NOTES', 'DUE'),
+                       type=str,
+                       help='Update task with TASK_ID by TITLE, NOTES adn DUE in TASKLIST')
 
 
     return parser
@@ -120,6 +120,9 @@ def main():
 
         task_body['notes'] = args.edit[3]
 
+        if (due := args.edit[4]):
+            task_body['due'] = due
+
         result = service.tasks().update(tasklist=tasklist_id,
                                          task=task_id,
                                          body=task_body).execute()
@@ -128,8 +131,10 @@ def main():
         tasklist_id = args.insert[0]
         task_body = {
             'title': args.insert[1],
-            'notes': args.insert[2]
+            'notes': args.insert[2],
         }
+        if (due := args.insert[3]):
+            task_body['due'] = due
 
         result = service.tasks().insert(tasklist=tasklist_id, body=task_body).execute()
         print(json.dumps(result))

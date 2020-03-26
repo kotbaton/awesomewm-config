@@ -12,6 +12,7 @@ local function new(tasklist, task)
     local checkbox = wibox.widget {
         checked            = false,
         color              = beautiful.colors.white,
+        check_color        = beautiful.colors.purple,
         shape              = gears.shape.circle,
         paddings           = dpi(3),
         border_width       = dpi(2),

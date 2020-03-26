@@ -249,11 +249,14 @@ local function new(args)
                 -- Save in case of changing current tasklist until we save task
                 local cur_tasklist_id = cache.current_tasklist.id
 
-                local title, notes = helpers.split_text(text)
+                local title, notes, due = helpers.split_text(text)
 
+                -- TODO: rewrite with using string.format
                 local command = base_command .. ' --insert '
                                 .. cur_tasklist_id .. ' "'
-                                .. title .. '" "' .. notes .. '"'
+                                .. title .. '" "'
+                                .. notes .. '" "'
+                                .. due .. '"'
                 awful.spawn.easy_async(command, function(stdout, stderr)
                     if stdout == '' or stdout == nil then
                         raise_error_notification()
@@ -287,6 +290,12 @@ local function new(args)
         if task.notes ~= nil and task.notes ~= '' then
             text = text .. '//' .. task.notes
         end
+
+        if task.due ~= nil and task.due ~= '' then
+            local y, m, d = task.due:match('(%d+)-(%d+)-(%d+)')
+            text = text .. string.format(' [%02d.%02d.%04d]', d, m, y)
+        end
+
         awful.prompt.run {
             prompt      = 'Edit: ',
             text        = text,
@@ -303,12 +312,15 @@ local function new(args)
                 -- Save in case of changing current tasklist until we save task
                 local cur_tasklist_id = cache.current_tasklist.id
 
-                local title, notes = helpers.split_text(text)
+                local title, notes, due = helpers.split_text(text)
 
                 local command = base_command .. ' --edit '
                                 .. cur_tasklist_id .. ' '
                                 .. task.id .. ' "'
-                                .. title .. '" "' .. notes .. '"'
+                                .. title .. '" "'
+                                .. notes .. '" "'
+                                .. due .. '"'
+
                 awful.spawn.easy_async(command, function(stdout, stderr)
                     if stdout == '' or stdout == nil then
                         raise_error_notification()
@@ -319,6 +331,7 @@ local function new(args)
                         if task.id == edited_task.id then
                             task.title = edited_task.title
                             task.notes = edited_task.notes
+                            task.due = edited_task.due
                             break
                         end
                     end
