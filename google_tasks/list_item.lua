@@ -21,12 +21,16 @@ local function new(tasklist, task)
         widget = wibox.widget.checkbox
     }
 
+    local title_widget_height = nil
+    if task.notes or task.due then
+        title_widget_height = dpi(20)
+    end
     local title_widget = wibox.widget {
         text   = task.title,
         align  = 'left',
         valign = 'top',
         font = 'Hermit 10', -- TODO
-        forced_height = (task.notes ~= nil) and dpi(20) or nil,
+        forced_height = title_widget_height,
         widget = wibox.widget.textbox
     }
 
@@ -42,9 +46,16 @@ local function new(tasklist, task)
     local due_widget = nil
     if task.due then
         local y, m, d = task.due:match('(%d+)-(%d+)-(%d+)')
+        local text = ''
+        if tonumber(y) == os.date('*t').year then
+            text = ' ' .. d .. '.' .. m .. ' '
+        else
+            text = ' ' .. d .. '.' .. m .. '.' .. y .. ' '
+        end
+
         due_widget = wibox.widget {
             {
-                text   = ' ' .. d .. '.' .. m .. '.' .. y .. ' ',
+                text   = text,
                 align  = 'left',
                 valign = 'top',
                 font = 'Hermit 10', -- TODO

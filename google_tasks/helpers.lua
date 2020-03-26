@@ -19,6 +19,10 @@ function helpers.highlighter(b, a)
         .. cmd .. '</span>'
     end
 
+    cmd = cmd:gsub('%[%d%d?%]', '<b><span foreground="'
+                                 .. beautiful.colors.red
+                                 .. '">%1</span></b>')
+
     cmd = cmd:gsub('%[%d%d?[./-]%d%d%]', '<b><span foreground="'
                                         .. beautiful.colors.red
                                         .. '">%1</span></b>')
@@ -49,6 +53,10 @@ function helpers.split_text(text)
         date.day, date.month, date.year = date_string:match('(%d%d?)[./-](%d%d)[./-](%d%d%d%d)')
         if date.day == nil then
             date.day, date.month = date_string:match('(%d%d?)[./-](%d%d)')
+            if date.day == nil then
+                date.day = date_string:match('(%d%d?)')
+                date.month = os.date('*t').month
+            end
             date.year = os.date('*t').year
         end
     end

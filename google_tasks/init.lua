@@ -23,6 +23,7 @@ local page = {
 }
 -- ]]
 
+
 --[[
 -- Tasklist representation:
 -- https://developers.google.com/tasks/v1/reference/tasklists#resource
@@ -62,6 +63,46 @@ local page = {
 --     }
 --   ]
 -- }
+--]]
+
+
+--[[
+-- Here's short explanation of how this things work:
+--
+-- gears.timer(every 300s == 5min) -- Periodically start updates
+--  V
+-- get_all_tasklists() -- Updates tasklists info and save it in cache table
+--  V
+-- get_list() -- Called for every tasklist
+--  V
+-- emit_signal('tasks::ready', tasklist) -- When tasklist downloaded
+--  V
+-- update_widget() -- Called when signal 'tasks::ready' is emitted.
+--                    Fills widget with tasks
+--
+--
+-- update_tasklist_menu() -- When clicked on tasklist title, but there's
+--  V                        no menu in cache
+-- update_widget() -- Reset widget and fill it with tasks
+--                    from choosed tasklist
+--
+--
+-- -Task adding- -- Anonymous callback for left mouse click
+--  V               on add_task_button
+-- Send new task to cloud
+--  V
+-- Insert returned task to cached tasklist
+--  V
+-- update_widget()
+--
+--
+-- -Task editing- -- Callback to 'tasks::edit' signal
+--  V
+-- Send updated task to cloud
+--  V
+-- Update task's fields in cached tasklist
+--  V
+-- update_widget()
 --]]
 
 local cache = {
@@ -189,9 +230,13 @@ local function new(args)
         -- Get tasks from tasklist and save it into cache
         local command = base_command .. ' --list ' .. tasklist.id
         awful.spawn.easy_async(command, function(stdout, stderr)
+            if stdout == '' then
+                -- Supossed that tasklist is empty
+                awesome.emit_signal('tasks::ready', tasklist)
+                return
+            end
             local result = cjson.decode(stdout)
             cache.lists[tasklist.id] = result
-            -- TODO: Is this sort works?
             table.sort(cache.lists[tasklist.id], function(a, b)
                 return a.position < b.position
             end)
@@ -314,6 +359,7 @@ local function new(args)
 
                 local title, notes, due = helpers.split_text(text)
 
+                -- TODO: rewrite with using string.format
                 local command = base_command .. ' --edit '
                                 .. cur_tasklist_id .. ' '
                                 .. task.id .. ' "'

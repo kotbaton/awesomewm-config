@@ -806,6 +806,10 @@ awful.rules.rules = {
         properties = { floating = true, ontop = true }
     },
     {
+        rule = { name = "Telegram" },
+        properties = { floating = true, sticky = true }
+    },
+    {
         rule = { name = "Media viewer" },
         properties = { floating = true, ontop = true, titlebars_enabled = false, fullscreen = true }
     },
