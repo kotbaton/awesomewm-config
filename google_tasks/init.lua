@@ -191,7 +191,7 @@ local function new(args)
     local function update_widget(tasklist, items)
         tasklist_title:set_text(tasklist.title)
         tasklist_body:reset()
-        if items then
+        if next(items) ~= nil then -- Check if table is not empty
             page.first = 1
             page.last = #items < tasks_on_page and #items or tasks_on_page
             for i = page.first, page.last do
@@ -231,7 +231,10 @@ local function new(args)
         local command = base_command .. ' --list ' .. tasklist.id
         awful.spawn.easy_async(command, function(stdout, stderr)
             if stdout == '' then
-                -- Supossed that tasklist is empty
+                -- Looks like that tasklist is empty
+                -- Put empty table into cache.
+                -- so we can insert tasks here later
+                cache.lists[tasklist.id] = {}
                 awesome.emit_signal('tasks::ready', tasklist)
                 return
             end

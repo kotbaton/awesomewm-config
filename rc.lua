@@ -796,7 +796,7 @@ awful.rules.rules = {
         },
         properties = {
             titlebars_enabled = false,
-            focusable = false,
+            focusable = true,
             floating = true,
             placement = awful.placement.no_offscreen + awful.placement.top_right,
         }
