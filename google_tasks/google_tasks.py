@@ -120,8 +120,7 @@ def main():
 
         task_body['notes'] = args.edit[3]
 
-        if (due := args.edit[4]):
-            task_body['due'] = due
+        task_body['due'] = args.edit[4]
 
         result = service.tasks().update(tasklist=tasklist_id,
                                          task=task_id,
