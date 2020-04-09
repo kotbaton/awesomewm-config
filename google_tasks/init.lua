@@ -16,7 +16,7 @@ local google_tasks = {}
 
 -- [[ TODO: Try insert this section into new() function,
 -- so tasks_on_page can be setted by arguments
-local tasks_on_page = 12 -- TODO: Move this somewhere
+local tasks_on_page = 4 -- TODO: Move this somewhere
 local page = {
     first = 1,
     last = nil,
@@ -152,10 +152,29 @@ local function button_decorator(widget, args)
     return res
 end
 
+local sort_function = {
+    current = nil,
+    position = function(a, b)
+        return a.position < b.position
+    end,
+    due_time = function(a, b)
+        if a.due ~= nil and b.due ~= nil then
+            return a.due < b.due
+        elseif a.due == nil and b.due ~= nil then
+            return false
+        elseif a.due ~= nil and b.due == nil then
+            return true
+        else
+            return a.position < b.position
+        end
+    end,
+}
+sort_function.current = sort_function.position
+
 
 local function new(args)
     local add_task_button = wibox.widget {
-        text   = '  ',
+        text   = ' ',
         align  = 'center',
         valign = 'center',
         font   = 'Hermit Bold 15', -- TODO
@@ -171,10 +190,18 @@ local function new(args)
     }
 
     local tasklist_sync_button = wibox.widget {
-        text   = '  ',
+        text   = ' ',
         align  = 'center',
         valign = 'center',
         font   = 'Hermit Bold 15', -- TODO
+        widget = wibox.widget.textbox
+    }
+
+    local sort_order_button = wibox.widget {
+        text   = '  ',
+        align  = 'center',
+        valign = 'center',
+        font   = 'Hermit Bold 18', -- TODO
         widget = wibox.widget.textbox
     }
 
@@ -189,6 +216,8 @@ local function new(args)
     }
 
     local function update_widget(tasklist, items)
+        table.sort(items, sort_function.current)
+
         tasklist_title:set_text(tasklist.title)
         tasklist_body:reset()
         if items then
@@ -226,6 +255,25 @@ local function new(args)
         cache.tasklist_choose_menu = awful.menu(menu_entries)
     end
 
+    local sort_order_menu = awful.menu({
+            {
+                'Sort by position',
+                function() 
+                    sort_function.current = sort_function.position 
+                    update_widget(cache.current_tasklist,
+                        cache.lists[cache.current_tasklist.id])
+                end,
+            },
+            {
+                'Sort by date',
+                function() 
+                    sort_function.current = sort_function.due_time 
+                    update_widget(cache.current_tasklist,
+                        cache.lists[cache.current_tasklist.id])
+                end,
+            }
+    })
+
     local function get_list(tasklist)
         -- Get tasks from tasklist and save it into cache
         local command = base_command .. ' --list ' .. tasklist.id
@@ -237,10 +285,6 @@ local function new(args)
             end
             local result = cjson.decode(stdout)
             cache.lists[tasklist.id] = result
-            table.sort(cache.lists[tasklist.id], function(a, b)
-                return a.position < b.position
-            end)
-
             awesome.emit_signal('tasks::ready', tasklist)
         end)
     end
@@ -270,6 +314,10 @@ local function new(args)
             update_tasklist_menu()
         end
         cache.tasklist_choose_menu:toggle()
+    end))
+
+    sort_order_button:buttons(awful.button({}, 1, function()
+        sort_order_menu:toggle()
     end))
 
     tasklist_sync_button:buttons(awful.button({}, 1, function()
@@ -441,7 +489,11 @@ local function new(args)
         {
             button_decorator(add_task_button),
             button_decorator(tasklist_title),
-            button_decorator(tasklist_sync_button),
+            {
+                button_decorator(sort_order_button),
+                button_decorator(tasklist_sync_button),
+                layout = wibox.layout.fixed.horizontal
+            },
             forced_height = dpi(30),
             layout = wibox.layout.align.horizontal
         },
