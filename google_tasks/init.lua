@@ -16,7 +16,7 @@ local google_tasks = {}
 
 -- [[ TODO: Try insert this section into new() function,
 -- so tasks_on_page can be setted by arguments
-local tasks_on_page = 4 -- TODO: Move this somewhere
+local tasks_on_page = 10 -- TODO: Move this somewhere
 local page = {
     first = 1,
     last = nil,
@@ -375,6 +375,19 @@ local function new(args)
     end)
 
     awesome.connect_signal('tasks::ready', function(tasklist)
+        local today = os.date('*t')
+        local timestamp = string.format("%04d-%02d-%02dT00:00:00.000Z",
+                                        today.year, today.month, today.day)
+        for i, task in ipairs(cache.lists[tasklist.id]) do
+            if task.due == timestamp then
+                naughty.notify {
+                    title = 'This task is due to today.',
+                    text = '<b>Title:</b> ' .. task.title .. '\n'
+                           .. '<b>Notes:</b> ' .. task.notes,
+                }
+            end
+        end
+
         if tasklist.id == cache.current_tasklist.id then
             update_widget(tasklist,
                           cache.lists[tasklist.id])
@@ -479,7 +492,7 @@ local function new(args)
     )
 
     local timer = gears.timer {
-        timeout   = 300,
+        timeout   = 1800, -- 30 mins
         autostart = true,
         call_now  = true,
         callback  = function()

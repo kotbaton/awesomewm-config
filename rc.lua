@@ -773,9 +773,11 @@ awful.rules.rules = {
                      "xtightvncviewer",
                      "Lxappearance",
                      "Matplotlib",
-                     "Nm-connection-editor"},
+                     "Nm-connection-editor",
+                     "Msgcompose"},
             name = {"Event Tester",
                     "Figure *",
+                    "Write: *",
                     "Wpicker"},
             role = {"AlarmWindow",
                     "pop-up",}
@@ -796,9 +798,18 @@ awful.rules.rules = {
         },
         properties = {
             titlebars_enabled = false,
-            focusable = true,
+            focus = false,
             floating = true,
             placement = awful.placement.no_offscreen + awful.placement.top_right,
+        }
+    },
+    {
+        rule = { name = "Microsoft Teams Notification" },
+        properties = {
+            floating = true,
+            ontop = true,
+            focus = false,
+            focusable = false,
         }
     },
     {
