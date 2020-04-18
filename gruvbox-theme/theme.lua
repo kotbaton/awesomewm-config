@@ -234,11 +234,6 @@ theme.hotkeys_font              = font(12, "Bold")
 theme.hotkeys_description_font  = font(12)
 theme.hotkeys_group_margin      = dpi(4)
 
-theme.terminal_icon = theme_path.."icons/apps/terminal.svg"
-theme.chrome_icon = theme_path.."icons/apps/chrome.svg"
-theme.thunar_icon = theme_path.."icons/apps/thunar.svg"
-theme.telegram_icon = theme_path.."icons/apps/telegram.svg"
-theme.music_icon = theme_path.."icons/apps/music.png"
 theme.shutdown_icon = theme_path .. "icons/apps/shutdown.svg"
 theme.reboot_icon = theme_path .. "icons/apps/reboot.svg"
 theme.lock_icon = theme_path .. "icons/apps/lock.svg"

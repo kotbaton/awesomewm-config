@@ -17,22 +17,13 @@ settings.default_apps = {
     editor = "",
     editor_cmd = "",
     browser = "",
-    file_manager = "",
-    music_player = "",
-    telegram = "",
 }
 
 -- Set applications which you want to run with Super+Alt+number.
 settings.launcher = {
-	app1 = "",
-	app2 = "",
-	app3 = "",
-	app4 = "",
-	app5 = "",
-	app6 = "",
-	app7 = "",
-	app8 = "",
-	app9 = "",
+    -- 'appliction1',
+    -- 'appliction2',
+    -- ...
 }
 
 -- Set yout API key and city id for weather widget.

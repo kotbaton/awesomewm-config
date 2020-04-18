@@ -4,6 +4,7 @@ local wibox             = require('wibox')
 local beautiful         = require('beautiful')
 local naughty           = require('naughty')
 local dpi               = require('beautiful.xresources').apply_dpi
+local menubar           = require('menubar')
 
 local cjson             = require('cjson')
 
@@ -380,10 +381,12 @@ local function new(args)
                                         today.year, today.month, today.day)
         for i, task in ipairs(cache.lists[tasklist.id]) do
             if task.due == timestamp then
+                local icon = menubar.utils.lookup_icon('preferences-calendar-and-tasks')
                 naughty.notify {
                     title = 'This task is due to today.',
                     text = '<b>Title:</b> ' .. task.title .. '\n'
                            .. '<b>Notes:</b> ' .. (task.notes or ''),
+                    icon = icon
                 }
             end
         end

@@ -234,17 +234,6 @@ end)
 
 -- Set keys
 local globalkeys = gears.table.join(
-    ----------------------{ START APPS }--------------------------------------------
-    awful.key({modkey, "Mod1"}, "1", function() awful.spawn(settings.launcher.app1) end, {description=settings.launcher.app1, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "2", function() awful.spawn(settings.launcher.app2) end, {description=settings.launcher.app2, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "3", function() awful.spawn(settings.launcher.app3) end, {description=settings.launcher.app3, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "4", function() awful.spawn(settings.launcher.app4) end, {description=settings.launcher.app4, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "5", function() awful.spawn(settings.launcher.app5) end, {description=settings.launcher.app5, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "6", function() awful.spawn(settings.launcher.app6) end, {description=settings.launcher.app6, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "7", function() awful.spawn(settings.launcher.app7) end, {description=settings.launcher.app7, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "8", function() awful.spawn(settings.launcher.app8) end, {description=settings.launcher.app8, group="Applications"}),
-    awful.key({modkey, "Mod1"}, "9", function() awful.spawn(settings.launcher.app9) end, {description=settings.launcher.app9, group="Applications"}),
-
     awful.key({ modkey,           }, "Return",
         function ()
             awful.spawn(terminal)
@@ -630,6 +619,15 @@ for i = 1, 9 do
                 end
             end,
             {description = "Add client to tag", group = "Tag management"}))
+
+end
+
+for i = 1,9 do
+    globalkeys = gears.table.join(globalkeys,
+        -- Add launcher hotkey for this button
+        awful.key({modkey, "Mod1"}, '#' .. (i+9),
+            function() awful.spawn(settings.launcher[i]) end,
+        {description=settings.launcher[i], group="Applications"}))
 end
 
 root.keys(globalkeys)
