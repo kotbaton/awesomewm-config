@@ -129,6 +129,14 @@ theme.tasklist_bg_focus                         = make_gradient(theme.colors.whi
 theme.tasklist_bg_minimize                      = make_gradient(theme.colors.darkGrey)
 theme.tasklist_bg_urgent                        = make_gradient(theme.colors.red)
 
+-- Tasklist icons
+theme.tasklist_sticky = ' '
+theme.tasklist_ontop = ' '
+theme.tasklist_floating = ' '
+theme.tasklist_maximized = ' '
+theme.tasklist_maximized_horizontal = ' '
+theme.tasklist_maximized_vertical = ' '
+
 
 -- theme.tasklist_bg_image_normal               = nil
 -- theme.tasklist_bg_image_focus                = nil

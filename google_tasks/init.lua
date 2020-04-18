@@ -383,7 +383,7 @@ local function new(args)
                 naughty.notify {
                     title = 'This task is due to today.',
                     text = '<b>Title:</b> ' .. task.title .. '\n'
-                           .. '<b>Notes:</b> ' .. task.notes,
+                           .. '<b>Notes:</b> ' .. (task.notes or ''),
                 }
             end
         end
