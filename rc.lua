@@ -826,7 +826,7 @@ awful.rules.rules = {
         properties = {
             floating = true,
             sticky = true,
-            tag = screen[1].tags[10]
+            tag = screen[1].tags[2]
         }
     },
     {
@@ -838,7 +838,7 @@ awful.rules.rules = {
     {
         rule_any = { class = {"spotify", "Spotify"} },
         properties = {
-            tag = screen[1].tags[10],
+            tag = screen[1].tags[2],
         }
     },
     {
