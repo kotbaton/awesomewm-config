@@ -166,10 +166,10 @@ theme.tasklist_shape                            = gears.shape.rectangle
 
 -- notification
 theme.notification_font                         = theme.font
-theme.notification_bg                           = theme.colors.darkGrey .. 'CC'
+theme.notification_bg                           = theme.colors.darkGrey .. '99'
 theme.notification_fg                           = theme.colors.white
 theme.notification_border_width                 = dpi(0)
-theme.notification_border_color                 = theme.colors.darkGrey .. 'CC'
+theme.notification_border_color                 = theme.colors.darkGrey .. '99'
 -- theme.notification_shape                        = function(cr, width, height)
 --     gears.shape.rounded_rect(cr, width, height, 16)
 -- end

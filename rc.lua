@@ -572,7 +572,7 @@ local globalkeys = gears.table.join(
         end, {description = "Restore minimized", group = "Clients management"})
 )
 
-for i = 1, 9 do
+for i = 1, 10 do
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
@@ -798,6 +798,7 @@ awful.rules.rules = {
             titlebars_enabled = false,
             focus = false,
             floating = true,
+            tag = screen[1].tags[7],
             placement = awful.placement.no_offscreen + awful.placement.top_right,
         }
     },
@@ -815,12 +816,36 @@ awful.rules.rules = {
         properties = { floating = true, ontop = true }
     },
     {
-        rule = { name = "Telegram" },
-        properties = { floating = true, sticky = true }
-    },
-    {
         rule = { name = "Media viewer" },
         properties = { floating = true, ontop = true, titlebars_enabled = false, fullscreen = true }
+    },
+
+    -- Rules for applications which I use with my tag configuration
+    {
+        rule = { name = "Telegram" },
+        properties = {
+            floating = true,
+            sticky = true,
+            tag = screen[1].tags[10]
+        }
+    },
+    {
+        rule_any = { class = {"Mail", "Thunderbird"} },
+        properties = {
+            tag = screen[1].tags[8],
+        }
+    },
+    {
+        rule_any = { class = {"spotify", "Spotify"} },
+        properties = {
+            tag = screen[1].tags[10],
+        }
+    },
+    {
+        rule_any = { class = {"qbittorrent", "qBittorrent"} },
+        properties = {
+            tag = screen[1].tags[5],
+        }
     },
 }
 

@@ -5,34 +5,23 @@ local tagnames  = require("modules.tools.tagnames")
 local function create_client_menu(c)
     local tags = awful.screen.focused().tags
     local names = tagnames.read(c.screen)
+
+    local move_to_tag = {}
+    local add_to_tag = {}
+
+    for i = 1, #tags do
+        table.insert(move_to_tag, {names[i], function() c:move_to_tag(tags[i]) end})
+        table.insert(add_to_tag, {names[i], function() c:toggle_tag(tags[i]) end})
+    end
+
     local task_menu = {
         {
             "Move to tag",
-            {
-                {names[1], function() c:move_to_tag(tags[1]) end},
-                {names[2], function() c:move_to_tag(tags[2]) end},
-                {names[3], function() c:move_to_tag(tags[3]) end},
-                {names[4], function() c:move_to_tag(tags[4]) end},
-                {names[5], function() c:move_to_tag(tags[5]) end},
-                {names[6], function() c:move_to_tag(tags[6]) end},
-                {names[7], function() c:move_to_tag(tags[7]) end},
-                {names[8], function() c:move_to_tag(tags[8]) end},
-                {names[9], function() c:move_to_tag(tags[9]) end},
-            }
+            move_to_tag
         },
         {
             "Add to tag",
-            {
-                {names[1], function() c:toggle_tag(tags[1]) end},
-                {names[2], function() c:toggle_tag(tags[2]) end},
-                {names[3], function() c:toggle_tag(tags[3]) end},
-                {names[4], function() c:toggle_tag(tags[4]) end},
-                {names[5], function() c:toggle_tag(tags[5]) end},
-                {names[6], function() c:toggle_tag(tags[6]) end},
-                {names[7], function() c:toggle_tag(tags[7]) end},
-                {names[8], function() c:toggle_tag(tags[8]) end},
-                {names[9], function() c:toggle_tag(tags[9]) end},
-            }
+            add_to_tag
         },
         { "Maximize", function() c.maximized = not c.maximized end, beautiful.titlebar_maximized_button_focus_inactive },
         { "Minimize", function() c.minimized = not c.minimized end, beautiful.titlebar_minimize_button_focus },
