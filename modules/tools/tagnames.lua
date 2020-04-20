@@ -14,7 +14,7 @@ function tagnames.read(screen)
     local tagnamesfile = cache_dir .. "tagnames" .. screenName .. ".txt"
     if not gears.filesystem.file_readable(tagnamesfile)
     then
-        return { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+        return { "1", "2", "3", "4", "5", "6", "7", "8", "9"}
     end
 
     local names = {}

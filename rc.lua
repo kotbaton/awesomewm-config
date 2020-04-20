@@ -572,7 +572,7 @@ local globalkeys = gears.table.join(
         end, {description = "Restore minimized", group = "Clients management"})
 )
 
-for i = 1, 10 do
+for i = 1, 9 do
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,
