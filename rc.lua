@@ -280,8 +280,10 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "c",
         function()
-            awful.spawn.raise_or_spawn("galculator", false)
-        end, {description = "Galculator", group = "Applications"}),
+            awful.spawn.spawn("kitty -e python", {
+                    floating = true,
+                })
+        end, {description = "Python", group = "Applications"}),
 
     ----------------------{ AWESOME }--------------------------------------------
     awful.key({ modkey }, "r",
@@ -776,7 +778,8 @@ awful.rules.rules = {
             name = {"Event Tester",
                     "Figure *",
                     "Write: *",
-                    "Wpicker"},
+                    "Wpicker",
+                    "Mathpix Snipping Tool"},
             role = {"AlarmWindow",
                     "pop-up",}
         },
@@ -789,6 +792,13 @@ awful.rules.rules = {
     {
         rule_any = {class = { "qgis", "QGIS3"}},
         properties = { titlebars_enabled = true }
+    },
+    {
+        rule_any = {class = {"todoist", "Todoist"}},
+        properties = {
+            floating = true,
+            placement = awful.placement.no_offscreen + awful.placement.top_right,
+        }
     },
     {
         rule_any = {
