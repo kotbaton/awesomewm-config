@@ -164,25 +164,61 @@ theme.tasklist_shape                            = gears.shape.rectangle
 -- theme.tasklist_shape_border_width_urgent        = nil
 -- theme.tasklist_shape_border_color_urgent        = nil
 
--- notification
-theme.notification_font                         = theme.font
-theme.notification_bg                           = theme.colors.darkGrey .. '99'
-theme.notification_fg                           = theme.colors.white
-theme.notification_border_width                 = dpi(0)
-theme.notification_border_color                 = theme.colors.darkGrey .. '99'
+-- NOTIFICATION --
 -- theme.notification_shape                        = function(cr, width, height)
 --     gears.shape.rounded_rect(cr, width, height, 16)
 -- end
+
+theme.notification_padding                      = dpi(8)
+theme.notification_timeout                      = 5
+-- theme.notification_max_height                   = dpi(200)
+theme.notification_max_width                    = dpi(400)
+theme.notification_position                     = 'top_right'
+-- theme.notification_action_underline_normal = nil
+-- theme.notification_action_underline_selected = nil
+-- theme.notification_action_icon_only = nil
+-- theme.notification_action_label_only = nil
+theme.notification_action_shape_normal = gears.shape.rounded_rect
+-- theme.notification_action_shape_selected = nil
+-- theme.notification_action_shape_border_color_normal = nil
+-- theme.notification_action_shape_border_color_selected = nil
+-- theme.notification_action_shape_border_width_normal = nil
+-- theme.notification_action_shape_border_width_selected = nil
+-- theme.notification_action_icon_size_normal = nil
+-- theme.notification_action_icon_size_selected = nil
+theme.notification_action_bg_normal = theme.colors.black
+-- theme.notification_action_bg_selected = theme.colors.yellow
+-- theme.notification_action_fg_normal = nil
+-- theme.notification_action_fg_selected = nil
+-- theme.notification_action_bgimage_normal = nil
+-- theme.notification_action_bgimage_selected = nil
+-- theme.notification_shape_normal = nil
+-- theme.notification_shape_selected = nil
+-- theme.notification_shape_border_color_normal    = theme.colors.darkGrey .. '99'
+-- theme.notification_shape_border_color_selected = nil
+-- theme.notification_shape_border_width_normal   = 0
+-- theme.notification_shape_border_width_selected = nil
+theme.notification_icon_size                    = dpi(96)
+theme.notification_icon_size_normal             = dpi(96)
+theme.notification_icon_size_selected           = dpi(96)
+-- theme.notification_bg_normal = nil
+-- theme.notification_bg_selected = nil
+-- theme.notification_fg_normal = nil
+-- theme.notification_fg_selected = nil
+-- theme.notification_bgimage_normal = nil
+-- theme.notification_bgimage_selected = nil
+theme.notification_font                         = theme.font
+theme.notification_bg                           = theme.colors.darkGrey .. '99'
+theme.notification_fg                           = theme.colors.white
+theme.notification_border_width                 = 0
+theme.notification_border_color                 = theme.colors.darkGrey .. '99'
+-- theme.notification_shape = nil
 theme.notification_opacity                      = 1.00
 theme.notification_margin                       = dpi(8)
-theme.notification_spacing                      = dpi(8)
-theme.notification_padding                      = dpi(8)
 theme.notification_width                        = dpi(400)
-theme.notification_timeout                      = 5
--- theme.notification_height                       = nil
-theme.notification_icon_size                    = dpi(96)
-theme.notification_max_width                    = dpi(400)
-theme.notification_max_height                   = dpi(200)
+-- theme.notification_height                       = dpi(100)
+theme.notification_spacing                      = dpi(8)
+-- theme.notification_icon_resize_strategy = nil
 
 -- theme.calendar_style = nil
 theme.calendar_font = font(14)

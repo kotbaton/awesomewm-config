@@ -942,6 +942,78 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
+naughty.connect_signal("request::display", function(n)
+    local actions = wibox.widget {
+        notification = n,
+        base_layout = wibox.widget {
+            spacing = dpi(4),
+            layout = wibox.layout.fixed.horizontal
+        },
+        widget_template = {
+            {
+                id = "text_role",
+                align = "center",
+                valign = "center",
+                font = beautiful.notification_font,
+                widget = wibox.widget.textbox
+            },
+            shape = beautiful.notification_action_shape_normal,
+            bg = beautiful.notification_action_bg_normal,
+            forced_height = dpi(25),
+            forced_width = dpi(94),
+            widget = wibox.container.background
+        },
+        style = {
+            underline_normal = false,
+            underline_selected = true,
+        },
+        widget = naughty.list.actions
+    }
+
+    naughty.layout.box {
+        notification = n,
+        type = "notification",
+        -- For antialiasing: The real shape is set in widget_template
+        shape = gears.shape.rectangle,
+        border_width = beautiful.notification_border_width,
+        border_color = beautiful.notification_border_color,
+        position = beautiful.notification_position,
+        widget_template = {
+            {
+                {
+                    {
+                        naughty.widget.icon,
+                        {
+                            naughty.widget.title,
+                            naughty.widget.message,
+                            spacing = dpi(4),
+                            layout  = wibox.layout.fixed.vertical,
+                        },
+                        spacing = beautiful.notification_margin,
+                        layout  = wibox.layout.fixed.horizontal,
+                    },
+                    margins = beautiful.notification_margin,
+                    widget = wibox.container.margin
+                },
+                {
+                    actions,
+                    visible = n.actions and #n.actions > 0,
+                    margins = {
+                        bottom = beautiful.notification_margin,
+                        right  = beautiful.notification_margin,
+                        left   = beautiful.notification_margin,
+                    },
+                    widget = wibox.container.margin
+                },
+                layout  = wibox.layout.fixed.vertical
+            },
+            forced_width = beautiful.notification_max_width,
+            bg = beautiful.notification_bg,
+            widget = wibox.container.background
+        }
+    }
+end)
+
 gears.timer.start_new(10, function()
     collectgarbage("step", 20000)
     return true
