@@ -798,6 +798,7 @@ awful.rules.rules = {
         properties = {
             floating = true,
             placement = awful.placement.no_offscreen + awful.placement.top_right,
+            maximized_vertical = true,
         }
     },
     {
