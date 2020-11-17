@@ -246,16 +246,8 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "w",
         function()
-            awful.spawn.easy_async([[
-                bash -c 'trans -tl ru -brief "$(xclip -o)"'
-            ]], function(stdout)
-                naughty.notify({
-                    title      = "Translation:",
-                    text       = stdout,
-                    timeout    = 0,
-                    max_height = dpi(400),
-                })
-            end)
+            script = gears.filesystem.get_configuration_dir() .. 'scripts/trans_clip.sh'
+            awful.spawn.with_shell(script)
         end, {description = "Translate text from selection", group = "Translation"}),
 
     awful.key({"Control", "Mod1"}, "e",
