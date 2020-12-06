@@ -3,6 +3,12 @@ local io = io
 
 local tagnames = {}
 
+function screen_name(s)
+    local sg = s.geometry
+    local screenName = sg.width .. sg.height .. sg.x .. sg.y
+    return screenName
+end
+
 function tagnames.read(screen)
     local cache_dir = gears.filesystem.get_cache_dir()
     if not gears.filesystem.dir_readable(cache_dir)
@@ -10,8 +16,7 @@ function tagnames.read(screen)
         gears.filesystem.make_directories(cache_dir)
     end
 
-    local screenName = screen.geometry.width .. screen.geometry.height
-    local tagnamesfile = cache_dir .. "tagnames" .. screenName .. ".txt"
+    local tagnamesfile = cache_dir .. "tagnames" .. screen_name(screen) .. ".txt"
     if not gears.filesystem.file_readable(tagnamesfile)
     then
         return { "1", "2", "3", "4", "5", "6", "7", "8", "9"}
@@ -41,8 +46,7 @@ function tagnames.write(screen)
         names[i] = tags[i].name
     end
 
-    local screenName = screen.geometry.width .. screen.geometry.height
-    local tagnamesfile = cache_dir .. "tagnames" .. screenName .. ".txt"
+    local tagnamesfile = cache_dir .. "tagnames" .. screen_name(screen) .. ".txt"
     file = io.open(tagnamesfile, "w")
     for i = 1, #names do
         file:write(names[i], "\n")
