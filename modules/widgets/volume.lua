@@ -75,6 +75,46 @@ local function update_progressbar_widget(widget, stdout, _, _, _)
 	end
 end
 
+local active_menu = nil
+local function build_menu_entry(num, name, status)
+    local short_name = name:match("%.([-_%w]+)%.")
+    local type = name:match("%.([-%w]+)$") -- hdmi-stereo, analog-stereo, etc.
+    return {
+        "[" .. string.sub(status, 1, 1) .. "] " .. type .. " " .. short_name,
+        {
+            {
+                "Make default",
+                function()
+                    local command = "pactl set-default-sink " .. name
+                    awful.spawn.with_shell(command)
+                end
+            }
+        }
+    }
+end
+
+local function show_pulse_sink_menu()
+    if active_menu then
+        active_menu:hide()
+        active_menu = nil
+    end
+
+    local command = [[bash -c 'pactl list sinks short | cut -f1,2,5']]
+	awful.spawn.easy_async(command, function(stdout, stderr)
+        local entries = {}
+        for num, name, status in string.gmatch(stdout, "(%d+)%s+([^%s]+)%s+(%w+)") do
+            table.insert(entries, build_menu_entry(num, name, status))
+        end
+        active_menu = awful.menu({
+                items = entries,
+                theme = {
+                    width=300,
+                }
+            })
+        active_menu:show()
+    end)
+end
+
 function volume.control(cmd, value)
     value = value or 2
 	if cmd == "increase" then cmd = commands.SET_VOL_CMD .. value .. '%+'
@@ -109,6 +149,7 @@ volume.text_widget:buttons(gears.table.join(
 			function ()
                 volume.control("toggle")
 			end),
+		awful.button({ }, 3, show_pulse_sink_menu),
 		awful.button({ }, 4,
 			function ()
                 volume.control("increase", 2)
