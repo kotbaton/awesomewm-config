@@ -47,7 +47,7 @@ local function weather_update()
   ']]
 
     awful.spawn.easy_async(command, function(stdout)
-        local icon_code, temp, description = stdout:match("(%S+);(%d+);(%C+)")
+        local icon_code, temp, description = stdout:match("(%w+);([-%d]+);([ %w]+)")
         local icon = ''
 
         icon_code = icon_code or '0'
