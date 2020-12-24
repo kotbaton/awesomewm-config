@@ -655,11 +655,6 @@ local clientkeys = gears.table.join(
             c:raise()
         end, {description = "Toggle fullscreen", group = "Clients management"}),
 
-    awful.key({ modkey, "Shift"   }, "c",
-        function (c)
-            c:kill()
-        end, {description = "Close", group = "Clients management"}),
-
     awful.key({ "Mod1"}, "F4",
         function (c)
             c:kill()
@@ -789,8 +784,8 @@ awful.rules.rules = {
         rule_any = {class = {"todoist", "Todoist"}},
         properties = {
             floating = true,
-            placement = awful.placement.no_offscreen + awful.placement.top_right,
-            maximized_vertical = true,
+            placement = awful.placement.top_right + awful.placement.stretch_down,
+            width = dpi(420),
         }
     },
     {
