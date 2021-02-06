@@ -14,8 +14,6 @@ local sensors  = require("modules.sidebar.sensors")
 -- Import helpers
 local helpers  = require("modules.sidebar.helpers")
 
-local google_tasks = require("google_tasks")
-
 -- Create popup widget and set layout
 local popup = wibox({
         y               = dpi(24),
@@ -58,9 +56,6 @@ popup:setup{
         helpers.decorator(sensors.widget),
 
         separator,
-
-        helpers.decorator(google_tasks()),
-
 
         spacing = dpi(4),
         layout = wibox.layout.fixed.vertical,
