@@ -1,5 +1,5 @@
 # awesomewm-config
-My configuration for awesome WM 4.3
+My configuration for git version of awesome WM
 
 
 # Screenshots
@@ -46,11 +46,11 @@ Also, you need sign up on openweathermap.org and get API key for weather widget 
 
 
 # How to setup
-1. Install awesome wm. You must have version 4.3 or higher:
-	* Arch-based: `sudo pacman -S awesome`
+1. Install awesome wm. You must have a git version.
+	* Arch-based: available in [AUR](https://aur.archlinux.org/packages/awesome-git/)
+    * Other distros: [GitHub](https://github.com/awesomeWM/awesome)
 2. Get dependencies:
-	* Arch-based: `sudo pacman -S maim xclip jq lm_sensors feh dunst rofi ttf-font-awesome`
-	* You can get trans (translate-shell) from [here](https://github.com/soimort/translate-shell).
+	* Arch-based: `sudo pacman -S maim xclip jq lm_sensors feh dunst rofi ttf-font-awesome translate-shell`
 3. Git clone configuration files in your config  directory and rename directory in awesome.
 ```bash
    cd .config
