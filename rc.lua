@@ -784,6 +784,8 @@ awful.rules.rules = {
         rule_any = {class = {"todoist", "Todoist"}},
         properties = {
             floating = true,
+            sticky = true,
+            tag = screen[1].tags[8],
             placement = awful.placement.top_right + awful.placement.stretch_down,
             width = dpi(420),
         }
@@ -837,6 +839,12 @@ awful.rules.rules = {
         rule_any = { class = {"spotify", "Spotify"} },
         properties = {
             tag = screen[1].tags[2],
+        }
+    },
+    {
+        rule_any = { class = {"discord"} },
+        properties = {
+            tag = screen[1].tags[7],
         }
     },
     {
