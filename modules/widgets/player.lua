@@ -40,7 +40,7 @@ local function update_text()
     return true
 end
 
-local timer = gears.timer.start_new(15, update_text)
+local timer = gears.timer.start_new(5, update_text)
 
 local player = {}
 

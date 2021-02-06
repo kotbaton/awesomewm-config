@@ -20,12 +20,17 @@ for _, app in ipairs(settings.autostart) do
     awful.spawn.once(app)
 end
 
--- Error handling
-if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-            title = "Oops, there were errors during startup!",
-        text = awesome.startup_errors })
-end
+-- {{{ Error handling
+-- Check if awesome encountered an error during startup and fell back to
+-- another config (This code will only ever execute for the fallback config)
+naughty.connect_signal("request::display_error", function(message, startup)
+    naughty.notification {
+        urgency = "critical",
+        title   = "Oops, an error happened"..(startup and " during startup!" or "!"),
+        message = message
+    }
+end)
+-- }}}
 
 -- Handle runtime errors after startup
 do
@@ -55,24 +60,26 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.
 local modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-awful.layout.layouts = {
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
-    -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.spiral,
-    -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max,
-    -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
-}
+tag.connect_signal("request::default_layouts", function()
+    awful.layout.append_default_layouts({
+        awful.layout.suit.floating,
+        awful.layout.suit.tile,
+        awful.layout.suit.tile.left,
+        -- awful.layout.suit.tile.bottom,
+        -- awful.layout.suit.tile.top,
+        -- awful.layout.suit.fair,
+        -- awful.layout.suit.fair.horizontal,
+        -- awful.layout.suit.spiral,
+        -- awful.layout.suit.spiral.dwindle,
+        -- awful.layout.suit.max,
+        -- awful.layout.suit.max.fullscreen,
+        -- awful.layout.suit.magnifier,
+        -- awful.layout.suit.corner.nw,
+        -- awful.layout.suit.corner.ne,
+        -- awful.layout.suit.corner.sw,
+        -- awful.layout.suit.corner.se,
+    })
+end)
 
 local function set_wallpaper(s)
     awful.spawn.with_shell("~/.fehbg", false)
