@@ -830,6 +830,9 @@ awful.rules.rules = {
     -- Rules for applications which I use with my tag configuration
     {
         rule = { name = "Telegram" },
+        rule_any = {
+            class = {"telegram-desktop", "TelegramDesktop"}
+        },
         properties = {
             floating = true,
             sticky = true,
