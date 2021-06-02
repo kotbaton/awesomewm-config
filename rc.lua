@@ -279,7 +279,12 @@ local globalkeys = gears.table.join(
 
     awful.key({"Control", "Mod1"}, "c",
         function()
-            awful.spawn.spawn("kitty -e python", {
+            local python_cmd = [[
+            python -i -c "import numpy as np
+from platform import python_version
+print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.')"
+            ]]
+            awful.spawn.spawn("kitty -e " .. python_cmd, {
                     floating = true,
                 })
         end, {description = "Python", group = "Applications"}),
@@ -824,7 +829,12 @@ awful.rules.rules = {
     },
     {
         rule = { name = "Media viewer" },
-        properties = { floating = true, ontop = true, titlebars_enabled = false, fullscreen = true }
+        properties = {
+            floating = true,
+            ontop = true,
+            titlebars_enabled = false,
+            fullscreen = true
+        }
     },
 
     -- Rules for applications which I use with my tag configuration
