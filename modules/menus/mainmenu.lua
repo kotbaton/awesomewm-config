@@ -12,6 +12,15 @@ local apps = settings.default_apps
 
 beautiful.init(gears.filesystem.get_configuration_dir() .. "gruvbox-theme/theme.lua")
 
+ignore = {
+    'Hibernate',
+    'Logout',
+    'Reboot',
+    'Shutdown',
+    'Lock Screen',
+    'Suspend'
+}
+
 local menu = {
     { "Hotkeys", function() return false, hotkeys_popup.widget.show_help end, beautiful.hotkeys_icon},
     { "Restart", awesome.restart, beautiful.reboot_icon},
@@ -27,7 +36,7 @@ local powermenu = {
 local appmenu = require("modules.tools.menu")
 
 local menu_items = {
-    {"Applications", appmenu.build({icon_size = 24 }), nil},
+    {"Applications", appmenu.build({icon_size = 24, skip_items=ignore}), nil},
     {"Awesome", menu, beautiful.awesome_icon},
     {"Computer", powermenu, beautiful.shutdown_icon},
     {

@@ -116,7 +116,7 @@ local function make_gradient(color)
     return {
         type  = 'linear',
         from  = { 0, 0 },
-        to    = { 0, 24 },
+        to    = { 0, dpi(24) },
         stops = {
             { 0.1, color },
             { 0.1, color .. alpha_level }
@@ -244,7 +244,7 @@ theme.menu_fg_focus     = theme.colors.white
 theme.menu_bg_focus     = {
     type = "linear",
     from  = { 0, 0 },
-    to    = { 0, 24 },
+    to    = { 0, dpi(24) },
     stops = {
         { 0.1, theme.colors.blue  },
         { 0.1, theme.colors.blue .. '44' },
