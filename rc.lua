@@ -282,10 +282,15 @@ local globalkeys = gears.table.join(
     awful.key({"Control", "Mod1"}, "c",
         function()
             local python_cmd = [[
-            python -i -c "import numpy as np
+            ipython -i -c "import numpy as np
 from platform import python_version
-print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.')"
+print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
             ]]
+--            local python_cmd = [[
+--            python -i -c "import numpy as np
+--from platform import python_version
+--print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.')"
+--            ]]
             awful.spawn.spawn("kitty -e " .. python_cmd, {
                     floating = true,
                 })
@@ -309,7 +314,7 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.')"
 
     awful.key({ modkey, "Control" }, "r", awesome.restart, {description = "Reload awesome", group = "Awesome"}),
 
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit, {description = "Quit awesome", group = "Awesome"}),
+    --awful.key({ modkey, "Shift"   }, "q", awesome.quit, {description = "Quit awesome", group = "Awesome"}),
 
     awful.key({ modkey,           }, "space",
         mykeyboardlayout.next_layout,
@@ -802,10 +807,15 @@ awful.rules.rules = {
     {
         rule_any = {class = {"todoist", "Todoist"}},
         properties = {
-            floating = true,
-            sticky = true,
             tag = screen[1].tags[8],
             placement = awful.placement.top_right + awful.placement.stretch_down,
+            width = dpi(420),
+        }
+    },
+    {
+        rule_any = {class = {"turtl", "Turtl"}},
+        properties = {
+            tag = screen[1].tags[8],
             width = dpi(420),
         }
     },
