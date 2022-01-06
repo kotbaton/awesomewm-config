@@ -292,6 +292,30 @@ theme.player_widget_fg      = theme.colors.lightYellow
 theme.player_widget_font    = font(13)
 theme.player_widget_width   = dpi(290)
 
+-- Pomodoro widget
+theme.pomodoro_forced_width = dpi(70)
+theme.pomodoro_work_widget_fg    = theme.colors.orange
+theme.pomodoro_work_widget_bg    = {
+    type  = 'linear',
+    from  = { 0, 0 },
+    to    = { 0, 24 },
+    stops = {
+        { 0.1, theme.colors.orange },
+        { 0.1, theme.colors.orange .. '22' }
+    }
+}
+theme.pomodoro_break_widget_fg    = theme.colors.blue
+theme.pomodoro_break_widget_bg    = {
+    type  = 'linear',
+    from  = { 0, 0 },
+    to    = { 0, 24 },
+    stops = {
+        { 0.1, theme.colors.blue },
+        { 0.1, theme.colors.blue .. '22' }
+    }
+}
+theme.pomodoro_icon = theme_path..'icons/pomodoro.png'
+
 -- Volume widget
 theme.volume_popup_border_color = theme.colors.green
 theme.volume_popup_border_width = dpi(0)

@@ -226,6 +226,8 @@ awful.screen.connect_for_each_screen(function(s)
         {
             -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            modules.widgets.pomodoro.widget,
+            myseparator,
             modules.widgets.player.widget,
             myseparator,
             modules.widgets.battery.widget,
@@ -336,7 +338,12 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.')"
     awful.key({ modkey,           }, "q",
         function ()
             modules.widgets.tray.toggle()
-        end, {description = "show system tray", group = "Awesome"}),
+        end, {description = "Show system tray", group = "Awesome"}),
+
+    awful.key({ modkey, "Shift" }, "p",
+        function ()
+            modules.widgets.pomodoro.toggle()
+        end, {description = "Show/hide pomodoro timer", group = "Awesome"}),
 
     awful.key({ modkey,           }, "b",
         function ()
