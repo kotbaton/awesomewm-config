@@ -13,8 +13,7 @@ local corner = {
     x = scr_g.x + scr_g.width,
     y = scr_g.y
 }
--- Thirds part of screen
-local max_dist = (scr_g.width^2 + scr_g.height^2) ^ 0.5 / 3
+local max_dist = (scr_g.width^2 + scr_g.height^2) ^ 0.5 / 5
 
 local tray_widget = wibox.widget {
 	widget = wibox.widget.systray(),
