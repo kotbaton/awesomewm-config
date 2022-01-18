@@ -30,7 +30,7 @@ local function battery_widget_update()
             return
         end
 
-        local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d%d)%%,? ?.*')
+        local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d?%d)%%,? ?.*')
         local charge = tonumber(" " .. charge_str .. " ")
         battery_text:set_text(" " .. charge .. "% ")
 		
@@ -64,7 +64,7 @@ end
 
 function battery.show_status()
     battery_widget_update()
-    awful.spawn.easy_async([[bash -c 'acpi && echo "Brightness: $(xbacklight)"']],
+    awful.spawn.easy_async([[bash -c 'acpi; echo "Brightness: $(xbacklight)"']],
         function(stdout, _, _, _)
 			if notification then 
 				naughty.destroy(notification)

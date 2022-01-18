@@ -407,12 +407,12 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
 
     awful.key({ "Shift" }, "XF86MonBrightnessDown",
         function()
-            awful.spawn("bash -c 'xbacklight -set 0'", false)
+            awful.spawn("bash -c 'xbacklight -set 0.1'", false)
         end, {description="Set screen brightness on 0", group="Brightness control"}),
 
     ----------------------{ PRINTSCREEN }--------------------------------------------
 
-    awful.key({ }, "Print", nil,
+    awful.key({ "Ctrl" }, "Print", nil,
         function()
             awful.util.spawn(gears.filesystem.get_configuration_dir() .. "scripts/screenshot.sh", false)
         end, { description = "Make screenshot of fullscreen", group = "Screenshot" }),
@@ -846,12 +846,7 @@ awful.rules.rules = {
     },
     {
         rule = { name = "Media viewer" },
-        properties = {
-            floating = true,
-            ontop = true,
-            titlebars_enabled = false,
-            fullscreen = true
-        }
+        properties = { floating = true, ontop = true, titlebars_enabled = false, fullscreen = true }
     },
 
     -- Rules for applications which I use with my tag configuration
