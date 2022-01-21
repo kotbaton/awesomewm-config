@@ -65,7 +65,7 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.floating,
         awful.layout.suit.tile,
         awful.layout.suit.tile.left,
-        -- awful.layout.suit.tile.bottom,
+        awful.layout.suit.tile.bottom,
         -- awful.layout.suit.tile.top,
         -- awful.layout.suit.fair,
         -- awful.layout.suit.fair.horizontal,
@@ -388,6 +388,18 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
         function()
             modules.widgets.volume.control("toggle")
         end, {description="Mute/Unmute volume", group="Volume control"}),
+
+    awful.key({ }, "XF86AudioMicMute",
+        function()
+            command = [[pactl list sources | grep -oP "Name: \S+" | grep "input" | cut -d' ' -f2 | xargs -I{} pactl set-source-mute {} toggle]]
+            awful.spawn.with_shell(command)
+        end, {description="Toggle mute on all microphones", group="Volume control"}),
+
+    awful.key({ "Shift" }, "XF86AudioMicMute",
+        function()
+            command = [[pactl list sources | grep -oP "Name: \S+" | grep "input" | cut -d' ' -f2 | xargs -I{} pactl set-source-mute {} false]]
+            awful.spawn.with_shell(command)
+        end, {description="Unmute all microphones", group="Volume control"}),
 
     --------------------------{ BRIGHTNESS }----------------------------------
     awful.key({ }, "XF86MonBrightnessUp",
