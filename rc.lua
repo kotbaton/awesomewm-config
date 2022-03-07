@@ -424,17 +424,17 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
 
     ----------------------{ PLAYER }--------------------------------------------
 
-    awful.key({ modkey }, "F1",
+    awful.key({ modkey }, "XF86AudioMute",
         function()
             modules.widgets.player.control.toggle()
         end, {description="Toggle Pause", group="Music player control"}),
 
-    awful.key({ modkey }, "F2",
+    awful.key({ modkey }, "XF86AudioLowerVolume",
         function()
             modules.widgets.player.control.prev()
         end, {description="Previous track", group="Music player control"}),
 
-    awful.key({ modkey }, "F3",
+    awful.key({ modkey }, "XF86AudioRaiseVolume",
         function()
             modules.widgets.player.control.next()
         end, {description="Next track", group="Music player control"}),
@@ -640,10 +640,10 @@ for i = 1, 9 do
 
 end
 
-for i = 1,9 do
+for i = 1,#settings.launcher do
     globalkeys = gears.table.join(globalkeys,
         -- Add launcher hotkey for this button
-        awful.key({modkey, "Mod1"}, '#' .. (i+9),
+        awful.key({modkey}, 'F' .. i,
             function() awful.spawn(settings.launcher[i]) end,
         {description=settings.launcher[i], group="Applications"}))
 end
@@ -680,6 +680,11 @@ local clientkeys = gears.table.join(
         end, {description = "Toggle fullscreen", group = "Clients management"}),
 
     awful.key({ "Mod1"}, "F4",
+        function (c)
+            c:kill()
+        end, {description = "Close", group = "Clients management"}),
+
+    awful.key({modkey, "Shift"}, "q",
         function (c)
             c:kill()
         end, {description = "Close", group = "Clients management"}),
