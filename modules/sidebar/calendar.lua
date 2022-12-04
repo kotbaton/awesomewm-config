@@ -51,8 +51,10 @@ local function decorate_calendar(widget, flag, date)
     local ret = wibox.widget {
         {
             widget,
-            margins = (props.padding or 2) + (props.border_width or 0),
-            widget  = wibox.container.margin
+            --margins = (props.padding or 2) + (props.border_width or 0),
+            halign = 'center',
+            valign = 'center',
+            widget  = wibox.container.place
         },
         shape              = props.shape or gears.shape.rectangle,
         shape_border_color = props.border_color or beautiful.colors.darkGrey,
@@ -71,6 +73,7 @@ local calendar_month = wibox.widget {
     week_numbers = false,
     start_sunday = false,
     fn_embed     = decorate_calendar,
+    spacing      = dpi(10),
     widget       = wibox.widget.calendar.month,
 }
 

@@ -6,7 +6,7 @@ then
 	exit
 fi
 
-trans -hl ru -tl ru -brief "$text" -o /tmp/brief_trans.out
+trans -hl pl -tl pl -brief "$text" -o /tmp/brief_trans.out
 
 zenity\
     --width=400\

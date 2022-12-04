@@ -299,7 +299,7 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
     ----------------------{ AWESOME }--------------------------------------------
     awful.key({ modkey }, "r",
         function ()
-            awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8 -kb-row-tab "Tab"]])
+            awful.spawn([[rofi -show drun -modi drun -show-icons -width 30 -lines 8]])
         end, {description = "Run rofi launcher", group = "Awesome"}),
 
     awful.key({ modkey, "Shift" }, "r",
@@ -454,7 +454,7 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
     ----------------------{ TAGS }--------------------------------------------
     awful.key({ modkey,}, "p", function() awful.tag.togglemfpol(t) end, {description = "Toggle master fill police", group = "Tag management"}),
 
-    awful.key({ modkey,}, "`",     awful.tag.history.restore, {description = "Go to previous tag", group = "Tag management"}),
+    --awful.key({ modkey,}, "`",     awful.tag.history.restore, {description = "Go to previous tag", group = "Tag management"}),
 
     awful.key({ modkey,}, "-", function() awful.tag.setgap(awful.tag.getgap(t) - 5) end, {description = "Decrease gaps", group = "Tag management"}),
 
@@ -545,6 +545,10 @@ print(f'Hello in Python {python_version()} 🐍\nNumpy is imported already.\n')"
         end, {description = "Select previous tag layout", group = "Tag management"}),
 
     ----------------------{ WINDOWS CONTROL }--------------------------------------------
+    awful.key({ modkey,           }, "`",
+        function ()
+            awful.client.focus.byidx( 1)
+        end, {description = "Focus next by index", group = "Clients management"}),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.byidx( 1)
@@ -691,10 +695,10 @@ local clientkeys = gears.table.join(
             c:raise()
         end, {description = "Toggle fullscreen", group = "Clients management"}),
 
-    awful.key({ "Mod1"}, "F4",
-        function (c)
-            c:kill()
-        end, {description = "Close", group = "Clients management"}),
+    --awful.key({ "Mod1"}, "F4",
+    --    function (c)
+    --        c:kill()
+    --    end, {description = "Close", group = "Clients management"}),
 
     awful.key({modkey, "Shift"}, "q",
         function (c)
@@ -875,11 +879,12 @@ awful.rules.rules = {
         properties = {
             floating = true,
             sticky = true,
-            tag = screen[1].tags[2]
+            skip_taskbar = true,
+            --tag = screen[1].tags[2]
         }
     },
     {
-        rule_any = { class = {"Mail", "Thunderbird"} },
+        rule_any = { class = {"Mail", "Thunderbird", "thunderbird"} },
         properties = {
             tag = screen[1].tags[8],
         }

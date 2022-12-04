@@ -340,7 +340,7 @@ theme.si_outer_border_width = dpi(0)
 theme.si_inner_border_color = theme.colors.black .. '00'
 theme.si_inner_border_width = dpi(0)
 theme.si_inner_bg           = theme.colors.black .. '00'
-theme.si_outer_bg           = theme.colors.black .. 'DD'
+theme.si_outer_bg           = theme.colors.black .. 'EE'
 
 theme.si_ram_bar_fg         = theme.colors.green
 theme.si_ram_bar_bg         = theme.colors.darkGrey .. '99'
@@ -364,6 +364,9 @@ theme.battery_discharging_medium_fg = theme.colors.black
 theme.battery_discharging_medium_bg = theme.colors.yellow
 theme.battery_discharging_low_fg    = theme.colors.black
 theme.battery_discharging_low_bg    = theme.colors.red
+
+-- Monitor control widget
+theme.monitor_contorl_icon_size     = dpi(56)
 
 -- Create title bar icons
 local recolor = gears.color.recolor_image
@@ -402,7 +405,7 @@ theme.layout_floating       = recolor(theme_path.."icons/layouts/floating.png", 
 -- theme.layout_magnifier      = recolor(theme_path.."icons/layouts/magnifier.png",    layout_icon_color)
 -- theme.layout_max            = recolor(theme_path.."icons/layouts/max.png",          layout_icon_color)
 -- theme.layout_fullscreen     = recolor(theme_path.."icons/layouts/fullscreen.png",   layout_icon_color)
--- theme.layout_tilebottom     = recolor(theme_path.."icons/layouts/tilebottom.png",   layout_icon_color)
+theme.layout_tilebottom     = recolor(theme_path.."icons/layouts/tilebottom.png",   layout_icon_color)
 theme.layout_tileleft       = recolor(theme_path.."icons/layouts/tileleft.png",     layout_icon_color)
 theme.layout_tile           = recolor(theme_path.."icons/layouts/tile.png",         layout_icon_color)
 -- theme.layout_tiletop        = recolor(theme_path.."icons/layouts/tiletop.png",      layout_icon_color)
@@ -415,6 +418,14 @@ theme.layout_tile           = recolor(theme_path.."icons/layouts/tile.png",     
 -- theme.layout_centermaster   = recolor(theme_path.."icons/layouts/centermaster.png", layout_icon_color)
 -- theme.layout_stack          = recolor(theme_path.."icons/layouts/stack.png",        layout_icon_color)
 -- theme.layout_stackLeft      = recolor(theme_path.."icons/layouts/stackLeft.png",    layout_icon_color)
+
+local monitor_controls_color = theme.colors.grey
+theme.control = {}
+theme.control.monitor_reset = recolor(theme_path.."icons/monitor_control/monitor_reset.png", monitor_controls_color)
+theme.control.monitor_rotated = recolor(theme_path.."icons/monitor_control/monitor_rotated.png", monitor_controls_color)
+theme.control.monitor_external_rotated = recolor(theme_path.."icons/monitor_control/monitor_external_rotated.png", monitor_controls_color)
+theme.control.monitor_external_duplicated = recolor(theme_path.."icons/monitor_control/monitor_external_duplicated.png", monitor_controls_color)
+
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(

@@ -22,6 +22,18 @@ battery.widget = wibox.widget {
 	widget = wibox.container.background,
 }
 
+-- Show warning notification
+local function show_battery_warning()
+    naughty.notify {
+        title = "ACHTUNG!",
+        text = "Battery is dying!",
+        bg = beautiful.colors.red,
+        fg = beautiful.colors.white,
+		icon = "/home/sheh/.config/awesome/gruvbox-theme/icons/battery.png",
+    }
+end
+
+
 local function battery_widget_update()
     awful.spawn.easy_async([[bash -c 'acpi']], function(stdout)
         -- Prevent widget displaying if there is no battery
@@ -30,7 +42,7 @@ local function battery_widget_update()
             return
         end
 
-        local _, status, charge_str, time = string.match(stdout, '(.+): (%a+), (%d?%d?%d)%%,? ?.*')
+        local _, status, charge_str = string.match(stdout, '(.+): (.+), (%d?%d?%d)%%,? ?.*')
         local charge = tonumber(" " .. charge_str .. " ")
         battery_text:set_text(" " .. charge .. "% ")
 		
@@ -76,17 +88,6 @@ function battery.show_status()
 end
 
 battery.widget:buttons(gears.table.join(awful.button({ }, 1, battery.show_status)))
-
--- Show warning notification
-local function show_battery_warning()
-    naughty.notify {
-        title = "ACHTUNG!",
-        text = "Battery is dying!",
-        bg = beautiful.colors.red,
-        fg = beautiful.colors.black,
-		icon = "/home/sheh/.config/awesome/default/battery.png",
-    }
-end
 
 gears.timer.start_new(15, battery_widget_update)
 

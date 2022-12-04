@@ -10,6 +10,7 @@ local calendar = require("modules.sidebar.calendar")
 local ramswap  = require("modules.sidebar.ramswap")
 local cpu      = require("modules.sidebar.cpu")
 local sensors  = require("modules.sidebar.sensors")
+local control_center  = require("modules.sidebar.control_center")
 
 -- Import helpers
 local helpers  = require("modules.sidebar.helpers")
@@ -56,6 +57,8 @@ popup:setup{
         helpers.decorator(sensors.widget),
 
         separator,
+
+        helpers.decorator(control_center.widget),
 
         spacing = dpi(4),
         layout = wibox.layout.fixed.vertical,
