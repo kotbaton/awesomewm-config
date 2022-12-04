@@ -5,6 +5,7 @@ local widgets = {
 	tray			= require("modules.widgets.tray"),
 	volume			= require("modules.widgets.volume"),
     pomodoro        = require("modules.widgets.pomodoro"),
+    taglist         = require("modules.widgets.taglist")
 }
 
 return widgets

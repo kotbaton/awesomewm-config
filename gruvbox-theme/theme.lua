@@ -17,6 +17,20 @@ local function font(s, t)
     end
 end
 
+local function make_gradient(color)
+    local alpha_level = '22'
+    return {
+        type  = 'linear',
+        from  = { 0, 0 },
+        to    = { 0, dpi(24) },
+        stops = {
+            { 0.1, color },
+            { 0.1, color .. alpha_level }
+        }
+    }
+end
+
+
 theme.font          = font(13)
 
 ------ COLORS --------------
@@ -71,10 +85,10 @@ theme.prompt_fg_cursor = theme.colors.black
 theme.prompt_bg_cursor = theme.colors.green
 
 -- TAGLIST --
-theme.taglist_fg_focus                          = theme.colors.white
-theme.taglist_bg_focus                          = theme.colors.black .. 'AA'
-theme.taglist_fg_occupied                       = theme.colors.grey
-theme.taglist_bg_occupied                       = theme.colors.black .. '00'
+theme.taglist_fg_occupied = theme.colors.grey
+theme.taglist_bg_occupied = make_gradient(theme.colors.darkGrey)
+theme.taglist_fg_focus = theme.colors.lightOrange
+theme.taglist_bg_focus = make_gradient(theme.colors.lightOrange)
 -- theme.taglist_fg_urgent                      = nil
 -- theme.taglist_bg_urgent                      = nil
 -- theme.taglist_bg_empty                       = theme.colors.darkGrey
@@ -106,23 +120,10 @@ theme.taglist_shape_border_color                = "#00000000"
 -- theme.taglist_shape_border_color_volatile    = nil
 
 -- TASKLIST --
-theme.tasklist_fg_normal                        = theme.colors.grey
-theme.tasklist_fg_focus                         = theme.colors.white
-theme.tasklist_fg_minimize                      = theme.colors.grey
-theme.tasklist_fg_urgent                        = theme.colors.red
-
-local function make_gradient(color)
-    local alpha_level = '22'
-    return {
-        type  = 'linear',
-        from  = { 0, 0 },
-        to    = { 0, dpi(24) },
-        stops = {
-            { 0.1, color },
-            { 0.1, color .. alpha_level }
-        }
-    }
-end
+theme.tasklist_fg_normal   = theme.colors.grey
+theme.tasklist_fg_focus    = theme.colors.white
+theme.tasklist_fg_minimize = theme.colors.grey
+theme.tasklist_fg_urgent   = theme.colors.red
 
 theme.tasklist_bg_normal                        = make_gradient(theme.colors.grey)
 theme.tasklist_bg_focus                         = make_gradient(theme.colors.white)
@@ -295,25 +296,9 @@ theme.player_widget_width   = dpi(290)
 -- Pomodoro widget
 theme.pomodoro_forced_width = dpi(70)
 theme.pomodoro_work_widget_fg    = theme.colors.orange
-theme.pomodoro_work_widget_bg    = {
-    type  = 'linear',
-    from  = { 0, 0 },
-    to    = { 0, 24 },
-    stops = {
-        { 0.1, theme.colors.orange },
-        { 0.1, theme.colors.orange .. '22' }
-    }
-}
+theme.pomodoro_work_widget_bg    = make_gradient(theme.colors.orange)
 theme.pomodoro_break_widget_fg    = theme.colors.blue
-theme.pomodoro_break_widget_bg    = {
-    type  = 'linear',
-    from  = { 0, 0 },
-    to    = { 0, 24 },
-    stops = {
-        { 0.1, theme.colors.blue },
-        { 0.1, theme.colors.blue .. '22' }
-    }
-}
+theme.pomodoro_break_widget_bg    = make_gradient(theme.colors.blue)
 theme.pomodoro_icon = theme_path..'icons/pomodoro.png'
 
 -- Volume widget

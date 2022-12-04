@@ -136,7 +136,7 @@ awful.screen.connect_for_each_screen(function(s)
         awful.button({ }, 4,        function(t) awful.tag.viewnext(t.screen) end),
         awful.button({ }, 5,        function(t) awful.tag.viewprev(t.screen) end)
     )
-    s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, taglist_buttons)
+    s.mytaglist = modules.widgets.taglist.new(s, taglist_buttons)
 
     -- Layoutbox widget and buttons
     s.mylayoutbox = awful.widget.layoutbox(s)
